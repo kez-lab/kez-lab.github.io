@@ -1,20 +1,15 @@
 module ReadingTimeFilter
   def reading_time(input)
-    # Define words per minute
-    words_per_minute = 200
+    # Strip HTML tags and normalize whitespace
+    words = input.to_s.gsub(/<\/?[^>]*>/, "").gsub(/\s+/, " ").split(" ").count
+
+    # Average reading speed: 180-200 words per minute
+    minutes = (words / 180.0).ceil
     
-    # Count words
-    words = input.split.size
-    
-    # Calculate reading time
-    minutes = (words / words_per_minute).floor
-    seconds = ((words % words_per_minute) / (words_per_minute / 60)).floor
-    
-    # Format the output
-    if minutes >= 1
-      "#{minutes} min read"
+    if minutes == 1
+      "1 min read"
     else
-      "less than 1 min read"
+      "#{minutes} min read"
     end
   end
 end

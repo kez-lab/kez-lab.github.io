@@ -2,39 +2,118 @@
 layout: default
 ---
 
-<article>
-  <h1>{{ page.title }}</h1>
-  <p>{{ page.date | date: "%B %d, %Y" }}</p>
-  {{ content }}
+<article class="post">
+  <header class="post-header">
+    <h1 class="post-title">{{ page.title }}</h1>
+    
+    <div class="post-meta">
+      <span class="post-date">
+        {{ page.date | date: "%B %d, %Y" }}
+      </span>
+      
+      {% if page.author %}
+      <span class="post-author">
+        {% if site.data.authors[page.author].name %}
+          {{ site.data.authors[page.author].name }}
+        {% else %}
+          {{ page.author }}
+        {% endif %}
+      </span>
+      {% endif %}
+      
+      {% if page.content %}
+      <span class="post-reading-time">
+        {{ page.content | reading_time }} min read
+      </span>
+      {% endif %}
+    </div>
+    
+    <div class="post-taxonomy">
+      {% if page.categories and page.categories.size > 0 %}
+      <div class="post-categories">
+        {% for category in page.categories %}
+          <a href="{{ site.baseurl }}/categories/{{ category | slugify }}" class="category">{{ category }}</a>
+        {% endfor %}
+      </div>
+      {% endif %}
+      
+      {% if page.tags and page.tags.size > 0 %}
+      <div class="post-tags">
+        {% for tag in page.tags %}
+          <a href="{{ site.baseurl }}/tags/{{ tag | slugify }}" class="tag">{{ tag }}</a>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </header>
+  
+  {% if page.feature_image %}
+  <div class="post-feature-image">
+    <img src="{{ page.feature_image | relative_url }}" alt="{{ page.title }}">
+  </div>
+  {% endif %}
+  
+  <div class="post-content">
+    {{ content }}
+  </div>
+  
+  <div class="post-navigation">
+    {% if page.previous.url %}
+    <a class="prev-post" href="{{ site.baseurl }}{{ page.previous.url }}">&larr; {{ page.previous.title }}</a>
+    {% endif %}
+    
+    {% if page.next.url %}
+    <a class="next-post" href="{{ site.baseurl }}{{ page.next.url }}">{{ page.next.title }} &rarr;</a>
+    {% endif %}
+  </div>
+  
+  <div class="post-related">
+    {% include post-related.html %}
+  </div>
+  
+  {% if site.disqus and page.comments != false %}
+  <div class="post-comments">
+    {% include post-comments.html %}
+  </div>
+  {% endif %}
 </article>
 
 <style>
+  .post {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
   .post-header {
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
+    text-align: center;
   }
   
   .post-title {
     font-size: 2.5em;
     line-height: 1.2;
     margin-bottom: 1rem;
+    font-weight: 700;
   }
   
   .post-meta {
     margin-bottom: 1rem;
     color: #6a737d;
-    font-size: 0.9em;
-  }
-  
-  .post-author {
-    margin-right: 1rem;
+    font-size: 0.95em;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
   }
   
   .post-taxonomy {
-    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+    text-align: center;
   }
   
   .post-categories {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
   }
   
   .post-categories .category {
@@ -48,6 +127,10 @@ layout: default
     margin-bottom: 0.5rem;
     text-decoration: none;
     transition: background-color 0.2s ease;
+  }
+  
+  .post-categories .category:hover {
+    background-color: #024ea7;
   }
   
   .post-tags .tag {
@@ -64,8 +147,25 @@ layout: default
     transition: all 0.2s ease;
   }
   
+  .post-tags .tag:hover {
+    background-color: #0366d6;
+    color: white;
+  }
+  
+  .post-feature-image {
+    margin: 2rem 0;
+  }
+  
+  .post-feature-image img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  
   .post-content {
     margin-bottom: 3rem;
+    line-height: 1.7;
+    font-size: 1.05em;
   }
   
   .post-content img {
@@ -75,14 +175,42 @@ layout: default
     margin: 2rem auto;
   }
   
+  .post-content h1, .post-content h2, .post-content h3, 
+  .post-content h4, .post-content h5, .post-content h6 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .post-content p, .post-content ul, .post-content ol {
+    margin-bottom: 1.5rem;
+  }
+  
+  .post-content code {
+    background: #f6f8fa;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 0.9em;
+  }
+  
+  .post-content pre {
+    background: #f6f8fa;
+    padding: 1rem;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+  }
+  
   .post-navigation {
     display: flex;
     justify-content: space-between;
     margin: 3rem 0;
+    flex-wrap: wrap;
+    gap: 1rem;
   }
   
   .post-navigation a {
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1rem;
     background-color: #f6f8fa;
     border: 1px solid #e1e4e8;
     border-radius: 4px;
@@ -92,5 +220,34 @@ layout: default
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    transition: all 0.2s ease;
+  }
+  
+  .post-navigation a:hover {
+    background-color: #0366d6;
+    color: white;
+  }
+  
+  .post-related {
+    margin: 3rem 0;
+    padding-top: 2rem;
+    border-top: 1px solid #e1e4e8;
+  }
+  
+  .post-comments {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e1e4e8;
+  }
+  
+  @media (max-width: 768px) {
+    .post-title {
+      font-size: 2em;
+    }
+    
+    .post-navigation a {
+      max-width: 100%;
+      margin-bottom: 0.5rem;
+    }
   }
 </style>
