@@ -82,8 +82,9 @@ fun main() {
 또한 `people.maxByOrNull(Person::age)` 와 같이 함수참조가 가능하다
 
 ## 5.1.3 람다식 문법
+![image](https://github.com/user-attachments/assets/d65e7cb1-13ab-4ed3-8ee7-096d1d349642)
 
-![image.png](5%E1%84%8C%E1%85%A1%E1%86%BC%20%E1%84%85%E1%85%A1%E1%86%B7%E1%84%83%E1%85%A1%E1%84%85%E1%85%B3%E1%86%AF%20%E1%84%89%E1%85%A1%E1%84%8B%E1%85%AD%E1%86%BC%E1%84%92%E1%85%A1%E1%86%AB%20%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%84%86%E1%85%B5%E1%86%BC%201b8e94c78dc78096897ef52f5c9f2fcd/image.png)
+
 
 ### **코틀린 람다식 문법 특징**
 
@@ -288,8 +289,8 @@ val getAge = Person::age
 멤버 참조는 정확히 한 메서드를 호출하거나 프로퍼티에 접근하는 함수 값을 만들어줌
 
 ::은 클래스 이름과 참조하려는 멤버(프로퍼티나 메서드) 이름 사이에 위치
+![image](https://github.com/user-attachments/assets/34750582-defd-414d-8777-75d0faa1b57c)
 
-![image.png](5%E1%84%8C%E1%85%A1%E1%86%BC%20%E1%84%85%E1%85%A1%E1%86%B7%E1%84%83%E1%85%A1%E1%84%85%E1%85%B3%E1%86%AF%20%E1%84%89%E1%85%A1%E1%84%8B%E1%85%AD%E1%86%BC%E1%84%92%E1%85%A1%E1%86%AB%20%E1%84%91%E1%85%B3%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%85%E1%85%A2%E1%84%86%E1%85%B5%E1%86%BC%201b8e94c78dc78096897ef52f5c9f2fcd/image%201.png)
 
 ```kotlin
 // 이는 아래와 같은 람다식을 더 간단히 만듬
