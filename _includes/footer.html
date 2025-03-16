@@ -72,3 +72,47 @@
     </div>
   </div>
 </footer>
+
+<!-- Code highlighting scripts -->
+<script>
+  // Add copy button to code blocks
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof Prism !== 'undefined') {
+      // Add copy to clipboard buttons
+      if (!Prism.plugins.toolbar) {
+        document.body.appendChild(document.createElement('script')).src = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js';
+      }
+      
+      // Wait a moment for plugins to load
+      setTimeout(function() {
+        if (Prism.plugins.toolbar) {
+          Prism.plugins.toolbar.registerButton('copy-to-clipboard', function(env) {
+            const button = document.createElement('button');
+            button.textContent = 'Copy';
+            
+            button.addEventListener('click', function() {
+              // Create temporary textarea to copy text
+              const textarea = document.createElement('textarea');
+              textarea.value = env.code;
+              document.body.appendChild(textarea);
+              textarea.select();
+              document.execCommand('copy');
+              document.body.removeChild(textarea);
+              
+              // Change button text temporarily
+              button.textContent = 'Copied!';
+              setTimeout(function() {
+                button.textContent = 'Copy';
+              }, 2000);
+            });
+            
+            return button;
+          });
+        }
+        
+        // Re-highlight all code blocks
+        Prism.highlightAll();
+      }, 1000);
+    }
+  });
+</script>
