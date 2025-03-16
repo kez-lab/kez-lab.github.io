@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kez-lab.github.io/sitemap.xml

@@ -110,6 +110,24 @@ email: "me@daviddarnes.com"
 # short_name: "Al" # The web application short name, defaults to the site title
 css_inline: true # Will insert all styles into a single <style> block in the <head> element and remove the style <link> reference
 
+# SEO 관련 설정
+title: KEZ Lab
+description: 기술 블로그 및 개발 관련 지식 공유 플랫폼
+url: "https://kez-lab.github.io"
+author: KEZ Lab
+lang: ko_KR
+locale: ko_KR
+timezone: Asia/Seoul
+
+# Social Media / Open Graph
+twitter:
+  username: 
+  card: summary_large_image
+facebook:
+  publisher: 
+  app_id: 
+logo: /assets/images/logo.png
+
 # 8. Site favicons & manifest icons
 favicons: # Favicons are also used in the manifest file. Syntax is 'size: path'
   16: '/assets/logos/logo@16px.png'

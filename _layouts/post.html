@@ -6,11 +6,54 @@ layout: default
 
 <main class="main  container">
 
-  <article class="article  article--post  content  typeset">
+  <article class="post  article--post  content  typeset" itemscope itemtype="http://schema.org/BlogPosting">
 
     <h1>{{ page.title }}</h1>
     {% include post-meta.html %}
-    {{ content }}
+    
+    <!-- 글 내용 -->
+    <div class="post-content" itemprop="articleBody">
+      {{ content }}
+    </div>
+
+    <!-- 태그 및 카테고리 -->
+    {% if page.tags %}
+    <div class="post-tags">
+      <p>Tags: 
+        {% for tag in page.tags %}
+        <a href="{{ site.baseurl }}/tags#{{ tag | slugify }}" class="post-tag">{{ tag }}</a>
+        {% endfor %}
+      </p>
+    </div>
+    {% endif %}
+
+    <!-- 구조화된 데이터 - 블로그 포스트 -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "{{ page.url | replace:'index.html','' | absolute_url }}"
+        },
+        "headline": "{{ page.title | escape }}",
+        "description": "{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}",
+        "datePublished": "{{ page.date | date_to_xmlschema }}",
+        "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
+        "author": {
+          "@type": "Person",
+          "name": "{{ site.author }}"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "{{ site.title }}",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "{{ site.url }}{{ site.logo }}"
+          }
+        }
+      }
+    </script>
 
     {% include nav-share.html %}
 
