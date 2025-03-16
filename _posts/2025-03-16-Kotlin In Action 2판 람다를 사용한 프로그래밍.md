@@ -348,3 +348,154 @@ fun main() {
 ```
 
 더 간단하다고는 얘기하지만 솔직히 예제가 별로여서 와닿지 않는다, 언젠간 이해되겠지 하고 5.2 로 넘어가겠다.
+
+## 5.2 자바의 함수형 인터페이스 사용: 단일 추상 메서드
+
+### 단일 추상 메서드(SAM) 혹은 함수형 인터페이스
+
+인터페이스 안에 추상 메서드가 단 하나뿐인 인터페이스를 함수형 인터페이스 혹은 단일 추상 메서드(SAM) 라고 부른다.
+
+### 5.2.1 람다를 자바 메서드의 파라미터로 전달
+
+자바 메서드가 **함수형 인터페이스를 인자로 받는 경우**, Kotlin에서는 람다를 직접 전달할 수 있음.
+
+```java
+# Java
+void postponeComputation(int delay, Runnable coputation);
+```
+
+```kotlin
+# Kotlin
+postponeComputation(1000) { println(42) }
+```
+
+코틀린 에서는 `postponeComputation()` 메서드 호출 시 컴파일러가 익명클래스 인스턴스를 만들고 그 람다를 인스턴스의 유일한 추상 메서드의 본문으로 만들어준다.
+
+<aside>
+💡
+
+ 위 예시코드에서 Runnable을 명시적으로 구현(직접 익명객체를 생성)하여 인자로 넘기는 것도 똑같은 효과를 낸다.
+ 다만 람다는 자신이 정의된 함수의 변수에 접근하지 않는다면 **함수가 호출 될 때 마다 람다에 해당하는 익명 객체가 재사용** 된다.
+
+</aside>
+
+## 5.2.2 SAM 변환: 람다를 함수형 인터페이스로 명시적 변환
+
+ SAM 생성자는 컴파일러가 생성한 함수로 람다를 단일 추상 메서드 인터페이스의 인스턴스로 명시적으로 변환해준다, 다만 아래의 2가지 상황에서는 컴파일러가 자동으로 추상메서드 인터페이스의 인스턴스를 **명시적으로 변환해주지 못한다.** 
+
+1. 함수형 인터페이스의 인스턴스를 반환하는 함수
+
+```kotlin
+fun createRunnable(): Runnable {
+    return Runnable { println("All done!") }
+}
+
+fun main() {
+    val runnable = createRunnable()
+    runnable.run()
+}
+```
+
+이러한 경우 SAM 생성자의 이름은 사용하려는 함수형 인터페이스의 이름과 동일하다.
+
+1. 람다로 생성한 함수형 인터페이스 인스턴스를 변수에 저장해야하는 경우
+
+```kotlin
+val listener = OnClickListener { view ->  
+    val text = when (view.id) {
+        R.id.button1 -> "First button"
+        R.id.button2 -> "Second button"
+        else -> "Unknown button"
+    }
+    toast(text)
+}
+
+button1.setOnClickListener(listener)
+button2.setOnClickListener(listener)
+```
+
+이러한 경우 직접 익명 객체를 선언하여 리스너를 만들 수 도 있지만 SAM 생성자를 쓰는 쪽이 더 간결하다.
+
+### 람다와 리스너 등록/해제
+
+- **람다에는 `this`가 없음** → 람다 내부에서는 익명 객체처럼 `this`를 사용하여 자기 자신을 참조할 수 없음.
+- **익명 객체는 `this` 사용 가능** → `this`를 사용하여 이벤트 리스너를 해제할 수 있음.
+- **이벤트 리스너를 해제해야 할 경우** → 람다가 아니라 **익명 객체**를 사용해야 함.
+
+```kotlin
+button.setOnClickListener {
+    println("Button clicked")
+    // this 사용 불가능 → 자기 자신을 참조할 수 없음
+}
+
+val listener = object : View.OnClickListener {
+    override fun onClick(v: View?) {
+        println("Button clicked")
+
+        // 자기 자신을 해제 가능 (this 사용 가능)
+        v?.setOnClickListener(null)
+    }
+}
+
+button.setOnClickListener(listener)
+```
+
+## 5.3 코틀린에서 SAM 인터페이스 정의
+
+코틀린에서 fun interface를 정의하면 함수형 인터페이스를 활용 가능
+
+코틀린의 함수형 인터페이스는 정확히 하나의 추상 메서드만 포함하지만 다른 비추상 메서드를 여럿 가질 수 있음
+
+```kotlin
+fun interface IntCondition {
+    fun check(i: Int): Boolean
+    fun checkString(s: String) = check(s.toInt())
+    fun checkChar(c: Char) = check(c.digitToInt())
+}
+```
+
+### 함수형 인터페이스의 동적 호출
+
+fun interface로 정의된 타입의 파라미터를 받는 함수가 있을 때 람다 구현이나 람다에 대한 참조를 직접 넘길 수 있다, 이 경우 모두 동적으로 인터페이스 구현을 인스턴스화 해준다.
+
+```kotlin
+fun invokeCondition(condition: IntCondition, num: Int) {
+    println("결과: ${condition.check(num)}")
+}
+
+fun main() {
+    val isOdd: IntCondition = { it % 2 != 0 }
+    invokeCondition(isOdd, 3)  // 결과: true
+}
+```
+
+### 자바에서 함수형 인터페이스 호출
+
+자바와 코틀린에서 함께 쓰이는 코드에서 fun interface를 쓰면 자바에서도 코드의 간결성을 높일 수 있다.
+
+잘은 모르겠지만 코틀린 함수 타입은 파라미터와 반환타입을 타입 파라미터로 하는 제네릭 타입인 객체로 번역되기에 가능하다고 한다.
+
+```kotlin
+fun interface StringConsumer {
+    fun consume(s: String)
+}
+
+fun consumeHelloFunctional(t: (String) -> Unit) {
+    t("Hello")
+}
+```
+
+```java
+public class MyApp {
+    public static void main(String[] args) {
+        // 자바에서 Kotlin의 fun interface를 람다로 호출 가능
+        MainKt.consumeHello(s -> System.out.println(s.toUpperCase()));
+
+        // Kotlin의 함수 타입을 자바에서 사용하려면 Unit.INSTANCE를 반환해야 함
+        MainKt.consumeHelloFunctional(s -> {
+            System.out.println(s.toUpperCase());
+            return Unit.INSTANCE;
+        });
+    }
+}
+```
