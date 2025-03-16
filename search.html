@@ -1,0 +1,251 @@
+---
+layout: page
+title: Search
+permalink: /search/
+---
+
+<div class="search-container">
+  <div class="search-form">
+    <input type="text" id="search-input" class="search-input" placeholder="Search posts by keyword..." aria-label="Search posts">
+    <button type="submit" class="search-button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </button>
+  </div>
+  
+  <div class="search-results-container">
+    <div id="search-results" class="search-results"></div>
+  </div>
+  
+  <p class="search-info">Type at least 3 characters to search</p>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const searchInput = document.getElementById('search-input');
+  const searchResults = document.getElementById('search-results');
+
+  // Fetch search index
+  fetch('/assets/js/search-data.json')
+    .then(response => response.json())
+    .then(data => {
+      const searchIndex = data;
+
+      // Handle search input
+      searchInput.addEventListener('input', function() {
+        const query = this.value.trim().toLowerCase();
+        
+        // Clear results
+        searchResults.innerHTML = '';
+        
+        // Check if query is long enough
+        if (query.length < 3) {
+          return;
+        }
+        
+        // Filter posts that match the query
+        const results = searchIndex.filter(item => {
+          const titleMatch = item.title.toLowerCase().includes(query);
+          const contentMatch = item.content.toLowerCase().includes(query);
+          const categoriesMatch = item.categories.some(category => 
+            category.toLowerCase().includes(query)
+          );
+          const tagsMatch = item.tags.some(tag => 
+            tag.toLowerCase().includes(query)
+          );
+          
+          return titleMatch || contentMatch || categoriesMatch || tagsMatch;
+        });
+        
+        // Display results
+        if (results.length > 0) {
+          results.forEach(result => {
+            let resultElement = document.createElement('div');
+            resultElement.className = 'search-result';
+            
+            // Highlight matched text in title
+            let titleHtml = result.title;
+            if (result.title.toLowerCase().includes(query)) {
+              const regex = new RegExp(`(${query})`, 'gi');
+              titleHtml = result.title.replace(regex, '<mark>$1</mark>');
+            }
+            
+            // Create result excerpt
+            let excerpt = '';
+            if (result.content.toLowerCase().includes(query)) {
+              const position = result.content.toLowerCase().indexOf(query);
+              const start = Math.max(0, position - 50);
+              const end = Math.min(result.content.length, position + query.length + 50);
+              excerpt = '...' + result.content.substring(start, end) + '...';
+              
+              // Highlight matched text in excerpt
+              const regex = new RegExp(`(${query})`, 'gi');
+              excerpt = excerpt.replace(regex, '<mark>$1</mark>');
+            } else {
+              excerpt = result.excerpt;
+            }
+            
+            resultElement.innerHTML = `
+              <h3 class="result-title">
+                <a href="${result.url}">${titleHtml}</a>
+              </h3>
+              <div class="result-meta">
+                <span class="result-date">${result.date}</span>
+                ${result.categories.length > 0 ? 
+                  `<span class="result-categories">
+                    ${result.categories.map(cat => `<span class="result-category">${cat}</span>`).join('')}
+                  </span>` : ''}
+              </div>
+              <p class="result-excerpt">${excerpt}</p>
+            `;
+            
+            searchResults.appendChild(resultElement);
+          });
+        } else {
+          let noResultsElement = document.createElement('div');
+          noResultsElement.className = 'no-results';
+          noResultsElement.textContent = `No results found for "${query}"`;
+          searchResults.appendChild(noResultsElement);
+        }
+      });
+    })
+    .catch(error => {
+      console.error('Error loading search data:', error);
+      searchResults.innerHTML = '<p class="search-error">Error loading search data. Please try again later.</p>';
+    });
+});
+</script>
+
+<style>
+.search-container {
+  margin-top: 2rem;
+}
+
+.search-form {
+  position: relative;
+  display: flex;
+  margin-bottom: 2rem;
+}
+
+.search-input {
+  flex-grow: 1;
+  padding: 12px 45px 12px 15px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  font-size: 1em;
+  width: 100%;
+}
+
+.search-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  border: none;
+  background: transparent;
+  padding: 0 15px;
+  cursor: pointer;
+  color: #666;
+}
+
+.search-info {
+  font-size: 0.9em;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.search-results {
+  margin-top: 1rem;
+}
+
+.search-result {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.search-result:last-child {
+  border-bottom: none;
+}
+
+.result-title {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.4em;
+}
+
+.result-meta {
+  margin-bottom: 0.8rem;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.result-date {
+  margin-right: 1rem;
+}
+
+.result-category {
+  display: inline-block;
+  background-color: #f0f0f0;
+  padding: 2px 8px;
+  margin-right: 5px;
+  border-radius: 3px;
+  font-size: 0.8em;
+}
+
+.result-excerpt {
+  margin-top: 0.5rem;
+  font-size: 0.95em;
+  color: #444;
+}
+
+.no-results {
+  padding: 2rem 0;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+}
+
+mark {
+  background-color: #fffacd;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+.search-error {
+  color: #d32f2f;
+  text-align: center;
+  padding: 1rem;
+}
+
+body.dark-theme {
+  .search-input {
+    background-color: #333;
+    border-color: #555;
+    color: #eee;
+  }
+  
+  .search-result {
+    border-bottom-color: #444;
+  }
+  
+  .result-category {
+    background-color: #444;
+  }
+  
+  .result-excerpt, .result-meta, .search-info {
+    color: #ccc;
+  }
+  
+  .search-button {
+    color: #bbb;
+  }
+  
+  mark {
+    background-color: #664500;
+    color: #fff;
+  }
+}
+</style>

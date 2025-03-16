@@ -1,58 +1,157 @@
 <!DOCTYPE html>
-<html lang="{{ site.lang | default: "en-US" }}">
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
+  <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --text-color: #24292e;
+      --bg-color: #ffffff;
+      --border-color: #e1e4e8;
+      --primary-color: #0366d6;
+      --header-bg: #f6f8fa;
+      --code-bg: #f6f8fa;
+      --link-color: #0366d6;
+      --link-hover: #024ea4;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text-color);
+      background-color: var(--bg-color);
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .wrapper {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    /* Header */
+    header.site-header {
+      border-top: 5px solid var(--primary-color);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 0;
+      margin-bottom: 2rem;
+    }
+    
+    .site-header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .site-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-color);
+      text-decoration: none;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+    
+    .nav-link {
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    
+    .nav-link:hover {
+      color: var(--primary-color);
+    }
+    
+    /* Footer */
+    footer.site-footer {
+      margin-top: 3rem;
+      padding: 2rem 0;
+      border-top: 1px solid var(--border-color);
+      font-size: 0.9rem;
+      color: #6a737d;
+    }
+    
+    /* Content */
+    .page-content {
+      min-height: calc(100vh - 200px);
+      padding: 1rem 0;
+    }
+    
+    /* Code blocks */
+    pre, code {
+      font-family: 'JetBrains Mono', monospace;
+      background-color: var(--code-bg);
+      border-radius: 3px;
+    }
+    
+    pre {
+      padding: 1rem;
+      overflow-x: auto;
+      border: 1px solid var(--border-color);
+    }
+    
+    code {
+      padding: 0.2em 0.4em;
+      font-size: 0.9em;
+    }
+    
+    pre code {
+      padding: 0;
+      background-color: transparent;
+    }
+    
+    /* Links */
+    a {
+      color: var(--link-color);
+      text-decoration: none;
+    }
+    
+    a:hover {
+      color: var(--link-hover);
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrapper">
+      <div class="site-header-inner">
+        <a class="site-title" href="{{ "/" | relative_url }}">{{ site.title | escape }}</a>
+        <nav class="site-nav">
+          <div class="nav-links">
+            {% for item in site.navigation_header %}
+              <a class="nav-link" href="{{ item.url | relative_url }}">{{ item.title }}</a>
+            {% endfor %}
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
 
-  <head>
-    <!-- General meta -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <main class="page-content">
+    <div class="wrapper">
+      {{ content }}
+    </div>
+  </main>
 
-    {% if page.indexing == false %}
-      <meta name="robots" content="noindex">
-    {% endif %}
-
-    {% if page.collectionpage %}
-      {% seo title=false %}
-
-      {% assign collectiondata = site.collections | where: "label", page.collectionpage | first %}
-      <title>{{ collectiondata.title }} - {{ site.title }}</title>
-      <meta property="og:title" content="{{ collectiondata.title }}">
-      <meta name="description" content="{{ collectiondata.description }}">
-      <meta property="og:description" content="{{ collectiondata.description }}">
-    {% else %}
-      {% seo %}
-    {% endif %}
-    {% if site.fonts.preconnect_urls %}
-      {% for url in site.fonts.preconnect_urls %}
-        <link rel="preconnect" href="{{ url }}" crossorigin />
-      {% endfor %}
-    {% endif %}
-
-    <link rel="manifest" href="{{ "/manifest.json" | relative_url }}">
-    <meta name="theme-color" content="{{ site.manifest.theme_color | default: '#242e2b' }}"/>
-
-    {% if site.css_inline == true %}
-      {% include site-styles.html %}
-    {% else %}
-      <link rel="stylesheet" href="{{ "/assets/styles.css" | relative_url }}">
-    {% endif %}
-
-    {% if site.favicons or site.avatarurl %}{% include site-favicons.html %}{% endif %}
-
-    {% if site.google_analytics %}{% include site-analytics.html %}{% endif %}
-
-    {% include site-fonts.html %}
-
-    {% include site-before-start.html %}
-  </head>
-
-  <body class="layout-{{ page.layout }}{% if page.title %}  {{ page.title | slugify }}{% endif %}">
-    {% include site-icons.svg %}
-
-    {{ content }}
-
-    {% if site.service_worker != false %}{% include site-sw.html %}{% endif %}
-
-    {% include site-before-end.html %}
-  </body>
-
+  <footer class="site-footer">
+    <div class="wrapper">
+      <p>&copy; {{ site.time | date: '%Y' }} {{ site.title | escape }}. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
 </html>

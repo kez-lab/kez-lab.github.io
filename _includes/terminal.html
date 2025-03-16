@@ -1,0 +1,12 @@
+<div class="terminal">
+  {% if include.title %}
+    <div class="terminal-title">{{ include.title }}</div>
+  {% endif %}
+  
+  {% for command in include.commands %}
+    <div class="command">{{ command }}</div>
+    {% if include.outputs and include.outputs[forloop.index0] %}
+      <div class="output">{{ include.outputs[forloop.index0] }}</div>
+    {% endif %}
+  {% endfor %}
+</div>

@@ -2,67 +2,95 @@
 layout: default
 ---
 
-{% include site-header.html %}
+<article>
+  <h1>{{ page.title }}</h1>
+  <p>{{ page.date | date: "%B %d, %Y" }}</p>
+  {{ content }}
+</article>
 
-<main class="main  container">
-
-  <article class="post  article--post  content  typeset" itemscope itemtype="http://schema.org/BlogPosting">
-
-    <h1>{{ page.title }}</h1>
-    {% include post-meta.html %}
-    
-    <!-- 글 내용 -->
-    <div class="post-content" itemprop="articleBody">
-      {{ content }}
-    </div>
-
-    <!-- 태그 및 카테고리 -->
-    {% if page.tags %}
-    <div class="post-tags">
-      <p>Tags: 
-        {% for tag in page.tags %}
-        <a href="{{ site.baseurl }}/tags#{{ tag | slugify }}" class="post-tag">{{ tag }}</a>
-        {% endfor %}
-      </p>
-    </div>
-    {% endif %}
-
-    <!-- 구조화된 데이터 - 블로그 포스트 -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "mainEntityOfPage": {
-          "@type": "WebPage",
-          "@id": "{{ page.url | replace:'index.html','' | absolute_url }}"
-        },
-        "headline": "{{ page.title | escape }}",
-        "description": "{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}",
-        "datePublished": "{{ page.date | date_to_xmlschema }}",
-        "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
-        "author": {
-          "@type": "Person",
-          "name": "{{ site.author }}"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "{{ site.title }}",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "{{ site.url }}{{ site.logo }}"
-          }
-        }
-      }
-    </script>
-
-    {% include nav-share.html %}
-
-    {% include post-comments.html %}
-
-  </article>
-
-  {% if page.aside == true %}{% include site-aside.html %}{% endif %}
-
-</main>
-
-{% include site-footer.html %}
+<style>
+  .post-header {
+    margin-bottom: 2rem;
+  }
+  
+  .post-title {
+    font-size: 2.5em;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  
+  .post-meta {
+    margin-bottom: 1rem;
+    color: #6a737d;
+    font-size: 0.9em;
+  }
+  
+  .post-author {
+    margin-right: 1rem;
+  }
+  
+  .post-taxonomy {
+    margin-bottom: 1.5rem;
+  }
+  
+  .post-categories {
+    margin-bottom: 0.5rem;
+  }
+  
+  .post-categories .category {
+    display: inline-block;
+    background-color: #0366d6;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.85em;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+  }
+  
+  .post-tags .tag {
+    display: inline-block;
+    background-color: #f6f8fa;
+    border: 1px solid #e1e4e8;
+    color: #0366d6;
+    padding: 0.2rem 0.6rem;
+    border-radius: 0.25rem;
+    font-size: 0.85em;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  
+  .post-content {
+    margin-bottom: 3rem;
+  }
+  
+  .post-content img {
+    max-width: 100%;
+    border-radius: 5px;
+    display: block;
+    margin: 2rem auto;
+  }
+  
+  .post-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin: 3rem 0;
+  }
+  
+  .post-navigation a {
+    padding: 0.5rem 1rem;
+    background-color: #f6f8fa;
+    border: 1px solid #e1e4e8;
+    border-radius: 4px;
+    color: #0366d6;
+    text-decoration: none;
+    max-width: 45%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+</style>
