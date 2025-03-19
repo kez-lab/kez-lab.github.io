@@ -2,33 +2,137 @@
 layout: default
 ---
 
-{% include site-header.html %}
-
-<main class="main  container">
-
-  <div class="content">
-
-    <article class="article  article--page  typeset">
-
-      {% if paginator.posts %}
-        {% assign collectiondata = site.collections | where: "label", page.collectionpage | first %}
-        <h1>{{ collectiondata.title }}</h1>
-        {{ collectiondata.description | markdownify }}
-
+<div class="blog-header">
+  <div class="blog-header-content">
+    {% if paginator.posts %}
+      {% assign collectiondata = site.collections | where: "label", page.collectionpage | first %}
+      <h1 class="blog-title">개발 블로그</h1>
+      <p class="blog-description">소프트웨어 개발에 관한 지식과 경험을 공유합니다. 웹, 모바일 개발부터 데이터 과학까지 다양한 기술 주제를 다룹니다.</p>
+    {% else %}
+      <h1 class="blog-title">{{ page.title }}</h1>
+      {% if page.description %}
+        <p class="blog-description">{{ page.description }}</p>
       {% else %}
-        <h1>{{ page.title }}</h1>
         {{ content }}
-        
       {% endif %}
-
-    </article>
-
-    {% include post-list.html %}
-
+    {% endif %}
   </div>
+</div>
 
-  {% if page.aside == true %}{% include site-aside.html %}{% endif %}
+<div class="blog-filters">
+  <div class="category-filter">
+    <span class="filter-label">카테고리:</span>
+    <div class="filter-options">
+      <a href="/blog/" class="filter-option {% unless page.category %}active{% endunless %}">전체</a>
+      {% for category in site.categories %}
+        <a href="/categories/#{{ category[0] | slugify }}" class="filter-option {% if page.category == category[0] %}active{% endif %}">{{ category[0] }}</a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
 
-</main>
+<div class="post-grid">
+  {% include post-list.html %}
+</div>
+
+<style>
+  .blog-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+  
+  .blog-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
+  }
+  
+  .blog-header-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .blog-title {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 2.5rem;
+  }
+  
+  .blog-description {
+    color: #6a737d;
+    font-size: 1.1rem;
+    margin-bottom: 0;
+  }
+  
+  .blog-filters {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+  }
+  
+  .category-filter {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .filter-label {
+    font-weight: 500;
+    margin-right: 0.5rem;
+  }
+  
+  .filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .filter-option {
+    padding: 0.3rem 0.8rem;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    color: #6a737d;
+    background-color: var(--light-gray);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  
+  .filter-option:hover {
+    background-color: #e1e4e8;
+    color: var(--text-color);
+    text-decoration: none;
+  }
+  
+  .filter-option.active {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  
+  .post-grid {
+    margin-top: 2rem;
+  }
+  
+  @media (max-width: 768px) {
+    .blog-title {
+      font-size: 2rem;
+    }
+    
+    .blog-description {
+      font-size: 1rem;
+    }
+    
+    .filter-options {
+      margin-top: 0.5rem;
+    }
+  }
+</style>
 
 {% include site-footer.html %}

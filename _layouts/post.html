@@ -4,84 +4,177 @@ layout: default
 
 <article class="post">
   <header class="post-header">
+    <div class="post-meta">
+      <div class="post-categories">
+        {% if page.categories and page.categories.size > 0 %}
+          {% for category in page.categories %}
+            <a href="{{ site.baseurl }}/categories/#{{ category | slugify }}" class="post-category">{{ category }}</a>
+          {% endfor %}
+        {% else %}
+          <span class="post-category">미분류</span>
+        {% endif %}
+      </div>
+      
+      <div class="post-info">
+        <span class="post-date">
+          {{ page.date | date: "%Y년 %m월 %d일" }}
+        </span>
+        
+        {% if page.author %}
+          <span class="post-author">
+            {% if site.data.authors[page.author].name %}
+              {{ site.data.authors[page.author].name }}
+            {% else %}
+              {{ page.author }}
+            {% endif %}
+          </span>
+        {% endif %}
+        
+        {% if page.content %}
+          <span class="post-reading-time">
+            • 읽는 데 약 {{ page.content | number_of_words | divided_by: 300 | plus: 1 | round }}분
+          </span>
+        {% endif %}
+      </div>
+    </div>
+    
     <h1 class="post-title">{{ page.title }}</h1>
     
-    <div class="post-meta">
-      <span class="post-date">
-        {{ page.date | date: "%B %d, %Y" }}
-      </span>
-      
-      {% if page.author %}
-      <span class="post-author">
-        {% if site.data.authors[page.author].name %}
-          {{ site.data.authors[page.author].name }}
-        {% else %}
-          {{ page.author }}
-        {% endif %}
-      </span>
-      {% endif %}
-      
-      {% if page.content %}
-      <span class="post-reading-time">
-        {{ page.content | reading_time }} min read
-      </span>
-      {% endif %}
-    </div>
-    
-    <div class="post-taxonomy">
-      {% if page.categories and page.categories.size > 0 %}
-      <div class="post-categories">
-        {% for category in page.categories %}
-          <a href="{{ site.baseurl }}/categories/{{ category | slugify }}" class="category">{{ category }}</a>
-        {% endfor %}
-      </div>
-      {% endif %}
-      
-      {% if page.tags and page.tags.size > 0 %}
+    {% if page.tags and page.tags.size > 0 %}
       <div class="post-tags">
         {% for tag in page.tags %}
-          <a href="{{ site.baseurl }}/tags/{{ tag | slugify }}" class="tag">{{ tag }}</a>
+          <a href="{{ site.baseurl }}/tags/#{{ tag | slugify }}" class="post-tag">#{{ tag }}</a>
         {% endfor %}
       </div>
-      {% endif %}
-    </div>
+    {% endif %}
   </header>
   
   {% if page.feature_image %}
-  <div class="post-feature-image">
-    <img src="{{ page.feature_image | relative_url }}" alt="{{ page.title }}">
-  </div>
+    <div class="post-feature-image">
+      <img src="{{ page.feature_image | relative_url }}" alt="{{ page.title }}">
+    </div>
   {% endif %}
+  
+  <div class="post-toc">
+    <div class="toc-title">목차</div>
+    <div id="toc"></div>
+  </div>
   
   <div class="post-content">
     {{ content }}
   </div>
   
+  <div class="post-share">
+    <div class="share-title">공유하기</div>
+    <div class="share-buttons">
+      <a href="https://github.com/{{ site.github_username }}" class="share-button github" title="GitHub" target="_blank" rel="noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+  
   <div class="post-navigation">
     {% if page.previous.url %}
-    <a class="prev-post" href="{{ site.baseurl }}{{ page.previous.url }}">&larr; {{ page.previous.title }}</a>
+      <a class="prev-post" href="{{ site.baseurl }}{{ page.previous.url }}">
+        <div class="nav-arrow">← 이전 글</div>
+        <div class="nav-title">{{ page.previous.title }}</div>
+      </a>
     {% endif %}
     
     {% if page.next.url %}
-    <a class="next-post" href="{{ site.baseurl }}{{ page.next.url }}">{{ page.next.title }} &rarr;</a>
+      <a class="next-post" href="{{ site.baseurl }}{{ page.next.url }}">
+        <div class="nav-arrow">다음 글 →</div>
+        <div class="nav-title">{{ page.next.title }}</div>
+      </a>
     {% endif %}
   </div>
   
-  <div class="post-related">
-    {% include post-related.html %}
+  <div class="post-author-bio">
+    <div class="author-avatar">
+      {% if site.author_avatar %}
+        <img src="{{ site.author_avatar }}" alt="{{ site.author }}">
+      {% else %}
+        <div class="avatar-placeholder"></div>
+      {% endif %}
+    </div>
+    <div class="author-info">
+      <div class="author-name">{{ site.author }}</div>
+      <div class="author-bio">
+        {% if site.author_bio %}
+          {{ site.author_bio }}
+        {% else %}
+          소프트웨어 개발자로서 웹과 모바일 애플리케이션을 개발하고 있습니다. 새로운 기술을 배우고 공유하는 것을 좋아합니다.
+        {% endif %}
+      </div>
+      <div class="author-links">
+        {% if site.github_username %}
+          <a href="https://github.com/{{ site.github_username }}" class="author-link" title="GitHub" target="_blank" rel="noopener noreferrer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        {% endif %}
+        {% if site.twitter_username %}
+          <a href="https://twitter.com/{{ site.twitter_username }}" target="_blank" class="author-link twitter">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
+          </a>
+        {% endif %}
+      </div>
+    </div>
   </div>
   
-  {% if site.disqus and page.comments != false %}
-  <div class="post-comments">
-    {% include post-comments.html %}
+  <div class="post-related">
+    <h3 class="related-title">관련 글</h3>
+    <div class="related-posts">
+      {% assign related_posts = site.posts | where_exp: "post", "post.url != page.url" | sample: 3 %}
+      {% for post in related_posts %}
+        <a href="{{ post.url | relative_url }}" class="related-post">
+          <div class="related-post-date">{{ post.date | date: "%Y.%m.%d" }}</div>
+          <h4 class="related-post-title">{{ post.title }}</h4>
+        </a>
+      {% endfor %}
+    </div>
   </div>
-  {% endif %}
 </article>
 
-<!-- Add Prism.js for code syntax highlighting -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" integrity="sha512-mIs9kKbaw6JZFfSuo+MovjU+Ntggfoj8RwAmJbVXQ5mkAX5LlgETQEweFPI18humSPHymTb5iikEOKWF7I8ncQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js" integrity="sha512-9khQRAUBYEJDCDVP2yw3LRUQvjJ0Pjx0EShmaQjcHa6AXiOv6qHQu9lCAIR8O+/D8FtaCoJ2c0Tf9Xo7hYH01Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha512-SkmBfuA2hqjzEVpmnMt/LINrjop3GKWqsuLSSB3e7iBmYK7JuWw4ldmmxwD9mdm2IRTTi0OxSAfEGvgEi0i2Kw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- 코드 구문 강조 스타일링을 위한 Prism.js -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+<!-- 목차 생성을 위한 tocbot -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.css">
+<script src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 목차 생성
+    tocbot.init({
+      tocSelector: '#toc',
+      contentSelector: '.post-content',
+      headingSelector: 'h2, h3, h4',
+      hasInnerContainers: true,
+      collapseDepth: 6,
+    });
+    
+    // 목차가 비어있으면 목차 섹션 숨기기
+    if (document.querySelector('#toc').children.length === 0) {
+      document.querySelector('.post-toc').style.display = 'none';
+    }
+    
+    // 코드 블록에 언어 표시
+    document.querySelectorAll('pre code').forEach(function(codeBlock) {
+      if (codeBlock.className) {
+        const language = codeBlock.className.match(/language-(\w+)/);
+        if (language) {
+          const pre = codeBlock.parentElement;
+          pre.setAttribute('data-language', language[1]);
+        }
+      }
+    });
+  });
+</script>
 
 <style>
   .post {
@@ -92,69 +185,74 @@ layout: default
   
   .post-header {
     margin-bottom: 2.5rem;
-    text-align: center;
   }
   
   .post-title {
-    font-size: 2.5em;
+    font-size: 2.5rem;
     line-height: 1.2;
-    margin-bottom: 1rem;
-    font-weight: 700;
+    margin: 1rem 0;
+    color: var(--text-color);
   }
   
   .post-meta {
-    margin-bottom: 1rem;
-    color: #6a737d;
-    font-size: 0.95em;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
+    flex-direction: column;
+    gap: 0.8rem;
   }
   
-  .post-taxonomy {
-    margin-top: 1.5rem;
-    text-align: center;
+  .post-info {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    color: #6a737d;
+    font-size: 0.9rem;
+  }
+  
+  .post-date {
+    font-weight: 500;
   }
   
   .post-categories {
-    margin-bottom: 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
   
-  .post-categories .category {
+  .post-category {
     display: inline-block;
-    background-color: #0366d6;
+    background-color: var(--primary-color);
     color: white;
     padding: 0.25rem 0.75rem;
-    border-radius: 1rem;
-    font-size: 0.85em;
-    margin-right: 0.5rem;
-    margin-bottom: 0.5rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
     text-decoration: none;
     transition: background-color 0.2s ease;
   }
   
-  .post-categories .category:hover {
-    background-color: #024ea7;
-  }
-  
-  .post-tags .tag {
-    display: inline-block;
-    background-color: #f6f8fa;
-    border: 1px solid #e1e4e8;
-    color: #0366d6;
-    padding: 0.2rem 0.6rem;
-    border-radius: 0.25rem;
-    font-size: 0.85em;
-    margin-right: 0.5rem;
-    margin-bottom: 0.5rem;
+  .post-category:hover {
+    background-color: var(--link-hover);
     text-decoration: none;
-    transition: all 0.2s ease;
+    color: white;
   }
   
-  .post-tags .tag:hover {
-    background-color: #0366d6;
-    color: white;
+  .post-tags {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .post-tag {
+    color: #6a737d;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  
+  .post-tag:hover {
+    color: var(--primary-color);
+    text-decoration: none;
   }
   
   .post-feature-image {
@@ -167,10 +265,51 @@ layout: default
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   }
   
+  .post-toc {
+    background-color: var(--light-gray);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+  }
+  
+  .toc-title {
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+  }
+  
+  .toc-link {
+    color: var(--text-color);
+    text-decoration: none;
+  }
+  
+  .toc-link:hover {
+    color: var(--primary-color);
+  }
+  
+  .toc-list {
+    list-style: none;
+    padding-left: 1rem;
+  }
+  
+  .toc-list-item {
+    margin-bottom: 0.5rem;
+  }
+  
+  .is-active-link {
+    color: var(--primary-color);
+    font-weight: 700;
+  }
+  
+  .is-active-link::before {
+    background-color: var(--primary-color);
+  }
+  
   .post-content {
     margin-bottom: 3rem;
-    line-height: 1.7;
-    font-size: 1.05em;
+    line-height: 1.8;
+    font-size: 1.05rem;
   }
   
   .post-content img {
@@ -182,8 +321,19 @@ layout: default
   
   .post-content h1, .post-content h2, .post-content h3, 
   .post-content h4, .post-content h5, .post-content h6 {
-    margin-top: 2rem;
+    margin-top: 2.5rem;
     margin-bottom: 1rem;
+    color: var(--text-color);
+  }
+  
+  .post-content h2 {
+    font-size: 1.8rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+  }
+  
+  .post-content h3 {
+    font-size: 1.4rem;
   }
   
   .post-content p, .post-content ul, .post-content ol {
@@ -191,15 +341,15 @@ layout: default
   }
   
   .post-content code {
-    background: #f6f8fa;
+    font-family: var(--font-mono);
+    background: var(--code-bg);
     padding: 0.2em 0.4em;
     border-radius: 3px;
-    font-family: monospace;
     font-size: 0.9em;
   }
   
   .post-content pre {
-    background: #272822;
+    background: #282c34;
     padding: 1rem;
     border-radius: 5px;
     overflow-x: auto;
@@ -210,192 +360,245 @@ layout: default
   .post-content pre code {
     background: transparent;
     padding: 0;
-    color: #f8f8f2;
-    white-space: pre;
-    word-spacing: normal;
-    word-break: normal;
-    word-wrap: normal;
-    line-height: 1.5;
-    tab-size: 4;
-    hyphens: none;
-    font-size: 0.95em;
+    color: #abb2bf;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
   }
   
-  .post-content pre[class*="language-"] {
-    position: relative;
-    margin: 1.5em 0;
-    overflow: auto;
-  }
-  
-  .post-content pre[class*="language-"]::before {
+  .post-content pre[data-language]::before {
     content: attr(data-language);
     position: absolute;
     top: 0;
     right: 0;
-    padding: 0.1em 0.5em;
-    font-size: 0.7em;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.7rem;
     color: rgba(255, 255, 255, 0.8);
     background: rgba(0, 0, 0, 0.3);
     border-radius: 0 0 0 5px;
+    text-transform: uppercase;
   }
   
+  /* Share section */
+  .post-share {
+    margin: 3rem 0;
+    padding: 1.5rem;
+    background-color: var(--light-gray);
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .share-title {
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+  }
+  
+  .share-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .share-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: white;
+    transition: transform 0.2s ease;
+  }
+  
+  .share-button:hover {
+    transform: translateY(-3px);
+  }
+  
+  .twitter {
+    background-color: #1da1f2;
+  }
+  
+  .facebook {
+    background-color: #1877f2;
+  }
+  
+  .linkedin {
+    background-color: #0077b5;
+  }
+  
+  /* Navigation between posts */
   .post-navigation {
     display: flex;
     justify-content: space-between;
     margin: 3rem 0;
-    flex-wrap: wrap;
     gap: 1rem;
   }
   
-  .post-navigation a {
-    padding: 0.75rem 1rem;
-    background-color: #f6f8fa;
-    border: 1px solid #e1e4e8;
-    border-radius: 4px;
-    color: #0366d6;
+  .prev-post, .next-post {
+    flex: 1;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     text-decoration: none;
-    max-width: 45%;
-    white-space: nowrap;
+    transition: all 0.2s ease;
+    color: var(--text-color);
+  }
+  
+  .prev-post:hover, .next-post:hover {
+    background-color: var(--light-gray);
+    text-decoration: none;
+    transform: translateY(-3px);
+  }
+  
+  .nav-arrow {
+    font-size: 0.9rem;
+    color: #6a737d;
+    margin-bottom: 0.5rem;
+  }
+  
+  .nav-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
+  }
+  
+  .next-post {
+    text-align: right;
+  }
+  
+  /* Author bio */
+  .post-author-bio {
+    margin: 3rem 0;
+    padding: 2rem;
+    background-color: var(--light-gray);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  
+  .author-avatar {
+    flex-shrink: 0;
+  }
+  
+  .author-avatar img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .avatar-placeholder {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 1.5rem;
+  }
+  
+  .author-name {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+  }
+  
+  .author-bio {
+    color: #6a737d;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+  
+  .author-links {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .author-link {
+    color: #6a737d;
+    transition: color 0.2s ease;
+  }
+  
+  .author-link:hover {
+    color: var(--primary-color);
+  }
+  
+  /* Related posts */
+  .post-related {
+    margin: 3rem 0;
+  }
+  
+  .related-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+  }
+  
+  .related-posts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .related-post {
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    text-decoration: none;
     transition: all 0.2s ease;
   }
   
-  .post-navigation a:hover {
-    background-color: #0366d6;
-    color: white;
+  .related-post:hover {
+    background-color: var(--light-gray);
+    transform: translateY(-3px);
+    text-decoration: none;
   }
   
-  .post-related {
-    margin: 3rem 0;
-    padding-top: 2rem;
-    border-top: 1px solid #e1e4e8;
+  .related-post-date {
+    font-size: 0.85rem;
+    color: #6a737d;
+    margin-bottom: 0.5rem;
   }
   
-  .post-comments {
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid #e1e4e8;
+  .related-post-title {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-color);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   
   @media (max-width: 768px) {
     .post-title {
-      font-size: 2em;
+      font-size: 2rem;
     }
     
-    .post-navigation a {
-      max-width: 100%;
-      margin-bottom: 0.5rem;
+    .post-navigation {
+      flex-direction: column;
     }
-  }
-  
-  /* Line numbers */
-  .line-numbers .line-numbers-rows {
-    position: absolute;
-    pointer-events: none;
-    top: 0;
-    font-size: 100%;
-    left: -3.8em;
-    width: 3em; 
-    letter-spacing: -1px;
-    border-right: 1px solid #999;
-    user-select: none;
-  }
-
-  /* Additional styling for different language elements */
-  .token.comment,
-  .token.prolog,
-  .token.doctype,
-  .token.cdata {
-    color: #8292a2;
-    font-style: italic;
-  }
-
-  .token.punctuation {
-    color: #f8f8f2;
-  }
-
-  .token.namespace {
-    opacity: 0.7;
-  }
-
-  .token.property,
-  .token.tag,
-  .token.constant,
-  .token.symbol,
-  .token.deleted {
-    color: #f92672;
-  }
-
-  .token.boolean,
-  .token.number {
-    color: #ae81ff;
-  }
-
-  .token.selector,
-  .token.attr-name,
-  .token.string,
-  .token.char,
-  .token.builtin,
-  .token.inserted {
-    color: #a6e22e;
-  }
-
-  .token.operator,
-  .token.entity,
-  .token.url,
-  .language-css .token.string,
-  .style .token.string,
-  .token.variable {
-    color: #f8f8f2;
-  }
-
-  .token.atrule,
-  .token.attr-value,
-  .token.function,
-  .token.class-name {
-    color: #e6db74;
-  }
-
-  .token.keyword {
-    color: #66d9ef;
-  }
-
-  .token.regex,
-  .token.important {
-    color: #fd971f;
-  }
-
-  .token.important,
-  .token.bold {
-    font-weight: bold;
-  }
-
-  .token.italic {
-    font-style: italic;
-  }
-
-  .token.entity {
-    cursor: help;
+    
+    .post-author-bio {
+      flex-direction: column;
+      text-align: center;
+      padding: 1.5rem;
+    }
+    
+    .author-links {
+      justify-content: center;
+    }
+    
+    .related-posts {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
-
-<script>
-  // Automatically add language name to code blocks
-  document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('pre[class*="language-"]').forEach(function(el) {
-      const matches = el.className.match(/language-([a-z0-9]+)/i);
-      if (matches) {
-        el.setAttribute('data-language', matches[1].toUpperCase());
-      }
-    });
-    
-    // Enhance code blocks without language specification
-    document.querySelectorAll('pre:not([class*="language-"])').forEach(function(el) {
-      if (el.querySelector('code')) {
-        el.className = 'language-plaintext';
-        el.setAttribute('data-language', 'TEXT');
-      }
-    });
-  });
-</script>

@@ -6,24 +6,30 @@ body {
   display: flex;
   @include flex-direction(column);
   overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
 }
 
 .container {
   width: 90%;
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 1rem;
 }
 
 
 // Header, feature and footer
-.header,
-.footer {
+.header {
+  background: $backgroundColour;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  
   .nav {
     text-align: right;
   }
-  .logo {
-    @include flex(0 0 auto);
-  }
+  
   .container {
     @include flexbox;
     @include flex-direction(row);
@@ -65,13 +71,20 @@ body {
   @include flexbox;
   @include align-items(center);
   img {
-    max-height: 5rem;
+    max-height: 3rem;
   }
 }
 
 .nav {
   a {
-    padding: .2rem;
+    padding: .5rem;
+    color: $bodyColour;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    
+    &:hover {
+      color: $accentColour;
+    }
   }
   &--social a {
     display: inline-block;
@@ -122,7 +135,7 @@ body {
   @include flex-direction(column);
   @include flex(1, 0, auto);
   @include justify-content(flex-start);
-  margin-bottom: 1.6rem;
+  margin: 2rem 0;
   @include breakpoint(break-1) {
     @include justify-content(center);
     @include flex-direction(row);
@@ -137,7 +150,7 @@ body {
 
 .content {
   @include breakpoint(break-1) {
-    width: 62%;
+    width: 100%;
   }
 }
 
@@ -184,6 +197,12 @@ body {
   .item--category {
     margin-left: 0;
   }
+  &--post {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+  }
 }
 
 .item {
@@ -199,6 +218,42 @@ body {
   &--current {
     a {
       color: $captionColour;
+    }
+  }
+  &--post {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    a {
+      display: block;
+      padding: 1.5rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    .date {
+      font-size: 0.9rem;
+      color: $captionColour;
+      margin-bottom: 0.5rem;
+    }
+    
+    h2 {
+      margin: 0.5rem 0;
+      font-size: 1.5rem;
+      line-height: 1.3;
+      color: $headingColour;
+    }
+    
+    p {
+      margin: 0.5rem 0;
+      color: $bodyColour;
     }
   }
 }
@@ -386,12 +441,24 @@ label {
 }
 
 code {
-  padding: .12rem .2rem;
-  color: $headingColour;
+  background: #f6f8fa;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  font-size: 0.9rem;
 }
 
-pre code {
-  padding: 0;
+pre {
+  background: #f6f8fa;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  
+  code {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    font-size: 0.9rem;
+  }
 }
 
 .required {
@@ -453,5 +520,295 @@ pre code {
   pre {
     white-space: pre;
     overflow-x: scroll;
+  }
+}
+
+// Tags
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  background: #f0f0f0;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: $bodyColour;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+  
+  &:hover {
+    background: #e0e0e0;
+  }
+}
+
+// Page styles
+.page {
+  margin-bottom: 3rem;
+  
+  &-header {
+    margin-bottom: 3rem;
+    text-align: center;
+    padding: 2rem 0;
+    background: linear-gradient(to right, rgba(0,0,0,0.02), rgba(0,0,0,0.05));
+    border-radius: 8px;
+  }
+  
+  &-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 1rem;
+    color: $headingColour;
+    
+    &:after {
+      content: '';
+      position: absolute;
+      width: 60px;
+      height: 4px;
+      background-color: $accentColour;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+  }
+  
+  &-subtitle {
+    font-size: 1.2rem;
+    color: $captionColour;
+    max-width: 600px;
+    margin: 1rem auto 0;
+    line-height: 1.6;
+  }
+  
+  &-content {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    
+    img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    p {
+      margin-bottom: 1.5rem;
+      line-height: 1.8;
+    }
+    
+    h2 {
+      margin: 2rem 0 1rem;
+      font-size: 1.8rem;
+      color: $headingColour;
+    }
+    
+    h3 {
+      margin: 1.5rem 0 1rem;
+      font-size: 1.4rem;
+      color: $headingColour;
+    }
+    
+    ul, ol {
+      margin: 1rem 0;
+      padding-left: 2rem;
+      
+      li {
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+}
+
+// Dark theme adjustments
+body.dark-theme {
+  .page {
+    &-header {
+      background: linear-gradient(to right, rgba(255,255,255,0.02), rgba(255,255,255,0.05));
+    }
+    
+    &-title:after {
+      background-color: $accentColour;
+    }
+    
+    &-subtitle {
+      color: $captionColour;
+    }
+  }
+  
+  pre, code {
+    background: #2d2d2d;
+  }
+  
+  .item--post {
+    background: #1a1a1a;
+    border-color: rgba(255,255,255,0.1);
+  }
+}
+
+// Blog post list
+.post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.post-item {
+  display: flex;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  @include breakpoint(break-1) {
+    align-items: center;
+  }
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.post-thumbnail {
+  flex: 0 0 160px;
+  margin-right: 1.5rem;
+  overflow: hidden;
+  border-radius: 8px;
+  
+  @media (max-width: 768px) {
+    margin-bottom: 1rem;
+    margin-right: 0;
+    width: 100%;
+    max-height: 200px;
+  }
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+  
+  &-placeholder {
+    background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+    width: 100%;
+    height: 120px;
+    border-radius: 8px;
+  }
+}
+
+.post-content {
+  flex: 1;
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.post-category {
+  background-color: #f0f0f0;
+  color: #666;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  margin-right: 0.8rem;
+  font-weight: 500;
+}
+
+.post-date {
+  color: $captionColour;
+}
+
+.post-title {
+  margin: 0.5rem 0;
+  font-size: 1.5rem;
+  line-height: 1.3;
+  
+  a {
+    color: $headingColour;
+    text-decoration: none;
+    
+    &:hover {
+      color: $accentColour;
+    }
+  }
+}
+
+.post-excerpt {
+  color: $bodyColour;
+  margin: 0.5rem 0 0.8rem;
+  line-height: 1.6;
+}
+
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.post-tag {
+  color: $captionColour;
+  font-size: 0.85rem;
+  
+  &:hover {
+    color: $accentColour;
+  }
+}
+
+// Body dark theme adjustments
+body.dark-theme {
+  .post-item {
+    border-color: rgba(255,255,255,0.1);
+  }
+  
+  .post-category {
+    background-color: rgba(255,255,255,0.1);
+    color: #ccc;
+  }
+  
+  .post-thumbnail-placeholder {
+    background: linear-gradient(135deg, #2a2a2a, #333);
+  }
+}
+
+// Blog styles
+.blog-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.blog-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: $headingColour;
+}
+
+.blog-description {
+  font-size: 1.1rem;
+  color: $captionColour;
+  line-height: 1.6;
+}
+
+// Dark theme adjustments
+body.dark-theme {
+  .blog-header {
+    border-color: rgba(255, 255, 255, 0.1);
   }
 }

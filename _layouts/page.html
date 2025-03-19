@@ -2,8 +2,7 @@
 layout: default
 ---
 
-<main class="main  container">
-
+<main class="main container">
   <article class="page">
     <header class="page-header">
       <h1 class="page-title">{{ page.title | escape }}</h1>
@@ -18,65 +17,6 @@ layout: default
   </article>
 
   {% if page.aside == true %}{% include site-aside.html %}{% endif %}
-
 </main>
 
 {% include site-footer.html %}
-
-<style>
-  .page {
-    margin-bottom: 3rem;
-  }
-  
-  .page-header {
-    margin-bottom: 2rem;
-    text-align: center;
-  }
-  
-  .page-title {
-    font-size: 2.5em;
-    margin-bottom: 0.5rem;
-    position: relative;
-    display: inline-block;
-    padding-bottom: 0.5rem;
-  }
-  
-  .page-title:after {
-    content: '';
-    position: absolute;
-    width: 60px;
-    height: 4px;
-    background-color: #0366d6;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  
-  .page-subtitle {
-    font-size: 1.2em;
-    color: #6a737d;
-    max-width: 600px;
-    margin: 1rem auto 0;
-  }
-  
-  .page-content {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  
-  .page-content img {
-    max-width: 100%;
-    border-radius: 5px;
-    margin: 1.5rem 0;
-  }
-  
-  body.dark-theme {
-    .page-title:after {
-      background-color: #58a6ff;
-    }
-    
-    .page-subtitle {
-      color: #8b949e;
-    }
-  }
-</style>

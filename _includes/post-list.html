@@ -1,32 +1,62 @@
 {% if paginator.posts %}
-  <section class="section  typeset">
-    <ul class="list  list--posts">
+  <section class="section">
+    <ul class="post-list">
       {% for page in paginator.posts %}
-        <li class="item  item--post">
-          <article class="article  article--post">
-
-            <h2><a href="{{ site.baseurl }}{{ page.url }}">{{ page.title }}</a></h2>
-            {% include post-meta.html %}
-            {{ page.excerpt | markdownify | truncatewords: 60 }}
-
-          </article>
+        <li class="post-item">
+          <div class="post-thumbnail">
+            {% if page.thumbnail %}
+              <img src="{{ page.thumbnail }}" alt="{{ page.title }}">
+            {% else %}
+              <div class="post-thumbnail-placeholder"></div>
+            {% endif %}
+          </div>
+          <div class="post-content">
+            <div class="post-meta">
+              <span class="post-category">{% if page.categories %}{{ page.categories | first }}{% else %}카테고리 없음{% endif %}</span>
+              <span class="post-date">{{ page.date | date: "%Y. %m. %d." }}</span>
+            </div>
+            <h2 class="post-title"><a href="{{ site.baseurl }}{{ page.url }}">{{ page.title }}</a></h2>
+            <p class="post-excerpt">{{ page.excerpt | strip_html | truncatewords: 25 }}</p>
+            <div class="post-tags">
+              {% if page.tags %}
+                {% for tag in page.tags limit:3 %}
+                  <span class="post-tag">#{{ tag }}</span>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
         </li>
       {% endfor %}
     </ul>
     {% include post-pagination.html %}
   </section>
 {% else %}
-  <section class="section  typeset">
-    <ul class="list  list--posts">
+  <section class="section">
+    <ul class="post-list">
       {% for page in site.posts %}
-        <li class="item  item--post">
-          <article class="article  article--post">
-
-            <h2><a href="{{ site.baseurl }}{{ page.url }}">{{ page.title }}</a></h2>
-            {% include post-meta.html %}
-            {{ page.excerpt | markdownify | truncatewords: 60 }}
-
-          </article>
+        <li class="post-item">
+          <div class="post-thumbnail">
+            {% if page.thumbnail %}
+              <img src="{{ page.thumbnail }}" alt="{{ page.title }}">
+            {% else %}
+              <div class="post-thumbnail-placeholder"></div>
+            {% endif %}
+          </div>
+          <div class="post-content">
+            <div class="post-meta">
+              <span class="post-category">{% if page.categories %}{{ page.categories | first }}{% else %}카테고리 없음{% endif %}</span>
+              <span class="post-date">{{ page.date | date: "%Y. %m. %d." }}</span>
+            </div>
+            <h2 class="post-title"><a href="{{ site.baseurl }}{{ page.url }}">{{ page.title }}</a></h2>
+            <p class="post-excerpt">{{ page.excerpt | strip_html | truncatewords: 25 }}</p>
+            <div class="post-tags">
+              {% if page.tags %}
+                {% for tag in page.tags limit:3 %}
+                  <span class="post-tag">#{{ tag }}</span>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
         </li>
       {% endfor %}
     </ul>
