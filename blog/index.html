@@ -3,190 +3,105 @@ layout: default
 title: Blog
 ---
 
-<div class="blog-index">
-  <header class="page-header">
-    <h1 class="page-title">{{ page.title }}</h1>
+<div class="blog-container">
+  <header class="blog-header">
+    <h1 class="blog-title">{{ page.title }}</h1>
   </header>
 
-  {% if site.paginate %}
-    <div class="post-list">
-      {% for post in paginator.posts %}
-        <div class="post-list-item">
+  <div class="blog-content">
+    {% if site.paginate %}
+      <div class="post-list">
+        {% for post in paginator.posts %}
           {% include post-card.html post=post %}
-        </div>
-      {% endfor %}
-    </div>
-    
-    <div class="pagination-container">
+        {% endfor %}
+      </div>
+      
       <div class="pagination">
         {% if paginator.previous_page %}
-          <a class="previous" href="{{ paginator.previous_page_path | relative_url }}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="19" y1="12" x2="5" y2="12"></line>
-              <polyline points="12 19 5 12 12 5"></polyline>
-            </svg>
-            <span>Newer Posts</span>
+          <a href="{{ paginator.previous_page_path | relative_url }}" class="pagination__prev">
+            <span>이전 페이지</span>
           </a>
-        {% else %}
-          <span class="previous disabled">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="19" y1="12" x2="5" y2="12"></line>
-              <polyline points="12 19 5 12 12 5"></polyline>
-            </svg>
-            <span>Newer Posts</span>
-          </span>
         {% endif %}
 
-        <span class="page-number">Page {{ paginator.page }} of {{ paginator.total_pages }}</span>
+        <span class="pagination__current">{{ paginator.page }} / {{ paginator.total_pages }}</span>
 
         {% if paginator.next_page %}
-          <a class="next" href="{{ paginator.next_page_path | relative_url }}">
-            <span>Older Posts</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
+          <a href="{{ paginator.next_page_path | relative_url }}" class="pagination__next">
+            <span>다음 페이지</span>
           </a>
-        {% else %}
-          <span class="next disabled">
-            <span>Older Posts</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </span>
         {% endif %}
       </div>
-    </div>
-  {% else %}
-    <div class="post-list">
-      {% for post in site.posts %}
-        <div class="post-list-item">
+    {% else %}
+      <div class="post-list">
+        {% for post in site.posts %}
           {% include post-card.html post=post %}
-        </div>
-      {% endfor %}
-    </div>
-  {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
 </div>
 
 <style>
-  .blog-index {
-    margin-top: 2rem;
+.blog-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.blog-header {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.blog-title {
+  font-size: 2rem;
+  margin: 0;
+  color: var(--text-color);
+}
+
+.blog-content {
+  margin-top: 2rem;
+}
+
+.post-list {
+  margin-bottom: 3rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.pagination__prev,
+.pagination__next {
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.pagination__prev:hover,
+.pagination__next:hover {
+  color: var(--primary-color);
+}
+
+.pagination__current {
+  color: #6a737d;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .blog-container {
+    padding: 1rem;
   }
-  
-  .page-header {
-    margin-bottom: 2rem;
-    text-align: center;
+
+  .blog-title {
+    font-size: 1.75rem;
   }
-  
-  .page-title {
-    font-size: 2.5em;
-    position: relative;
-    display: inline-block;
-    padding-bottom: 0.5rem;
-  }
-  
-  .page-title:after {
-    content: '';
-    position: absolute;
-    width: 60px;
-    height: 4px;
-    background-color: #0366d6;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  
-  .post-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3rem;
-  }
-  
-  .post-list-item {
-    display: flex;
-    height: 100%;
-  }
-  
-  .pagination-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 2rem;
-    margin-bottom: 3rem;
-  }
-  
-  .pagination {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-  }
-  
-  .previous, .next {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    background-color: #f6f8fa;
-    border: 1px solid #e1e4e8;
-    color: #0366d6;
-    transition: all 0.2s ease;
-    
-    &:hover {
-      background-color: #0366d6;
-      color: white;
-      border-color: #0366d6;
-      text-decoration: none;
-    }
-    
-    &.disabled {
-      opacity: 0.5;
-      pointer-events: none;
-      color: #6a737d;
-    }
-  }
-  
-  .page-number {
-    color: #6a737d;
-    font-size: 0.9em;
-  }
-  
-  @media (max-width: 768px) {
-    .post-list {
-      grid-template-columns: 1fr;
-    }
-    
-    .pagination {
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-  }
-  
-  body.dark-theme {
-    .page-title:after {
-      background-color: #58a6ff;
-    }
-    
-    .previous, .next {
-      background-color: #2d333b;
-      border-color: #444c56;
-      color: #58a6ff;
-      
-      &:hover {
-        background-color: #58a6ff;
-        color: #0d1117;
-        border-color: #58a6ff;
-      }
-      
-      &.disabled {
-        color: #768390;
-      }
-    }
-    
-    .page-number {
-      color: #768390;
-    }
-  }
+}
 </style>

@@ -1,51 +1,77 @@
 <article class="post-card">
-  {% if post.feature_image %}
-  <a class="post-card__image-link" href="{{ post.url | relative_url }}">
-    <img class="post-card__image" src="{{ post.feature_image | relative_url }}" alt="{{ post.title }}">
-  </a>
-  {% endif %}
+  <h2 class="post-card__title">
+    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+  </h2>
   
-  <div class="post-card__content">
-    <header class="post-card__header">
-      {% if post.categories %}
-      <div class="post-card__categories">
-        {% for category in post.categories limit:1 %}
-        <span class="post-card__category">{{ category }}</span>
-        {% endfor %}
-      </div>
-      {% endif %}
-      
-      <h2 class="post-card__title">
-        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-      </h2>
-    </header>
-    
-    <section class="post-card__excerpt">
-      {% if post.excerpt %}
-        {{ post.excerpt | strip_html | truncatewords: 30 }}
-      {% endif %}
-    </section>
-    
-    <footer class="post-card__meta">
-      <div class="post-card__author-info">
-        {% if post.author %}
-          {% if site.data.authors[post.author].avatar %}
-            <img class="post-card__author-avatar" src="{{ site.data.authors[post.author].avatar | relative_url }}" alt="{{ post.author }}">
-          {% else %}
-            <span class="post-card__author-initial">{{ post.author | slice: 0 }}</span>
-          {% endif %}
-          <span class="post-card__author-name">{{ site.data.authors[post.author].name | default: post.author }}</span>
-        {% endif %}
-      </div>
-      
-      <time class="post-card__date" datetime="{{ post.date | date_to_xmlschema }}">
-        {% assign date_format = site.date_format | default: "%b %-d, %Y" %}
-        {{ post.date | date: date_format }}
-      </time>
-      
-      {% if post.content %}
-        <span class="post-card__reading-time">{{ post.content | reading_time }}</span>
-      {% endif %}
-    </footer>
+  <div class="post-card__meta">
+    <time class="post-card__date" datetime="{{ post.date | date_to_xmlschema }}">
+      {{ post.date | date: "%Y년 %m월 %d일" }}
+    </time>
+    {% if post.categories %}
+      <span class="post-card__category">{{ post.categories | first }}</span>
+    {% endif %}
+  </div>
+  
+  <div class="post-card__excerpt">
+    {% if post.excerpt %}
+      {{ post.excerpt | strip_html | truncate: 100 }}
+    {% endif %}
   </div>
 </article>
+
+<style>
+.post-card {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.post-card:last-child {
+  border-bottom: none;
+}
+
+.post-card__title {
+  font-size: 1.25rem;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.post-card__title a {
+  color: var(--text-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.post-card__title a:hover {
+  color: var(--primary-color);
+}
+
+.post-card__meta {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  color: #6a737d;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.post-card__category {
+  color: var(--primary-color);
+}
+
+.post-card__excerpt {
+  margin: 0.5rem 0 0 0;
+  color: #6a737d;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .post-card__title {
+    font-size: 1.1rem;
+  }
+
+  .post-card__excerpt {
+    font-size: 0.9rem;
+  }
+}
+</style>
