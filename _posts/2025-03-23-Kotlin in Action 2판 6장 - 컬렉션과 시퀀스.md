@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "코틀린 인 액션 2판: 6장 - 컬렉션과 시퀀스"
-date: 2026-03-23 12:00:00 +0900
+date: 2025-03-23 12:00:00 +0900
 categories: [Kotlin]
 tags: welcome introduction
 author: admin
