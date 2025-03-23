@@ -310,11 +310,3 @@ fun File.isInsideHiddenDirectory(): Boolean =
 val file = File("/Users/svtk/.HiddenDir/a.txt")
 println(file.isInsideHiddenDirectory()) // true
 ```
-
----
-
-## 마무리하며
-
-Kotlin의 컬렉션 함수형 API와 시퀀스를 적절히 활용하면, 코드의 가독성과 효율성을 동시에 확보할 수 있다. 특히 안드로이드 개발 환경에서는 데이터 가공, UI 바인딩, API 결과 처리 등 다양한 맥락에서 이러한 패턴이 매우 유용하게 적용된다.
-
-필자는 `map`, `filter`, `groupBy` 등의 표현이 더는 선택이 아닌 **현대 Kotlin 개발자의 기본 언어**라고 생각하며, 이에 익숙해지는 것이 실력 향상의 첫걸음이라 확신한다.
