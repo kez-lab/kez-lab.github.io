@@ -442,18 +442,15 @@ println(result) // [Bob, Dan]
 ### `generateSequence` – 시퀀스 직접 생성
 
 - **역할**: 초기값과 다음 값을 계산하는 람다를 기반으로 시퀀스를 생성
-
-`generateSequence`는 초기값과 다음 값을 계산하는 람다를 통해 시퀀스를 생성한다.  
-이 함수는 특히 **무한 시퀀스** 또는 **조건 기반 순차 생성**이 필요한 상황에서 유용하다.
+- **이점**: 최종 연산(sum())을 수행하기 전까지 시퀀스의 연산은 지연됨
 
 ```kotlin
 val naturalNumbers = generateSequence(0) { it + 1 }
 val numbersTo100 = naturalNumbers.takeWhile { it <= 100 }
 println(numbersTo100.sum()) // 5050
 ```
-- `generateSequence(0)`은 0부터 시작하여 계속 1씩 증가하는 시퀀스를 만든다.
-- `takeWhile`로 조건에 맞는 값(0~100)까지만 사용한다.
-- 이 방식은 **무한 루프를 안전하게 제어**하며 사용할 수 있다는 장점이 있다.
+
+- 지연계산을 통해 takeWhile는 조건을 넘는 순간 연산을 멈춤 (이게 이점인지 책에서는 따로 얘기는 없음)
 
 ### 디렉터리 구조 탐색 예제
 
@@ -469,5 +466,4 @@ println(file.isInsideHiddenDirectory()) // true
 - `generateSequence(this) { it.parentFile }`는 현재 파일에서 시작해 부모 디렉터리를 따라 위로 이동하는 시퀀스를 생성한다.
 - `any { it.isHidden }`은 해당 경로 중 하나라도 숨김 처리되어 있으면 `true`를 반환한다.
 
-> 이 예제는 반복문이나 재귀 없이 디렉터리 구조를 간결하게 탐색하는 방법을 보여준다.  
-> `generateSequence`는 트리 구조 탐색, 무한 이벤트 스트림 처리 등 다양한 곳에 활용할 수 있다.
+> 이렇게 시퀀스를 사용하여 조건을 만족하는 디렉터리를 찾은 후 더이상 상위 디렉터리를 뒤지지 않아도 되는 효율적인 연산이 가능
