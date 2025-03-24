@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Kotlin In Action 2판 람다를 사용한 프로그래밍"
+title:  "Kotlin In Action 2판 5장 람다를 사용한 프로그래밍"
 ---
 
 # 5장 람다를 사용한 프로그래밍
