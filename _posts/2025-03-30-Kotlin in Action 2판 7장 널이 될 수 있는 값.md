@@ -182,7 +182,7 @@ fun main() {
 
 ## 7.4 안전한 호출 연산자로 null 검사와 메서드 호출 합치기: `?.`
 
-보통 이런 문법을 safeCall 이라고 명명하는데 책에는 따로 나와있지 않네요
+보통 이런 문법을 safe call 이라고 한다고 알고있습니다
 
 ```kotlin
 str?.uppercase()
@@ -204,9 +204,9 @@ fun main() {
 }
 ```
 
-- 메서드 호출뿐 아니라 프로퍼티 읽기/쓰기에도 안전한 호출 연산자 사용 가능
+- 메서드 호출뿐 아니라 프로퍼티 읽기/쓰기에도 safe call 연산자 사용 가능
 
-### 널이 될 수 있는 프로퍼티를 다루기 위해 안전한 호출 사용하기
+### 널이 될 수 있는 프로퍼티를 다루기 위해 safe call 사용하기
 
 다음 예제는 `manager`라는 프로퍼티가 있는 Employee 클래스에서 안전한 호출을 사용하는 방법을 보여줌
 
@@ -267,36 +267,6 @@ fun Person.countryName() = company?.address?.country ?: "Unknown"
 - 엘비스 연산자 오른쪽에는 return이나 throw도 사용할 수 있음
 - 조건을 만족하지 않으면 즉시 함수 종료 또는 예외 발생 가능
 
-### throw와 엘비스 연산자 함께 사용하기
-
-```kotlin
-fun printShippingLabel(person: Person) {
-    val address = person.company?.address
-        ?: throw IllegalArgumentException("No address")
-
-    with(address) {
-        println(streetAddress)
-        println("$zipCode $city, $country")
-    }
-}
-
-fun main() {
-    val address = Address("Elesestr. 47", 80687, "Munich", "Germany")
-    val jetbrains = Company("JetBrains", address)
-    val person = Person("Dmitry", jetbrains)
-
-    printShippingLabel(person)
-    // 출력:
-    // Elesestr. 47
-    // 80687 Munich, Germany
-
-    printShippingLabel(Person("Alexey", null))
-    // java.lang.IllegalArgumentException: No address
-}
-```
-
-- `printShippingLabel` 함수는 address가 없으면 예외 발생시킴
-- 모든 정보가 있는 경우에만 정상 출력함
 
 ## 7.6 예외를 발생시키지 않고 안전하게 타입을 캐스트하기: `as?`
 
@@ -312,31 +282,6 @@ val otherPerson = o as? Person ?: return false
 
 - 안전한 캐스트는 엘비스 연산자와 함께 자주 사용됨
 
-### 안전한 연산자를 사용해 equals 구현하기
-
-```kotlin
-class Person(val firstName: String, val lastName: String) {
-    override fun equals(o: Any?): Boolean {
-        val otherPerson = o as? Person ?: return false
-        return otherPerson.firstName == firstName &&
-               otherPerson.lastName == lastName
-    }
-
-    override fun hashCode(): Int =
-        firstName.hashCode() * 37 + lastName.hashCode()
-}
-
-fun main() {
-    val p1 = Person("Dmitry", "Jemerov")
-    val p2 = Person("Dmitry", "Jemerov")
-    println(p1 == null)       // false
-    println(p1 == p2)         // true
-    println(p1.equals(42))    // false
-}
-```
-
-- 타입이 다르면 false 반환
-- 타입이 맞으면 스마트 캐스트 되어 내부 속성에 접근 가능
 
 ---
 
@@ -476,7 +421,7 @@ email?.let { sendEmailTo(it) }
 
 객체 생성 시점에 값을 지정할 수 없지만 null이 될 수 없는 프로퍼티가 필요한 경우가 있음. 
 
-예를 들어 안드로이드의 `onCreate`나 JUnit의 `@BeforeAll`처럼 나중에 초기화되는 구조가 이에 해당함. 하지만 코틀린에서는 널이 아닌 프로퍼티는 생성자에서 반드시 초기화해야 하므로, 보통은 nullable 타입으로 선언하고 null로 초기화하게 됨
+예를 들어 안드로이드의 `onCreate`나 JUnit의 `@BeforeAll`처럼 클래스의 생명주기에 따라서 나중에 초기화되는 구조가 이에 해당함. 하지만 코틀린에서는 널이 아닌 프로퍼티는 생성자에서 반드시 초기화해야 하므로, 보통은 nullable 타입으로 선언하고 null로 초기화하게 됨
 
 <aside>
 ⚠️
@@ -747,9 +692,9 @@ class NullableStringPrinter : StringProcessor {
 }
 ```
 
-자바 클래스나 인터페이스를 구현할 때 널 가능성을 신경 쓰지 않으면, 호출 시 `null`이 전달되었을 때 런타임 예외가 발생할 수 있음. 따라서 파라미터에 대해 널 허용 여부를 명확히 처리해야 함.
+자바 클래스나 인터페이스를 구현할 때 널 가능성을 신경 쓰지 않으면, 호출 시 `null`이 전달되었을 때 런타임 예외가 발생할 수 있음. 따라서 파라미터에 대해 널 허용 여부를 명확히 처리해야 함
 
-한마디로 자바 → 코틀린 타입 사용 시 Null 처리는 개발자 역량이다.
+한마디로 자바 → 코틀린 타입 사용 시 Null 처리는 개발자 역량이다. 라고 얘기함
 
 ## 요약
 
