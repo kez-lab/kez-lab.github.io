@@ -422,7 +422,7 @@ println(letters.joinToString(""))
 ```
 
 - `Array(size) { index -> ... }` 형태의 생성자 사용
-- 인덱스를 기반으로 `"a"`부터 `"z"`까지의 문자 문자열을 배열로 생성함
+- 인덱스를 기반으로 a~z 까지의 문자 문자열을 배열로 생성함
 
 ---
 
@@ -446,7 +446,7 @@ fun main() {
 
 - `IntArray`, `ByteArray`, `CharArray`, `BooleanArray` 등
 - 각 배열 클래스는 내부적으로 `int[]`, `char[]` 등으로 컴파일됨
-- 박싱을 방지하고 성능을 높이기 위한 목적
+- 박싱하지 않은 원시 타입의 배열이 필요할 경우를 위해 제공(성능상 이점 때문인가?! 궁금하네요)
 
 ```kotlin
 val fiveZeros = IntArray(5)
