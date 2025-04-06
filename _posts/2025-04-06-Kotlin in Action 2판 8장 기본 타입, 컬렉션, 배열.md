@@ -202,8 +202,8 @@ class NoResultProcessor : Processor {
 - `process()`는 `Unit`을 반환하므로 `return` 없이도 OK
 - `Unit`은 타입 인자로 사용할 수 있음
 
-> 자바에서는 반환 타입이 없는 함수에 대해 Void를 사용하지만, 코틀린은 Unit으로 통일함
-> 
+>자바에서는 반환값이 없는 함수에 void를 사용하지만, void는 타입이 아니므로 제네릭에서 사용할 수 없음. 
+> 코틀린은 Unit을 정식 타입으로 정의하여 void보다 더 유연하게 사용할 수 있도록 설계됨.
 
 ### 8.1.7 Nothing 타입: 이 함수는 결코 반환되지 않는다
 
