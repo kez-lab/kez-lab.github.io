@@ -104,15 +104,6 @@ fun main() {
 ```
 
 - `plusAssign` 함수를 오버로딩하면 `+=` 연산자가 해당 함수로 번역됨  
-- 반환 타입은 `Unit`이며, `operator` 키워드를 붙여야 함
-
-```kotlin
-operator fun <T> MutableCollection<T>.plusAssign(element: T) {
-    this.add(element)
-}
-```
-
-- 코틀린 표준 라이브러리는 변경 가능한 컬렉션에 대해 `plusAssign`을 이미 정의함
 
 ---
 
@@ -125,7 +116,6 @@ a += b
 // → a.plusAssign(b)
 ```
 
-> ⚠️ `plus`와 `plusAssign`을 동시에 정의하지 말 것  
 > 불변 객체에는 `plus`, 변경 가능한 객체에는 `plusAssign`을 사용하는 것이 일관된 설계임
 
 ---
@@ -135,29 +125,22 @@ a += b
 **단항 연산자(unary operator)** 도 이항 연산자와 마찬가지로  
 `operator` 키워드와 미리 정해진 함수 이름을 사용하여 오버로딩 가능함
 
----
-
 #### 단항 산술 연산자 정의하기
 
 ```kotlin
 operator fun Point.unaryMinus(): Point {
     return Point(-x, -y)
 }
-```
 
-```kotlin
 fun main() {
     val p = Point(10, 20)
     println(-p) // Point(x=-10, y=-20)
 }
 ```
-
 - `-p` → `p.unaryMinus()` 로 변환됨  
-- 단항 연산자는 **매개변수가 없음**
 
----
 
-표 9.2 오버로딩할 수 있는 단항 연산자:
+#### 표 9.2 오버로딩할 수 있는 단항 연산자
 
 | 식          | 함수 이름      |
 |-------------|----------------|
@@ -185,8 +168,7 @@ fun main() {
 ```
 
 - `++` 연산자도 `inc()` 함수로 오버로딩 가능  
-- **후위 증가(`bd++`)** → 현재 값 출력 후 증가  
-- **전위 증가(`++bd`)** → 증가 후 출력  
+- 후위, 전위 증가 매커니즘 제공
 - 자바와 동일한 의미를 제공함
 ---
 
@@ -220,9 +202,7 @@ class Point(val x: Int, val y: Int) {
         return obj.x == x && obj.y == y
     }
 }
-```
 
-```kotlin
 fun main() {
     println(Point(10, 20) == Point(10, 20)) // true
     println(Point(10, 20) != Point(5, 5))   // true
@@ -242,8 +222,6 @@ fun main() {
 코틀린은 자바의 `Comparable` 인터페이스를 그대로 사용함
 `<`, `>`, `<=`, `>=` 연산자는 내부적으로 `compareTo` 호출로 변환됨
 
----
-
 #### compareTo 메서드 구현하기
 
 ```kotlin
@@ -255,9 +233,7 @@ class Person(
         return compareValuesBy(this, other, Person::lastName, Person::firstName)
     }
 }
-```
 
-```kotlin
 fun main() {
     val p1 = Person("Alice", "Smith")
     val p2 = Person("Bob", "Johnson")
@@ -266,7 +242,7 @@ fun main() {
 ```
 
 - `compareValuesBy` 함수는 **여러 기준을 순서대로 비교**할 수 있도록 도와줌  
-- 반환값이 0보다 작으면 왼쪽이 더 작음, 0이면 같음, 0보다 크면 오른쪽이 더 작음  
+- 0과 비교하는 코드로 컴파일됨 -> `a >= b | a.compareTo(b) >= b`
 
 ---
 
@@ -283,7 +259,7 @@ fun main() {
 `[]` 연산자를 사용해 값을 읽거나 쓸 수 있음.  
 `get` 함수는 값을 읽을 때, `set` 함수는 값을 쓸 때 호출됨.
 
-#### get 관례 구현하기
+#### get 구현하기
 
 ```kotlin
 operator fun Point.get(index: Int): Int {
@@ -293,9 +269,7 @@ operator fun Point.get(index: Int): Int {
         else -> throw IndexOutOfBoundsException("Invalid coordinate $index")
     }
 }
-```
 
-```kotlin
 fun main() {
     val p = Point(10, 20)
     println(p[1]) // 20
@@ -307,7 +281,7 @@ fun main() {
 
 ---
 
-#### set 관례 구현하기
+#### set 구현하기
 
 ```kotlin
 data class MutablePoint(var x: Int, var y: Int)
@@ -319,9 +293,7 @@ operator fun MutablePoint.set(index: Int, value: Int) {
         else -> throw IndexOutOfBoundsException("Invalid coordinate $index")
     }
 }
-```
 
-```kotlin
 fun main() {
     val p = MutablePoint(10, 20)
     p[1] = 42
@@ -339,7 +311,7 @@ fun main() {
 `in` 연산자를 사용해 **객체가 컬렉션이나 범위에 포함되는지 검사**할 수 있음.  
 이는 내부적으로 `contains` 함수 호출로 변환됨.
 
-#### contains 관례 구현하기
+#### contains 구현하기
 
 ```kotlin
 data class Rectangle(val upperLeft: Point, val lowerRight: Point)
@@ -376,44 +348,6 @@ println(LocalDate.now().plusWeeks(1) in vacation) // true
 
 ---
 
-### 9.3.4 자신의 타입에 대해 루프 수행: iterator 관례
-
-`for (x in ...)` 루프에서 **객체가 Iterable이 아니어도**  
-`iterator()` 함수를 정의하면 루프 사용 가능함.
-
-#### 날짜 범위에 대한 이터레이터 구현하기
-
-```kotlin
-import java.time.LocalDate
-
-operator fun ClosedRange<LocalDate>.iterator(): Iterator<LocalDate> =
-    object : Iterator<LocalDate> {
-        var current = start
-
-        override fun hasNext() = current <= endInclusive // endInclusive가 뭔지 잘 모르겠음 
-
-        override fun next(): LocalDate {
-            val thisDate = current
-            current = current.plusDays(1)
-            return thisDate
-        }
-    }
-
-fun main() {
-    val newYear = LocalDate.ofYearDay(2042, 1)
-    val daysOff = newYear.minusDays(1)..newYear
-
-    for (dayOff in daysOff) {
-        println(dayOff)
-    }
-    // 2041-12-31
-    // 2042-01-01
-}
-```
-
-- 이터레이터는 반드시 `hasNext()`와 `next()` 함수를 구현해야 함  
-
----
 ## 9.4 component 함수를 사용해 구조 분해 선언 제공
 
 구조 분해 선언은 여러 값을 한 번에 변수로 분해해 할당하는 문법임.  
