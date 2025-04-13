@@ -1,0 +1,37 @@
+<nav class="nav">
+  <div class="nav-container">
+    <a href="{{ site.baseurl }}/">
+      <h2 class="nav-title">{{ site.title }}</h2>
+    </a>
+    <ul>
+      <li><a href="{{ site.baseurl }}/">Home</a></li>
+      <li><a href="{{ '/android' | prepend: site.baseurl }}">Android</a></li>
+      <li><a href="{{ '/kotlin' | prepend: site.baseurl }}">Kotlin</a></li>
+      <li><a href="{{ '/ai' | prepend: site.baseurl }}">AI</a></li>
+      <li><a href="{{ '/web' | prepend: site.baseurl }}">Web</a></li>
+      <li><a href="{{ '/tags' | prepend: site.baseurl }}">Tags</a></li>
+      <li><a href="{{ '/about' | prepend: site.baseurl }}">About</a></li>
+      <li><button id="theme-toggle" aria-label="다크 모드 전환">🌓</button></li>
+    </ul>
+  </div>
+</nav>
+
+<script>
+  // 테마 토글 버튼 기능
+  const themeToggle = document.getElementById('theme-toggle');
+  
+  themeToggle.addEventListener('click', () => {
+    // 현재 테마 확인
+    const isDarkTheme = document.body.classList.contains('dark-theme');
+    
+    if (isDarkTheme) {
+      // 다크 모드 해제
+      document.body.classList.remove('dark-theme');
+      localStorage.setItem('theme', 'light');
+    } else {
+      // 다크 모드 적용
+      document.body.classList.add('dark-theme');
+      localStorage.setItem('theme', 'dark');
+    }
+  });
+</script>

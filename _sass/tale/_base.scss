@@ -1,0 +1,187 @@
+* {
+  @include box-sizing;
+  line-height: 1.5;
+}
+
+html,
+body {
+  color: $default-color;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: $serif-primary;
+  font-size: 14px;
+  overflow-y: scroll;
+
+  @media (min-width: 600px) {
+    font-size: 16px;
+  }
+}
+
+body {
+  -webkit-text-size-adjust: 100%;
+  background-color: $white;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: $default-shade;
+  font-family: $sans-serif;
+  line-height: normal;
+}
+
+a {
+  color: $blue;
+  text-decoration: none;
+}
+
+blockquote {
+  border-left: .25rem solid $grey-2;
+  color: $grey-1;
+  margin: .8rem 0;
+  padding: .5rem 1rem;
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (min-width: 600px) {
+    padding: 0 5rem 0 1.25rem;
+  }
+}
+
+img {
+  display: block;
+  margin: 0 0 1rem;
+  max-width: 100%;
+}
+
+td {
+  vertical-align: top;
+}
+
+// 다크 테마 스타일
+.dark-theme {
+  background-color: $dark-background;
+  color: $dark-text;
+  
+  .nav {
+    box-shadow: 0 2px 2px -2px rgba(255, 255, 255, 0.1);
+    
+    &-title {
+      color: $dark-text;
+    }
+    
+    a {
+      color: $dark-text;
+    }
+  }
+  
+  .nav-container {
+    background-color: $dark-background;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: $dark-text;
+  }
+  
+  a {
+    color: $dark-link;
+  }
+  
+  blockquote {
+    border-left-color: $dark-blockquote-border;
+    color: $dark-blockquote-text;
+  }
+  
+  .catalogue {
+    &-item {
+      border-bottom-color: $dark-border;
+      color: $dark-text;
+    }
+    
+    &-time {
+      color: $dark-secondary-text;
+    }
+    
+    &-title {
+      color: $dark-text;
+    }
+  }
+  
+  .post {
+    &-title {
+      color: $dark-text;
+    }
+    
+    &-line {
+      border-top-color: $dark-border;
+    }
+    
+    &-info {
+      color: $dark-secondary-text;
+    }
+  }
+  
+  footer {
+    span, a {
+      color: $dark-secondary-text;
+    }
+    
+    .footer-links a {
+      color: $dark-text;
+      
+      &:hover {
+        color: $dark-link;
+      }
+    }
+  }
+  
+  .pagination {
+    .top {
+      color: $dark-text;
+    }
+    
+    .arrow {
+      color: $dark-text;
+      
+      &:hover {
+        color: $dark-link;
+      }
+    }
+  }
+  
+  code {
+    background-color: $dark-code-background;
+    color: $dark-code-text;
+  }
+  
+  pre {
+    background-color: $dark-code-background;
+    
+    code {
+      background-color: $dark-code-background;
+    }
+  }
+  
+  .highlight {
+    background-color: $dark-code-background;
+  }
+  
+  table {
+    th {
+      background-color: $dark-card-background;
+      border-color: $dark-border;
+    }
+    
+    td {
+      border-color: $dark-border;
+    }
+  }
+}

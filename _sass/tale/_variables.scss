@@ -1,0 +1,41 @@
+// Colors
+$default-color: #555 !default;
+$default-shade: #353535 !default;
+$default-tint: #aaa !default;
+$grey-1: #979797 !default;
+$grey-2: #e5e5e5 !default;
+$grey-3: #f9f9f9 !default;
+$white: #fff !default;
+$blue: #4a9ae1 !default;
+$shadow-color: rgba(0, 0, 0, .2) !default;
+$code-color: #bf616a !default;
+
+// 다크 모드 색상
+$dark-background: #121212 !default;
+$dark-card-background: #1e1e1e !default;
+$dark-text: #e0e0e0 !default;
+$dark-secondary-text: #b3b3b3 !default;
+$dark-border: #333 !default;
+$dark-link: #6da8ff !default;
+$dark-code-background: #2d2d2d !default;
+$dark-code-text: #f8f8f8 !default;
+$dark-blockquote-border: #444 !default;
+$dark-blockquote-text: #c0c0c0 !default;
+
+// Fonts
+$serif-primary: 'Noto Sans KR', sans-serif !default;
+$serif-secondary: 'Noto Sans KR', sans-serif !default;
+$sans-serif: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
+$monospaced: Menlo, Monaco, monospace !default;
+
+@mixin box-sizing($type: border-box) {
+  -webkit-box-sizing: $type;
+     -moz-box-sizing: $type;
+          box-sizing: $type;
+}
+
+@mixin transition($args...) {
+  -webkit-transition: $args;
+     -moz-transition: $args;
+          transition: $args;
+}

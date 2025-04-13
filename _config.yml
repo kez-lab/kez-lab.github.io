@@ -1,40 +1,57 @@
-title:              Kez Lab
-email:              kez.lab.dev@gmail.com
-description:        Android, Kotlin, AI, Web 개발 관련 기술 블로그
-author:             Kez
-baseurl:            ""
-url:                "https://kez-lab.github.io"
+# Site settings
+title:          "KEZ Lab"
+description:    "Android, Kotlin, AI, Web 개발 기술을 공유하는 기술 블로그 | 안드로이드, 코틀린, 인공지능, 웹 개발"
+baseurl:        ""
+url:            "https://kez-lab.github.io"
+lang:           "ko-KR"
+locale:         "ko_KR"
+author:         "KEZ"
+logo:           "/assets/images/kez-logo.png"
 
-# SEO Settings
-keywords:           "Android, Kotlin, 코틀린, 안드로이드, 인공지능, AI, 웹개발, Web, 개발자, 프로그래밍, 개발블로그"
-lang:               ko_KR
-locale:             ko_KR
-author_image:       /img/author.jpg
+# Google Analytics
+google_analytics: UA—XXXXXXXX-X
 
-# Social Profiles
-twitter_username:   
-github_username:    kez-lab
-facebook_username:  
-instagram_username:  
-linkedin_username:
+# Author
+author:
+  name:         KEZ
+  url:          https://kez-lab.github.io
+  email:        yuijin0909@gmail.com
+  twitter:      # 트위터 계정이 있다면 추가
+  github:       kez-lab
+  linkedin:     # 링크드인 계정이 있다면 추가
 
-# Add your google-analytics ID here to activate google analytics
-google_analytics:   UA-XXXXXXXXX-X # out your google-analytics code
+# Social
+social:
+  name: KEZ Lab
+  links:
+    - https://github.com/kez-lab
+    # - https://twitter.com/ # 트위터 계정이 있다면 추가
+    # - https://www.linkedin.com/in/ # 링크드인 계정이 있다면 추가
 
 # Build settings
-markdown:           kramdown
-paginate:           5
-paginate_path:      "/posts/page:num/"
+markdown:       kramdown
+include:
+  - _pages
+
+# Assets
+sass:
+  sass_dir:     _sass
+  style:        compressed
+
+# Gems
 plugins:
   - jekyll-feed
   - jekyll-paginate
-  - jekyll-sitemap
   - jekyll-seo-tag
+  - jekyll-sitemap # SEO 최적화를 위한 사이트맵 추가
+  # - jemoji #Uncomment this to allow emoji in your post
 
-# Exclude from processing
-exclude:
-  - Gemfile
-  - Gemfile.lock
-  - node_modules
-  - package.json
-  - package-lock.json
+# Permalinks
+permalink:      /:year-:month-:day/:title
+paginate:       10
+
+# Excludes
+exclude: [ Gemfile, Gemfile.lock, tale.gemspec ]
+
+# Disqus (Set to your disqus id)
+disqus:         kez-lab
