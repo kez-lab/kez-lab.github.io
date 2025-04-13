@@ -53,4 +53,323 @@ h1, h2, h3, h4, h5, h6 {
   .post-preview > a > .post-title {
     font-size: 26px;
   }
+}
+
+// 코드 블록 스타일 개선
+pre.highlight,
+.highlight pre {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  padding: 16px;
+  margin: 20px 0;
+  overflow-x: auto;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+// 코드 구문 강조 색상 (GitHub 스타일 기반)
+.highlight {
+  .c, .c1, .cm { color: #6a737d; font-style: italic; } // 주석
+  .k, .kd, .kn, .kt { color: #d73a49; font-weight: bold; } // 키워드
+  .s, .s1, .s2, .sb, .sc, .sd, .se, .sh, .si, .sx { color: #032f62; } // 문자열
+  .na, .nb { color: #6f42c1; } // 이름, 내장 함수
+  .nc, .nd, .ne, .nf { color: #6f42c1; font-weight: bold; } // 클래스, 함수
+  .nl { color: #6f42c1; } // 네임스페이스
+  .m, .mf, .mh, .mi, .mo, .il { color: #005cc5; } // 숫자
+  .o, .ow { color: #d73a49; } // 연산자
+  .p { color: #24292e; } // 괄호
+  .cp, .cs { color: #22863a; } // 전처리기, 특수 주석
+  .gd { color: #b31d28; background-color: #ffeef0; } // 삭제된 코드
+  .gi { color: #22863a; background-color: #f0fff4; } // 추가된 코드
+  .nt { color: #22863a; } // HTML/XML 태그
+  .w { color: #bbbbbb; } // 공백
+  .bp { color: #005cc5; } // self 키워드
+  .gu { color: #6f42c1; font-weight: bold; } // 제네릭
+  .nn { color: #e36209; } // 네임스페이스
+  .py { color: #22863a; } // 속성 이름
+  .nv { color: #24292e; } // 변수
+  .ss { color: #005cc5; } // 심볼
+  .sr { color: #032f62; } // 정규식
+}
+
+// 인라인 코드
+code {
+  background-color: rgba(27, 31, 35, 0.05);
+  border-radius: 3px;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 0.9em;
+  color: #e83e8c;
+  
+  .highlight & {
+    background-color: transparent;
+    padding: 0;
+    color: inherit;
+  }
+}
+
+// 목록 스타일 개선
+ul, ol {
+  margin-bottom: 20px;
+  padding-left: 25px;
+  
+  li {
+    margin-bottom: 8px;
+  }
+  
+  ul, ol {
+    margin-top: 8px;
+  }
+}
+
+// 인용문 스타일
+blockquote {
+  border-left: 5px solid #3498db;
+  padding: 15px 20px;
+  margin: 20px 0;
+  background-color: #f8f9fa;
+  
+  p {
+    margin-bottom: 0;
+    font-style: italic;
+    color: #555;
+  }
+  
+  cite {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.9em;
+  }
+}
+
+// 표 스타일
+table {
+  width: 100%;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+  
+  th, td {
+    padding: 12px 15px;
+    border: 1px solid #dee2e6;
+  }
+  
+  th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    text-align: left;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f8f9fa;
+  }
+}
+
+// 수평선
+hr {
+  margin: 30px 0;
+  border: 0;
+  height: 1px;
+  background-color: #dee2e6;
+}
+
+// 이미지 스타일
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 20px auto;
+  border-radius: 4px;
+}
+
+// 제목별 스타일 개선
+h2 {
+  margin-top: 35px;
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 10px;
+}
+
+h3 {
+  margin-top: 25px;
+}
+
+// 참고 노트 스타일
+.note {
+  background-color: #fff3cd;
+  border-left: 4px solid #ffc107;
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 0 4px 4px 0;
+  
+  &.info {
+    background-color: #d1ecf1;
+    border-left-color: #17a2b8;
+  }
+  
+  &.warning {
+    background-color: #ffebee;
+    border-left-color: #dc3545;
+  }
+  
+  &.tip {
+    background-color: #d4edda;
+    border-left-color: #28a745;
+  }
+}
+
+// 코드 파일명 표시
+.code-header {
+  background-color: #e9ecef;
+  border: 1px solid #e9ecef;
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  font-size: 0.85em;
+  padding: 8px 16px;
+  color: #495057;
+  
+  + pre.highlight {
+    margin-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
+
+// 코드 블록 라인 숫자
+.highlight {
+  pre {
+    position: relative;
+    counter-reset: line;
+    
+    > code {
+      display: block;
+      padding-left: 4em;
+      counter-increment: line;
+      background-color: transparent;
+      color: #24292e;
+    }
+  }
+  
+  // 코드 블록 라인 번호 스타일
+  .line-number {
+    position: absolute;
+    left: 0;
+    width: 2.5em;
+    text-align: right;
+    color: rgba(27, 31, 35, 0.3);
+    padding-right: 1em;
+    border-right: 1px solid #e1e4e8;
+    user-select: none;
+  }
+}
+
+// 코드 복사 버튼
+.code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  .button-group {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .copy-code-button,
+  .theme-toggle-button {
+    background-color: #f1f1f1;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.8em;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background-color: #e1e1e1;
+    }
+    
+    &:active {
+      background-color: #d1d1d1;
+    }
+  }
+  
+  .copy-code-button.copied {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  .theme-toggle-button {
+    background-color: #e9ecef;
+    color: #495057;
+    
+    &:hover {
+      background-color: #dee2e6;
+    }
+  }
+}
+
+// 특정 기술 관련 코드 하이라이트 개선
+.language-kotlin,
+.language-kotlin .highlight,
+.kotlin .highlight {
+  .kd, .kt { color: #0033b3; } // 키워드
+  .nc { color: #008080; } // 클래스
+  .nf { color: #7A7A43; } // 함수
+  .s, .s1, .s2 { color: #067d17; } // 문자열
+  .c1, .cm { color: #8c8c8c; } // 주석
+  .mi { color: #1750eb; } // 숫자
+}
+
+.language-java,
+.language-java .highlight,
+.java .highlight {
+  .kd, .kt { color: #0033b3; } // 키워드
+  .nc { color: #008080; } // 클래스
+  .nf { color: #7A7A43; } // 함수
+  .s, .s1, .s2 { color: #067d17; } // 문자열
+  .c1, .cm { color: #8c8c8c; } // 주석
+  .mi { color: #1750eb; } // 숫자
+}
+
+.language-xml,
+.language-xml .highlight,
+.xml .highlight {
+  .nt { color: #22863a; } // 태그
+  .na { color: #6f42c1; } // 속성
+  .s, .s1, .s2 { color: #032f62; } // 문자열
+}
+
+// 안드로이드 스튜디오 스타일 코드 블록
+.android-studio-theme {
+  pre.highlight, 
+  .highlight pre {
+    background-color: #2b2b2b;
+    border-color: #323232;
+    color: #a9b7c6;
+    
+    .c, .c1, .cm { color: #808080; } // 주석
+    .k, .kd, .kn, .kt { color: #cc7832; } // 키워드
+    .s, .s1, .s2 { color: #6a8759; } // 문자열
+    .na, .nb { color: #9876aa; } // 이름, 내장 함수
+    .nc, .nf { color: #ffc66d; } // 클래스, 함수
+    .m, .mi { color: #6897bb; } // 숫자
+    .o, .ow { color: #a9b7c6; } // 연산자
+    
+    code {
+      color: #a9b7c6;
+    }
+    
+    .line-number {
+      color: rgba(169, 183, 198, 0.3);
+      border-right-color: #323232;
+    }
+  }
+  
+  .code-header {
+    background-color: #323232;
+    border-color: #323232;
+    color: #a9b7c6;
+  }
 } 
