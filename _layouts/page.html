@@ -2,21 +2,33 @@
 layout: default
 ---
 
-<main class="main container">
-  <article class="page">
-    <header class="page-header">
-      <h1 class="page-title">{{ page.title | escape }}</h1>
-      {% if page.subtitle %}
-        <p class="page-subtitle">{{ page.subtitle | escape }}</p>
-      {% endif %}
-    </header>
-
-    <div class="page-content">
-      {{ content }}
+<!-- Page Header -->
+{% if page.background %}
+<header class="masthead" style="background-image: url('{{ page.background | prepend: site.baseurl | replace: '//', '/' }}')">
+  {% else %}
+  <header class="masthead">
+    {% endif %}
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="page-heading">
+            <h1>{{ page.title }}</h1>
+            {% if page.description %}
+            <span class="subheading">{{ page.description }}</span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
     </div>
-  </article>
+  </header>
 
-  {% if page.aside == true %}{% include site-aside.html %}{% endif %}
-</main>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
 
-{% include site-footer.html %}
+        {{ content }}
+
+      </div>
+    </div>
+  </div>

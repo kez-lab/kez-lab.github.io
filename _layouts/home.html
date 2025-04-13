@@ -2,98 +2,65 @@
 layout: default
 ---
 
-<div class="home">
-  <section class="hero">
-    <div class="hero-content">
-      <h1 class="hero-title">{{ site.title }}</h1>
-      <p class="hero-description">{{ site.description }}</p>
-      
-      <div class="hero-buttons">
-        <a href="{{ '/blog' | relative_url }}" class="btn">Read Blog</a>
-        <a href="{{ '/about' | relative_url }}" class="btn btn-outline">About Me</a>
+<!-- Page Header -->
+{% if page.background %}
+<header class="masthead" style="background-image: url('{{ page.background | prepend: site.baseurl | replace: '//', '/' }}')">
+  {% else %}
+  <header class="masthead">
+    {% endif %}
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="page-heading">
+            <h1>{{ site.title }}</h1>
+            {% if site.description %}
+            <span class="subheading">{{ site.description }}</span>
+            {% endif %}
+          </div>
+        </div>
       </div>
     </div>
-  </section>
+  </header>
 
-  {% if site.posts.size > 0 %}
-  <section class="latest-posts">
-    <h2 class="section-title">Latest Posts</h2>
-    
-    <div class="post-grid">
-      {% for post in site.posts limit:3 %}
-        <div class="post-grid-item">
-          {% include post-card.html post=post %}
-        </div>
-      {% endfor %}
-    </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
 
-    <div class="see-all-posts">
-      <a href="{{ '/blog' | relative_url }}" class="btn btn-outline">See All Posts</a>
-    </div>
-  </section>
-  {% endif %}
+        {{ content }}
 
-  {% if site.categories.size > 0 %}
-  <section class="categories-section">
-    <h2 class="section-title">Categories</h2>
-    <div class="category-cloud">
-      {% for category in site.categories %}
-        <a href="{{ '/categories#' | append: category[0] | slugify | relative_url }}" class="category-badge">
-          {{ category[0] }} <span class="category-count">({{ category[1].size }})</span>
-        </a>
-      {% endfor %}
+        <!-- Home Post List -->
+        {% for post in site.posts limit : 5 %}
+
+        <article class="post-preview">
+          <a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">
+            <h2 class="post-title">{{ post.title }}</h2>
+            {% if post.subtitle %}
+            <h3 class="post-subtitle">{{ post.subtitle }}</h3>
+            {% else %}
+            <h3 class="post-subtitle">{{ post.excerpt | strip_html | truncatewords: 15 }}</h3>
+            {% endif %}
+          </a>
+          <p class="post-meta">Posted by
+            {% if post.author %}
+            {{ post.author }}
+            {% else %}
+            {{ site.author }}
+            {% endif %}
+            on
+            {{ post.date | date: '%B %d, %Y' }} &middot; {% include read_time.html content=post.content %}            
+          </p>
+        </article>
+
+        <hr>
+
+        {% endfor %}
+
+        <!-- Pager -->
+        <div class="clearfix">
+          <a class="btn btn-primary float-right" href="{{"/posts" | relative_url }}">View All Posts &rarr;</a>
+        </div>
+
+      </div>
     </div>
-  </section>
-  {% endif %}
-  
-  <section class="featured-section">
-    <h2 class="section-title">Featured Projects</h2>
-    
-    <div class="projects-grid">
-      {% for project in site.projects limit:2 %}
-        <div class="project-card">
-          <div class="project-card__content">
-            <h3 class="project-card__title">{{ project.title }}</h3>
-            <p class="project-card__description">{{ project.description | truncate: 120 }}</p>
-            <div class="project-card__tech">
-              {% for tech in project.technologies %}
-                <span class="tech-tag">{{ tech }}</span>
-              {% endfor %}
-            </div>
-            <div class="project-card__links">
-              {% if project.demo_url %}
-                <a href="{{ project.demo_url }}" class="btn btn-small" target="_blank">Live Demo</a>
-              {% endif %}
-              {% if project.repo_url %}
-                <a href="{{ project.repo_url }}" class="btn btn-small btn-outline" target="_blank">Source Code</a>
-              {% endif %}
-            </div>
-          </div>
-        </div>
-      {% else %}
-        <div class="project-card">
-          <div class="project-card__content">
-            <h3 class="project-card__title">Sample Project 1</h3>
-            <p class="project-card__description">A modern web application built with React and Node.js that helps developers track their coding time.</p>
-            <div class="project-card__tech">
-              <span class="tech-tag">React</span>
-              <span class="tech-tag">Node.js</span>
-              <span class="tech-tag">MongoDB</span>
-            </div>
-          </div>
-        </div>
-        <div class="project-card">
-          <div class="project-card__content">
-            <h3 class="project-card__title">Sample Project 2</h3>
-            <p class="project-card__description">An open-source utility library for JavaScript developers with focus on performance and modularity.</p>
-            <div class="project-card__tech">
-              <span class="tech-tag">JavaScript</span>
-              <span class="tech-tag">TypeScript</span>
-              <span class="tech-tag">WebPack</span>
-            </div>
-          </div>
-        </div>
-      {% endfor %}
-    </div>
-  </section>
-</div>
+  </div>

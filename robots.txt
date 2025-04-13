@@ -1,6 +1,5 @@
 # www.robotstxt.org/
 # Allow crawling of all content
-
 User-agent: *
 Allow: /
-Sitemap: https://kez-lab.github.io/sitemap.xml
+Sitemap: https://kez-lab.github.io/sitemap.xml 

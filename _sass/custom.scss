@@ -1,0 +1,56 @@
+// 한글 폰트 및 기타 커스텀 스타일
+body {
+  font-family: 'Noto Sans KR', 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Noto Sans KR', 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+}
+
+.post-preview {
+  > a {
+    > .post-title {
+      margin-top: 20px;
+      margin-bottom: 10px;
+      font-size: 30px;
+    }
+    > .post-subtitle {
+      font-weight: 400;
+      margin: 0 0 10px;
+    }
+  }
+}
+
+.site-heading {
+  padding: 100px 0 50px;
+  color: white;
+  text-align: center;
+}
+
+.intro-header {
+  .site-heading {
+    padding: 150px 0;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .site-heading {
+    padding: 150px 0;
+  }
+}
+
+// 모바일 최적화
+@media only screen and (max-width: 767px) {
+  .site-heading {
+    h1 {
+      font-size: 40px;
+    }
+    .subheading {
+      font-size: 20px;
+    }
+  }
+  .post-preview > a > .post-title {
+    font-size: 26px;
+  }
+} 
