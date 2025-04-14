@@ -524,7 +524,9 @@ class Person(val name: String) {
 
 ### 9.5.3 위임 프로퍼티 구현
 
-#### 직접 구현: 중복 제거
+예시는 너무 길어서 Observable 정의 같은 부분은 생략
+
+#### 프로퍼티 변경 통지를 클래스로 구현
 
 ```kotlin
 class ObservableProperty(var propValue: Int, val observable: Observable) {
@@ -554,6 +556,8 @@ class Person(val name: String, age: Int, salary: Int): Observable() {
 
 #### 표준 라이브러리 사용: Delegates.observable
 
+표준 라이브러리를 사용하면 옵저버블한 변수 로직을 작성하지 않아도 됨
+
 ```kotlin
 import kotlin.properties.Delegates
 
@@ -567,8 +571,7 @@ class Person(val name: String, age: Int, salary: Int): Observable() {
 }
 ```
 
-- `Delegates.observable` 함수는 변경 시 호출될 람다를 인자로 받음  
-- 표준 위임 객체를 통해 **짧고 안전한 변경 감지 구현**이 가능함
+- `Delegates.observable` 함수는 변경 시 호출될 람다를 인자로 받음
 
 ---
 
@@ -616,29 +619,13 @@ class Person {
 ```
 
 - `name` 프로퍼티는 내부적으로 `_attributes["name"]` 을 사용해 값을 읽음  
-- **`getValue`/`setValue` 확장 함수**가 맵에 대해 정의되어 있음  
-- 코틀린에서는 맵 위임을 통해 **동적 속성 관리**가 가능함
-
-#### 맵에 저장하는 위임 프로퍼티 사용하기
-
-```kotlin
-class Person {
-    private val _attributes = mutableMapOf<String, String>()
-
-    fun setAttribute(attrName: String, value: String) {
-        _attributes[attrName] = value
-    }
-
-    var name: String by _attributes
-}
-```
+- **`getValue`/`setValue` 확장 함수**가 Map, MutableMap 인터페이스에 대해 정의되어 있기에 위임 가능
 
 ---
 
 ### 9.5.6 실전 프레임워크가 위임 프로퍼티를 활용하는 방법
 
-**Exposed** 같은 ORM 프레임워크에서는 데이터베이스 테이블과 엔티티 간의 매핑을  
-**위임 프로퍼티**를 통해 간결하게 구현함.
+책에서 예시로 든 **Exposed** 라는 ORM 프레임워크에서는 데이터베이스 테이블과 엔티티 간의 매핑을 위임을 통해 간결하게 구현함.
 
 #### 위임 프로퍼티를 사용한 데이터베이스 칼럼 접근
 
@@ -670,7 +657,7 @@ operator fun <T> Column<T>.setValue(o: Entity, desc: KProperty<*>, value: T) {
 
 ---
 
-## ✅ 9장 요약
+## 9장 요약
 
 - **연산자 오버로딩**: `plus`, `times`, `compareTo`, `equals` 등 연산자 대응 함수 정의로 사용자 정의 타입에서도 연산자 사용 가능
 - **비교 연산자**: `==` → `equals`, `<` → `compareTo` 로 컴파일됨
