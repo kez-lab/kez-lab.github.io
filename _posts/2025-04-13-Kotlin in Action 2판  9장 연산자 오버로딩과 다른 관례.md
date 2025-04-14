@@ -37,11 +37,16 @@ data class Point(val x: Int, val y: Int) {
         return Point(x + other.x, y + other.y)
     }
 }
+
+operator fun Point.plus(other: Point): Point {
+    return Point(x + other.x, y + other.y)
+}
 ```
 
 - `+` 연산자를 `plus` 함수로 오버로딩한 예제임  
 - 반드시 **`operator` 키워드**를 붙여야 관례에 따른 연산자 오버로딩이 가능함  
 - 내부적으로 `a + b` 는 `a.plus(b)` 로 변환되어 호출됨
+- 클래스 내부가 아닌 **외부 확장 함수**로도 연산자 오버로딩이 가능함
 
 ```kotlin
 fun main() {
@@ -50,20 +55,6 @@ fun main() {
     println(p1 + p2) // Point(x=40, y=60)
 }
 ```
-
----
-
-#### `plus` 연산자 확장 함수로 정의하기
-
-```kotlin
-operator fun Point.plus(other: Point): Point {
-    return Point(x + other.x, y + other.y)
-}
-```
-
-- 클래스 내부가 아닌 **외부 확장 함수**로도 연산자 오버로딩이 가능함  
-- 관례에 따라 메서드 이름을 정의하면, 해당 연산자 문법을 사용할 수 있음  
-- **직접 작성한 클래스에도 확장 함수 방식으로 연산자 오버로딩을 적용**할 수 있음
 
 ---
 
