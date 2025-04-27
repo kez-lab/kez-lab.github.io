@@ -262,7 +262,7 @@ fun List<SiteVisit>.averageDurationFor(predicate: (SiteVisit) -> Boolean) =
     filter(predicate).map(SiteVisit::duration).average()
 ```
 
-- OS 뿐만 아니라 다양한 조건에 대해 재사용 가능함.
+- predicate 함수를 파람으로 넘김으로 OS 뿐만 아니라 다양한 조건에 대해 재사용 가능함.
 
 ---
 
