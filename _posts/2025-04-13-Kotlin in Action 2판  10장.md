@@ -5,8 +5,8 @@ date: 2025-04-28 12:00:00 +0900
 categories: [Kotlin, Kotlin In Action 2, 코틀린 인 액션 2판]
 tags: Kotlin in Action 2판 10장 고차 함수: 람다를 파라미터와 반환값으로 사용
 author: admin
-
 ---
+
 # Kotlin In Action 2판 정리 - 10장 고차 함수
 
 ## 10 고차 함수: 람다를 파라미터와 반환값으로 사용
@@ -86,7 +86,8 @@ fun main() {
 
 ## filter 함수 직접 구현하기
 
-### String.filter 구현 예
+### String.filter 구현 예(매개변수로 술어를 취하는 함수 선언)
+![image](https://github.com/user-attachments/assets/0841861f-5357-40d6-8a33-3860f959edbc)
 
 ```kotlin
 fun String.filter(predicate: (Char) -> Boolean): String {
