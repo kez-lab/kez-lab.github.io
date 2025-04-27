@@ -27,11 +27,15 @@ author: admin
 
 - 다른 함수를 인자로 받거나 반환하는 함수임.
 - 람다나 함수 참조를 인자로 넘기거나 반환함.
-- 예: `list.filter { it > 0 }`
+- filter, map 등이 대표적 고차 함수.
 
-### 고차 함수 정의 방법
+**예시:**
+```kotlin
+list.filter { it > 0 }
+```
+- `filter`는 술어 함수 `(T) -> Boolean`을 인자로 받음.
 
-- 함수 타입 이해해야 함.
+### 함수 타입은 람다의 파라미터 타입과 반환 타입을 지정한다
 
 ```kotlin
 val sum = { x: Int, y: Int -> x + y }
@@ -40,20 +44,23 @@ val action = { println(42) }
 
 컴파일러가 함수 타입 추론함.
 
+실제 타입을 명시했을 때 예시
+
 ```kotlin
 val sum: (Int, Int) -> Int = { x, y -> x + y }
 val action: () -> Unit = { println(42) }
 ```
 
-- 함수 타입 문법: `(Int, String) -> Unit`
-- Unit 반환 시에도 명시 필요함.
+- Unit 반환 시에도 명시해야 함.
+- 람다 내부에서는 타입 생략 가능.
 
-### 널 가능성과 함수 타입
+### Nullable 처리
 
 ```kotlin
 var canReturnNull: (Int, Int) -> Int? = { x, y -> null }
 var funOrNull: ((Int, Int) -> Int)? = null
 ```
+![image](https://github.com/user-attachments/assets/bb8238b6-c27b-49b6-a92c-6a58742b66c1)
 
 괄호 위치에 따라 의미 달라짐.  
 반환 타입이 널인지, 함수 전체가 널인지 구분함.
@@ -76,9 +83,9 @@ fun main() {
 }
 ```
 
-- 호출 구문은 일반 함수와 같음.
+- 함수 타입을 인자로 받아 호출함.
+- 일반 함수처럼 괄호로 호출.
 - 파라미터 이름은 타입 검사에 영향 없음.
-- IDE가 코드 완성에 도움 줌.
 
 ---
 
@@ -96,9 +103,7 @@ fun String.filter(predicate: (Char) -> Boolean): String {
     }
 }
 ```
-
-- buildString과 이터레이터 사용.
-- 각 문자에 대해 predicate 적용.
+- 각 문자를 predicate로 검사하여 true면 결과 문자열에 추가
 
 ---
 
@@ -140,8 +145,7 @@ fun <T> Collection<T>.joinToString(
 ): String
 ```
 
-- transform 기본값 지정 가능.
-- 호출 시 다양한 방식 지원.
+- transform 기본값 지정을 통해서 T 객체의 toString() 지원이 불확실할 경우에 대비할 수 있음
 
 ### 널이 될 수 있는 함수 타입
 
@@ -173,6 +177,7 @@ fun <T> Collection<T>.joinToString(
 }
 ```
 
+아니 그래서 뭘 얘기하고 싶은건지 도저히 모르겠음 ㅡㅡ 맥락 파악이 안되네
 ---
 
 ## 10.1.5 함수를 반환하는 함수
@@ -188,6 +193,12 @@ fun getShippingCostCalculator(delivery: Delivery): (Order) -> Double {
         return { order -> 6 + 2.1 * order.itemCount }
     }
     return { order -> 1.2 * order.itemCount }
+}
+
+fun main() {
+    val calculator = getShippingCostCalculator(Delivery.EXPEDITED)
+    println("Shipping costs ${calculator(Order(3))}")
+    // Shipping costs 12.3
 }
 ```
 
