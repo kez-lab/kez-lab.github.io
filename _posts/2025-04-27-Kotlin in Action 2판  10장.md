@@ -55,15 +55,15 @@ val action: () -> Unit = { println(42) }
 - 람다 내부에서는 타입 생략 가능.
 
 ### Nullable 처리
+![image](https://github.com/user-attachments/assets/bb8238b6-c27b-49b6-a92c-6a58742b66c1)
 
 ```kotlin
 var canReturnNull: (Int, Int) -> Int? = { x, y -> null }
 var funOrNull: ((Int, Int) -> Int)? = null
 ```
-![image](https://github.com/user-attachments/assets/bb8238b6-c27b-49b6-a92c-6a58742b66c1)
 
-괄호 위치에 따라 의미 달라짐.  
-반환 타입이 널인지, 함수 전체가 널인지 구분함.
+- 괄호 위치에 따라 의미 달라짐.  
+- 반환 타입이 널인지, 함수 전체가 널인지 구분함.
 
 ---
 
