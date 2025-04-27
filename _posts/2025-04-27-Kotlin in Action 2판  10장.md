@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Kotlin in Action 2판 10장 고차 함수 람다를 파라미터와 반환값으로 사용"
-date: 2025-04-28 12:00:00 +0900
+date: 2025-04-27 12:00:00 +0900
 categories: [Kotlin, Kotlin In Action 2, 코틀린 인 액션 2판]
 tags: Kotlin in Action 2판 10장 고차 함수 람다를 파라미터와 반환값으로 사용
 author: admin
