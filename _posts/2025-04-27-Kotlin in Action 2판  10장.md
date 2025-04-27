@@ -147,6 +147,8 @@ fun <T> Collection<T>.joinToString(
 
 - transform 기본값 지정을 통해서 T 객체의 toString() 지원이 불확실할 경우에 대비할 수 있음
 
+다른 접근 방식으로 기본 값 대신 Nullable한 형식을 사용할 수 있음
+
 ### 널이 될 수 있는 함수 타입
 
 ```kotlin
@@ -155,7 +157,7 @@ fun foo(callback: (() -> Unit)?) {
 }
 ```
 
-- invoke 안전 호출 가능함.
+- nullable한 함수 타입의 경우 invoke 안전 호출 가능함.
 
 joinToString 개선 버전:
 
@@ -177,7 +179,6 @@ fun <T> Collection<T>.joinToString(
 }
 ```
 
-아니 그래서 뭘 얘기하고 싶은건지 도저히 모르겠음 ㅡㅡ 맥락 파악이 안되네
 
 ## 10.1.5 함수를 반환하는 함수
 
