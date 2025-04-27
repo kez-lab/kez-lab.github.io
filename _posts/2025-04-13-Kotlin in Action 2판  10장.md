@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "Kotlin in Action 2판 10장 고차 함수: 람다를 파라미터와 반환값으로 사용"
+title: "Kotlin in Action 2판 10장 고차 함수 람다를 파라미터와 반환값으로 사용"
 date: 2025-04-28 12:00:00 +0900
 categories: [Kotlin, Kotlin In Action 2, 코틀린 인 액션 2판]
-tags: Kotlin in Action 2판 10장 고차 함수: 람다를 파라미터와 반환값으로 사용
+tags: Kotlin in Action 2판 10장 고차 함수 람다를 파라미터와 반환값으로 사용
 author: admin
 ---
 
@@ -17,8 +17,6 @@ author: admin
 - 비로컬 return과 레이블
 - 익명 함수
 
-5장에서 람다를 소개함.  
-6장에서 표준 라이브러리 함수(map, with 등)를 살펴봄.  
 10장은 고차 함수 만들기와 인라인 함수 최적화 설명함.
 
 ---
