@@ -109,28 +109,100 @@ fun String.filter(predicate: (Char) -> Boolean): String {
 
 ## 10.1.3 자바와 코틀린 함수 타입
 
-- 코틀린 람다 → 자바 함수형 인터페이스로 넘길 수 있음.
-- 코틀린 함수 타입 → 자바에서 호출 가능함.
+### 코틀린 람다를 자바에서 사용할 수 있는 이유
 
-자바 호출 예:
+코틀린은 **SAM 변환(Single Abstract Method 변환)** 을 지원함.  
+- **SAM 변환**: 추상 메서드가 하나만 있는 자바 인터페이스에 코틀린 람다를 전달할 수 있게 해줌.
+- 즉, 자바 메서드가 함수형 인터페이스를 요구할 때, 코틀린 람다를 인자로 넘길 수 있음.
+
+**예시:**
+
+코틀린 고차 함수 선언:
+
+```kotlin
+fun processTheAnswer(f: (Int) -> Int) {
+    println(f(42))
+}
+```
+
+자바 호출:
 
 ```java
 processTheAnswer(number -> number + 1);
 ```
 
-- 자바에서는 Unit.INSTANCE 반환 필요함.
+- `number -> number + 1`은 `(Int) -> Int` 함수 타입을 만족하는 람다.
+- 자바에서는 **람다 → 익명 클래스** 형태로 변환되어 전달됨.
 
-함수 타입은 내부적으로 FunctionN 인터페이스임.
+---
+
+### 코틀린의 함수 타입은 내부적으로 무엇인가?
+
+코틀린 함수 타입은 내부적으로 **FunctionN 인터페이스**를 구현함.  
+
+따라서, 코틀린에서는 함수 타입을 변수처럼 다루지만,  
+**실제로는 FunctionN 인터페이스 인스턴스**로 처리됨.
+
+**processTheAnswer 함수 내부 실제 모습:**
 
 ```kotlin
-interface Function1<P1, out R> {
-    operator fun invoke(p1: P1): R
+fun processTheAnswer(f: Function1<Int, Int>) {
+    println(f.invoke(42))
 }
 ```
 
-- 함수 타입 변수는 FunctionN 인스턴스임.
+---
+
+### 자바에서 코틀린 함수 타입 호출 시 주의사항
+
+- 자바에서는 코틀린의 함수 타입을 직접 표현할 방법이 없음.
+- 대신, 코틀린 함수 타입을 **SAM 인터페이스처럼** 익명 클래스 형태로 전달함.
 
 ---
+
+### 코틀린 확장 함수를 자바에서 호출할 때 주의할 점
+
+코틀린의 확장 함수는 실제로 **정적 메서드(static method)** 로 변환됨.  
+- 첫 번째 인자로 수신 객체(receiver)를 명시적으로 넘겨야 함.
+
+**예시:**
+
+코틀린 확장 함수:
+
+```kotlin
+fun List<String>.forEach(action: (String) -> Unit)
+```
+
+자바에서는 이렇게 호출해야 함:
+
+```java
+List<String> strings = new ArrayList<>();
+strings.add("42");
+
+// CollectionsKt 패키지에 위치함
+CollectionsKt.forEach(strings, s -> {
+    System.out.println(s);
+    return Unit.INSTANCE;
+});
+```
+
+- **첫 번째 인자**로 리스트 `strings`를 명시적으로 전달.
+- 람다 내부에서 코틀린의 `Unit` 객체를 반환해야 함.
+
+---
+
+### 코틀린 Unit 타입과 자바 void 타입 차이
+
+- 코틀린 `Unit`은 **객체**임 (`object Unit` 형태).
+- 자바의 `void`는 **값 자체가 없음**.
+
+따라서, 자바에서 코틀린 함수 타입 `(String) -> Unit`에 해당하는 람다를 넘기려면,  
+**Unit.INSTANCE**를 명시적으로 반환해야 함.
+
+**주의:**  
+- `(String) -> Unit` 타입의 자리에 자바의 `(String) -> void` 람다는 직접 대응할 수 없음.
+- 반드시 `return Unit.INSTANCE;`를 써야 함.
+
 
 ## 10.1.4 함수 타입 기본값 & 널 처리
 
