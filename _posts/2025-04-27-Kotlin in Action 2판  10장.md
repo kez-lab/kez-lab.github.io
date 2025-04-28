@@ -239,6 +239,9 @@ fun <T> Collection<T>.joinToString(
 
 
 ## 10.1.5 함수를 반환하는 함수
+함수를 반환하는 함수의 경우는 함수를 인자로 받는 경우보다는 적다, 다만 그럼에도 유용하게 쓰인다고 책은 얘기한다.
+
+아래는 사용자가 선택한 요금제에 따라 결제 방법이 달라지는 경우에 대한 예제이다.
 
 ### 예제: 배송비 계산기
 
@@ -260,34 +263,16 @@ fun main() {
 }
 ```
 
-- 상황에 따라 다른 람다 반환함.
+- Delivery 상태에 따라 다른 람다 반환함.
+- Order 객체를 인자로 받아 코스트를 최종적으로 반환
+- 근데 파람 두개를 받으면 똑같은 동작이 되는데 함수를 반환했을 때의 이점이 뭔지는 잘 모르겠음
 
-### 예제: 연락처 필터
-
-```kotlin
-data class Person(val firstName: String, val lastName: String, val phoneNumber: String?)
-
-class ContactListFilters {
-    var prefix: String = ""
-    var onlyWithPhoneNumber: Boolean = false
-
-    fun getPredicate(): (Person) -> Boolean {
-        val startsWithPrefix = { p: Person ->
-            p.firstName.startsWith(prefix) || p.lastName.startsWith(prefix)
-        }
-        if (!onlyWithPhoneNumber) {
-            return startsWithPrefix
-        }
-        return { startsWithPrefix(it) && it.phoneNumber != null }
-    }
-}
-```
-
-- ContactListFilters가 조건에 맞는 함수 반환함.
-
----
 
 ## 10.1.6 람다로 코드 중복 줄이기
+
+함수타입과 람다식은 재사용 가능한 코드를 만들기 위한 아주 좋은 도구다.
+
+아래 예시는 이러한 재사용성의 이점을 보여주기 위한 예제로 방문한 사이트의 기록 작업을 수행하는 예제이다
 
 ### 예제: 사이트 방문 기록
 
