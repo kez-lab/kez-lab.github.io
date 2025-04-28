@@ -189,20 +189,6 @@ CollectionsKt.forEach(strings, s -> {
 - **첫 번째 인자**로 리스트 `strings`를 명시적으로 전달.
 - 람다 내부에서 코틀린의 `Unit` 객체를 반환해야 함.
 
----
-
-### 코틀린 Unit 타입과 자바 void 타입 차이
-
-- 코틀린 `Unit`은 **객체**임 (`object Unit` 형태).
-- 자바의 `void`는 **값 자체가 없음**.
-
-따라서, 자바에서 코틀린 함수 타입 `(String) -> Unit`에 해당하는 람다를 넘기려면,  
-**Unit.INSTANCE**를 명시적으로 반환해야 함.
-
-**주의:**  
-- `(String) -> Unit` 타입의 자리에 자바의 `(String) -> void` 람다는 직접 대응할 수 없음.
-- 반드시 `return Unit.INSTANCE;`를 써야 함.
-
 
 ## 10.1.4 함수 타입 기본값 & 널 처리
 
