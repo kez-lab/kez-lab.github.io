@@ -46,6 +46,7 @@ fun remove(index: Int) { /* ... */ }
   어노테이션이 어느 부분에 적용될지 명시해야 할 때가 있음
 - use-site target을 @와 어노테이션명 사이에 target:을 붙여 지정함
 - 대표적인 예: getter, setter, field, property, param 등
+  
 ![image](https://github.com/user-attachments/assets/42292155-dc1c-42e6-8dd5-16db83f232c6)
 
 ```kotlin
@@ -74,6 +75,7 @@ fun test(list: List<*>) {
 - 대표적 예: @JsonExclude, @JsonName  
 - @JsonExclude는 특정 프로퍼티를 직렬화/역직렬화에서 제외함  
 - @JsonName은 JSON에서 사용할 키 이름을 바꿈
+  
 ![image](https://github.com/user-attachments/assets/174b9406-22b2-4939-857c-998d0fb34d93)
   
 ```kotlin
@@ -127,6 +129,7 @@ data class Person(
 annotation class DeserializeInterface(val targetClass: KClass<out Any>)
 ```
 - out 키워드는 Any의 하위 클래스 참조를 허용함
+  
 ![image](https://github.com/user-attachments/assets/db140db4-e1b1-4f87-887b-d9e28f6f6d1b)
 
 
