@@ -37,22 +37,31 @@ author: admin
 @Deprecated("Use removeAt(index) instead.", ReplaceWith("removeAt(index)"))
 fun remove(index: Int) { /* ... */ }
 ```
-- IDE는 @Deprecated가 붙은 함수 사용 시 자동으로 대체 API로 바꿔주는 퀵픽스를 제공함.  
-- 어노테이션 인자는 반드시 컴파일 타임에 알 수 있는 상수이어야 하며, const val만 허용됨.  
-- 파라미터로 사용할 수 있는 타입은 원시값, 문자열, enum, 클래스 참조(::class), 어노테이션, 배열임.  
-- 배열은 `[]` 또는 `arrayOf()`로 넘길 수 있음.  
+- IDE는 @Deprecated가 붙은 함수 사용 시 자동으로 대체 API로 바꿔주는 퀵픽스를 제공하는 것 처럼 어노테이션을 통해 유지보수의 용이성을 높일 수 있음을 알 수 있음.
+
+#### 어노테이션 문법을 지정하는 문법은 자바와 약간 다름
+- 클래스 지정: 클래스명 뒤에 ::class 붙임
+    → @MyAnnotation(MyClass::class)
+
+- 다른 애노테이션 인자: @ 기호 생략
+    → @Deprecated(..., ReplaceWith("..."))에서 ReplaceWith는 @ 없이 사용
+
+- 배열 인자: 대괄호([]) 사용 또는 arrayOf() 함수
+    → @RequestMapping(path = ["/foo", "/bar"])
+
+#### 어노테이션 인자는 컴파일 타임에 알아야한다
 ```kotlin
 const val TEST_TIMEOUT = 10L
 @Test
 @Timeout(TEST_TIMEOUT)
 fun testMethod() { /* ... */ }
 ```
+- 어노테이션 인자는 반드시 컴파일 타임에 알 수 있는 상수이어야 하며, 따라서 const val만 허용됨.  
 
 ---
 
 ### 12.1.2 어노테이션 타깃과 use-site target  
-- 코틀린 선언은 바이트코드로 변환될 때 여러 자바 요소로 쪼개지므로, 어노테이션이 실제로 어디에 적용되는지 명확히 지정할 필요가 있음.  
-- 예를 들어 프로퍼티는 자바에서 필드, getter, setter 등 여러 요소로 만들어짐.  
+- 코틀린 선언은 바이트코드로 변환될 때 여러 자바 요소로 쪼개짐(자바에서 필드, getter, setter 등 여러 요소로 만들어짐), 따라서 어노테이션이 실제로 어디에 적용되는지 명확히 지정할 필요가 있음. 
 - 이 때 use-site target(@get:, @set:, @field: 등)을 명시해서 적용 대상을 지정할 수 있음.  
 ![image](https://github.com/user-attachments/assets/42292155-dc1c-42e6-8dd5-16db83f232c6)
 
@@ -71,51 +80,61 @@ var certificate: String = ""
 @Suppress("UNCHECKED_CAST")
 val strings = list as List<String>
 ```
-코틀린은 자바 연동을 위해 @JvmName, @JvmStatic, @JvmOverloads, @JvmField 등 다양한 JVM 관련 어노테이션도 지원함.
+
+#### 자바 API를 어노테이션으로 제어
+- 코틀린은 자바 연동을 위해 @JvmName, @JvmStatic, @JvmOverloads, @JvmField 등 다양한 JVM 관련 어노테이션도 지원함.
+- 관련 링크: https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/#
 
 ---
 
 ### 12.1.3 어노테이션을 활용한 JSON 직렬화 커스터마이즈  
-- 실제 프로젝트에서는 어노테이션을 이용해 라이브러리의 동작을 커스터마이즈하는 일이 많음.  
-- 대표적 예로 JSON 직렬화에서 객체의 특정 프로퍼티를 제외하거나, JSON의 key 이름을 변경하고 싶을 때 어노테이션을 활용함.  
+- 어노테이션을 적용한 고전적인 예제는 객체 직렬화 제어(직렬화란 객체를 텍스트나 이진형식으로 저장하고 이를 기반으로 다시 객체를 생성하는 과정)
+- JSON 직렬화에서 객체의 특정 프로퍼티를 제외하거나, JSON의 key 이름을 변경하고 싶을 때 어노테이션을 활용함.
+- 이 장에서는 Jkid 라는 라이브러리를 기반으로 설명함
 ![image](https://github.com/user-attachments/assets/174b9406-22b2-4939-857c-998d0fb34d93)
 
-#### 예시) 
+#### Jkid 라이브러리  예시
 ```kotlin
 data class Person(
     @JsonName("alias") val firstName: String,
     @JsonExclude val age: Int? = null
 )
 ```
-- @JsonName("alias")는 firstName 프로퍼티가 JSON에 alias라는 키로 저장되게 하고,  @JsonExclude는 age 프로퍼티를 직렬화/역직렬화에서 제외함.  
-- 기본값이 없는 프로퍼티에 @JsonExclude를 쓰면 역직렬화 시 객체를 생성할 수 없으니 주의해야 함.  
-
-이런 식으로 어노테이션은 도메인 클래스와 직렬화 정책을 분리할 수 있게 해줌.
+- @JsonName("alias")는 firstName 프로퍼티가 JSON에 alias라는 키로 저장
+- @JsonExclude는 age 프로퍼티를 직렬화/역직렬화에서 제외함.  
+- 기본값이 없는 프로퍼티에 @JsonExclude를 쓰면 역직렬화 시 Person 인스턴스를 생성할 수 없으니 주의해야 함.
 
 ---
 
-### 12.1.4 직접 어노테이션 클래스 선언  
-- 어노테이션은 직접 만들 수 있음.  
-`annotation class` 키워드로 선언하고, 파라미터는 생성자에 val로 선언함.  
+### 12.1.4 어노테이션 선언  
+- Jkid를 예제로 어노테이션은 직접 선언하는 방법을 살펴본다.
 
-#### 파라미터가 없는 경우
+#### 파라미터가 없는 경우(JsonExclude)
 ```kotlin
 annotation class JsonExclude
 ```
+- annotation 변경자를 class 앞에 붙여 어노테이션을 선언
+- 어노테이션 클래스는 선언이나 식과 관련있는 메타데이터의 구조만 정의하기에 내부에 코드를 못넣게 막음
+  
 #### 파라미터가 있는 경우:  
 ```kotlin
 annotation class JsonName(val name: String)
 ```
-- 어노테이션 클래스 내부에는 코드 본문을 쓸 수 없고, 파라미터는 모두 val이어야 함.  
-- 코틀린은 어노테이션 적용 시 자바처럼 파라미터 이름 생략도 지원하며,  첫 번째 파라미터라면 이름을 생략할 수 있음.  
-- 자바의 @interface와 비교하면, 코틀린은 생성자 파라미터로 값을 넘기고  apply 시에는 함수 호출처럼 사용한다는 차이가 있음.
+- 파라메터가 있는 경우 주 생성자 구문을 사용하며, 파라미터는 모두 val이어야 함. 
+
+#### 자바 어노테이션과의 비교
+자바의 value 메서드는 특별 취급되어, 어노테이션 적용 시 value 외의 속성만 이름을 명시하면 됨
+
+- 다만 코틀린은 일반 생성자 호출처럼 애노테이션을 적용하므로, 이름을 명시할 수도 있고 생략할 수도 있음
+- @JsonName(name = "first_name")과 @JsonName("first_name")은 동일
+- 단, 자바에서 선언된 어노테이션을 코틀린에서 쓸 때는 value만 생략 가능, 나머지는 이름 명시 필요
+
 
 ---
 
 ### 12.1.5 메타어노테이션  
 - 어노테이션 선언에 또 다른 어노테이션을 붙일 수 있는데, 이를 메타어노테이션이라 부름.  
-- @Target은 어노테이션을 붙일 수 있는 대상을 지정함.  
-![image](https://github.com/user-attachments/assets/db140db4-e1b1-4f87-887b-d9e28f6f6d1b)
+- 가장 흔히 쓰이는 @Target은 어노테이션을 적용할 수 있는 대상을 지정함.  
 
 ```kotlin
 @Target(AnnotationTarget.PROPERTY)
@@ -126,15 +145,21 @@ annotation class JsonExclude
 ```kotlin
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
 ```
-- 어노테이션을 어노테이션 클래스에만 적용하려면 AnnotationTarget.ANNOTATION_CLASS를 쓸 수 있음.  
-- 자바와 연동하려면 property target 대신 field target도 같이 써야 자바 코드에서 사용할 수 있음.  
-- @Retention은 어노테이션의 유지 범위를 지정하며,  코틀린은 기본적으로 RUNTIME이므로 별도 지정 없이 런타임에 리플렉션으로 어노테이션을 읽을 수 있음.
+- 어노테이션을 어노테이션 클래스에만 적용하려면 AnnotationTarget.ANNOTATION_CLASS를 쓸 수 있음.
+- 필요하다면 여러개의 타깃을 한번에 선언 가능
+- 타깃을 PROPERTY로 지정한 어노테이션의 경우 자바와 연동하려면 AnnotationTarget.FIELD 를 두 번째 타깃으로 추가해야 함
+
+#### @Retention 어노테이션
+@Retention은 어노테이션의 유지 범위를 지정하며, 코틀린은 기본적으로 RUNTIME이므로 별도 지정 없이 런타임에 리플렉션으로 어노테이션을 읽을 수 있음.
 
 ---
 
 ### 12.1.6 클래스 참조를 어노테이션 파라미터로 사용  
 - 어노테이션 파라미터로 클래스 참조를 넘길 수 있음.  
-- 예를 들어, 역직렬화 시 어떤 구현 클래스를 쓸지 지정하고 싶을 때  KClass<out Any> 타입 파라미터를 선언하고 ::class로 전달함.  
+- 예를 들어, 역직렬화 시 어떤 구현 클래스를 쓸지 지정하고 싶을 때  KClass<out Any> 타입 파라미터를 선언하고 ::class로 전달함.
+
+![image](https://github.com/user-attachments/assets/db140db4-e1b1-4f87-887b-d9e28f6f6d1b)
+
 
 ```kotlin
 interface Company { val name: String }
