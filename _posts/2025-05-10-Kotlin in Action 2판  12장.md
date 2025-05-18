@@ -46,6 +46,8 @@ fun remove(index: Int) { /* ... */ }
   어노테이션이 어느 부분에 적용될지 명시해야 할 때가 있음
 - use-site target을 @와 어노테이션명 사이에 target:을 붙여 지정함
 - 대표적인 예: getter, setter, field, property, param 등
+![image](https://github.com/user-attachments/assets/42292155-dc1c-42e6-8dd5-16db83f232c6)
+
 ```kotlin
 @JvmName("performCalculation")
 fun calculate(): Int = (2 + 2) - 1
@@ -64,21 +66,23 @@ fun test(list: List<*>) {
     val strings = list as List<String>
 }
 ```
-- 그림 12.2 참고
+
 
 ### 12.1.3 어노테이션을 이용한 JSON 직렬화 커스터마이징
 
 - 어노테이션은 객체 직렬화 방식을 커스터마이징하는 데 자주 쓰임
 - 대표적 예: @JsonExclude, @JsonName  
 - @JsonExclude는 특정 프로퍼티를 직렬화/역직렬화에서 제외함  
-- @JsonName은 JSON에서 사용할 키 이름을 바꿈  
+- @JsonName은 JSON에서 사용할 키 이름을 바꿈
+![image](https://github.com/user-attachments/assets/174b9406-22b2-4939-857c-998d0fb34d93)
+  
 ```kotlin
 data class Person(
     @JsonName("alias") val firstName: String,
     @JsonExclude val age: Int? = null
 )
 ```
-- 그림 12.4 참고
+
 
 ### 12.1.4 커스텀 어노테이션 선언
 
@@ -123,7 +127,8 @@ data class Person(
 annotation class DeserializeInterface(val targetClass: KClass<out Any>)
 ```
 - out 키워드는 Any의 하위 클래스 참조를 허용함
-- 그림 12.5 참고
+![image](https://github.com/user-attachments/assets/db140db4-e1b1-4f87-887b-d9e28f6f6d1b)
+
 
 ### 12.1.7 제네릭 클래스를 어노테이션 인자로 사용
 
@@ -142,7 +147,6 @@ data class Person(
 )
 ```
 - *를 사용해 제네릭 타입 전체를 허용함  
-- 그림 12.6 참고
 
 
 ## 12.2 리플렉션(Reflection): 런타임에서 코틀린 객체 조사하기
