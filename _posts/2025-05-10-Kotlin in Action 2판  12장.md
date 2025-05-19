@@ -156,9 +156,7 @@ annotation class JsonExclude
 
 ### 12.1.6 클래스 참조를 어노테이션 파라미터로 사용  
 - 어노테이션 파라미터로 클래스 참조를 넘길 수 있음.  
-- 예를 들어, 역직렬화 시 어떤 구현 클래스를 쓸지 지정하고 싶을 때  KClass<out Any> 타입 파라미터를 선언하고 ::class로 전달함.
-
-![image](https://github.com/user-attachments/assets/db140db4-e1b1-4f87-887b-d9e28f6f6d1b)
+- 예를 들어, 역직렬화(@Deserialization) 시 어떤 구현 클래스를 쓸지 지정하고 싶을 때  KClass<out Any> 타입 파라미터를 선언하고 ::class로 전달함.
 
 
 ```kotlin
@@ -169,16 +167,24 @@ data class Person(
     val name: String,
     @DeserializeInterface(CompanyImpl::class) val company: Company
 )
+```
+
+#### 클래스 참조 어노테이션 정의 방법
+
+```
 annotation class DeserializeInterface(val targetClass: KClass<out Any>)
 ```
-- out 키워드는 Any의 하위 타입을 받을 수 있게 함.  
-- KClass는 코틀린의 클래스 타입 정보를 나타냄.
+- KClass를 통해 클래스 참조를 인자로 받기 가능
+- out 키워드를 통해 해당 타입의 하위 타입 또한 참조 가능
+
+![image](https://github.com/user-attachments/assets/db140db4-e1b1-4f87-887b-d9e28f6f6d1b)
+
 
 ---
 
 ### 12.1.7 제네릭 클래스를 어노테이션 파라미터로 사용  
-- 어노테이션 파라미터로 제네릭 타입의 클래스를 넘기고 싶을 때 사용
-- 예를 들어 타입별 커스텀 직렬화기를 지정할 때 KClass<out ValueSerializer<*>> 타입을 선언하면 특정 타입의 직렬화 클래스를 ::class로 넘길 수 있음.  
+- Jkid에서 타입별 커스텀 직렬화를 지원하기 위해 제네릭 클래스를 어노테이션 파라메터로 사용 
+
 ```kotlin
 interface ValueSerializer<T> {
     fun toJsonValue(value: T): Any?
@@ -192,7 +198,7 @@ data class Person(
     @CustomSerializer(DateSerializer::class) val birthDate: Date
 )
 ```
-- 별표(*)를 쓰면 어떤 타입 파라미터든 받을 수 있음.  
+- 예제처럼 KClass<out ValueSerializer<*>> 타입을 선언하면 특정 타입의 직렬화 클래스를 ::class로 넘길 수 있음.
 - 잘못된 타입을 넘기면 컴파일 타임에 에러가 발생함.
 
 ---
