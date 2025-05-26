@@ -421,8 +421,6 @@ val user2 = constructor.callBy(mapOf(
 ))  // User(name="Bob", age=25, email="bob@example.com")
 ```
 
-> **성능 고려사항**: 리플렉션은 강력하지만 일반 코드보다 느릴 수 있음. 따라서 반복적으로 수행되는 작업에서는 결과를 캐싱하는 것이 좋음. JKid 라이브러리의 ClassInfoCache가 이런 패턴의 예시임.
-
 ---
 
 # 결론
