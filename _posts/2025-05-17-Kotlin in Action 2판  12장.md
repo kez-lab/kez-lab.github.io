@@ -203,7 +203,7 @@ data class Person(
 
 ---
 
-# 12.2 리플렉션: 런타임에서 코틀린 객체를 내성적으로 들여다보기
+# 12.2 리플렉션: 런타임에서 코틀린 객체 내부 들여다보기
 
 - 리플렉션은 객체의 프로퍼티와 메서드가 무엇인지 런타임에 동적으로 접근할 수 있는 방법
 - 컴파일 시점에 어떤 타입의 객체를 다룰지 알 수 없는 경우(예: JSON 직렬화 라이브러리가 모든 타입의 객체를 처리해야 할 때)에 필요
@@ -237,8 +237,7 @@ kClass.memberProperties.forEach { println(it.name) } // name, age
 
 - `person::class`로 런타임 타입의 KClass를 얻음
 - `simpleName`은 클래스 이름을 반환함
-- `memberProperties`는 확장 프로퍼티로, 클래스와 상위 클래스의 모든 프로퍼티를 포함함
-- Java와 Kotlin 간의 리플렉션 API 상호 변환도 가능함
+- `memberProperties`는 클래스와 상위 클래스의 확장 프로퍼티를 제외한 모든 프로퍼티를 포함함
 
 > **참고**: `simpleName`과 `qualifiedName` 프로퍼티는 익명 객체의 경우 null이 될 수 있음
 
@@ -246,7 +245,8 @@ kClass.memberProperties.forEach { println(it.name) } // name, age
 
 ### KFunction, KCallable: 함수/메서드 동적 참조와 호출
 
-- 함수도 객체로 취급됨. 런타임에 함수 참조를 얻고 동적으로 호출 가능함
+- 클래스의 모든 멤버 목록인 members가 KCallable 인스
+턴스의 컬렉션
 - KCallable은 KFunction 및 KProperty의 공통 상위 타입으로, `call()` 메서드 제공
 
 ```kotlin
