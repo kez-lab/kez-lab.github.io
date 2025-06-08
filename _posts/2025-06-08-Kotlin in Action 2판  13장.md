@@ -45,7 +45,7 @@ author: admin
 아래는 가장 많은 고객이 살고 있는 나라를 알아내는 쿼리문 예제이다.
 
 #### SQL 예제
-```
+```sql
 SELECT Country.name, COUNT(Customer.id)
      FROM Country
 INNER JOIN Customer
@@ -56,7 +56,7 @@ INNER JOIN Customer
 ```
 
 #### Kotlin DSL 예제(Exposed 라이브러리)
-```
+``` kotlin
 (Country innerJoin Customer)
    .slice(Country.name, Count(Customer.id))
    .selectAll()
@@ -77,7 +77,7 @@ INNER JOIN Customer
 - 반대로 DSL은 람다를 내포시키거나 메서드 호출을 연쇄시키는 방식으로 구조를 만듬
 - DSL 의 장점으로 같은 맥락을 매 함수 호출 시 마다 반복하지 않고도 재사용이 가능하다는 점
 
-```
+``` kotlin
 dependencies {
     testImplementation(kotlin("test"))
     implementation("org.jetbrains.exposed:exposed-core:0.40.1")
@@ -89,7 +89,7 @@ fun DependencyHandler.`implementation`(dependencyNotation: Any): Dependency? =
     add("implementation", dependencyNotation)
 ```
 vs
-```
+``` kotlin
 project.dependencies.add("testImplementation", kotlin("test"))
 project.dependencies.add("implementation",
    "org.jetbrains.exposed:exposed-core:0.40.1")
@@ -103,7 +103,7 @@ project.dependencies.add("implementation",
 - 내부 DSL을 사용하면 HTML의 중첩 구조를 Kotlin 코드로 자연스럽게 표현할 수 있음
 
 - 대표 예시:
-```
+``` kotlin
 fun createSimpleTable() = createHTML().
     table {
         tr {
@@ -112,7 +112,7 @@ fun createSimpleTable() = createHTML().
     }
 ```
 - 위 코드는 다음 HTML을 생성함
-```
+``` html
 <table>
   <tr>
     <td>cell</td>
@@ -121,7 +121,7 @@ fun createSimpleTable() = createHTML().
 ```
 
 - 반복 구조도 자연스럽게 표현 가능함
-```
+``` kotlin
 fun createAnotherTable() = createHTML().table {
     val numbers = mapOf(1 to "one", 2 to "two")
     for ((num, string) in numbers) {
@@ -145,12 +145,12 @@ fun createAnotherTable() = createHTML().table {
 - 함수 파라미터를 `StringBuilder.() -> Unit`처럼 확장 함수 타입으로 선언하면, 람다 내부에서 this를 암시적으로 사용할 수 있음
 - 수신 객체 지정 람다는 확장 함수와 같은 방식으로 호출 가능함 따라서 일반 람다와 달리 it 없이 바로 append 메서드 호출이 가능함
 - 예시:
-```
+``` kotlin
 fun buildString(builderAction: StringBuilder.() -> Unit): String =
     StringBuilder().apply(builderAction).toString()
 ```
 - 호출 예:
-```
+``` kotlin
 val s = buildString {
     append("Hello, ")
     append("World!")
@@ -159,14 +159,14 @@ val s = buildString {
 ![koinaction13-1](https://github.com/user-attachments/assets/c25c1d60-76db-418b-87db-093a75f42f8c)
 
 - 추가로 람다를 변수로 저장해서, 확장 함수처럼 사용할 수 있음
-```
+``` kotlin
 val appendExcl: StringBuilder.() -> Unit = { append("!") }
 val sb = StringBuilder("Hi")
 sb.appendExcl()
 ```
 
 - apply, with 같은 표준 라이브러리 함수도 수신 객체 지정 람다를 사용함
-```
+``` kotlin
 inline fun <T> T.apply(block: T.() -> Unit): T {
     block()
     return this
@@ -185,7 +185,7 @@ inline fun <T, R> with(receiver: T, block: T.() -> R): R =
     - table, tr, td 각각의 블록에서만 하위 태그 함수 호출 가능함
 
 - 예시 Tag 구조:
-```
+``` kotlin
 open class Tag
 
 class TABLE : Tag {
@@ -199,7 +199,7 @@ class TR : Tag {
 class TD : Tag
 ```
 - 예제:
-```
+``` kotlin
 fun createSimpleTable() = createHTML().table {
     this@table.tr {
         this@tr.td {
@@ -214,7 +214,7 @@ fun createSimpleTable() = createHTML().table {
 
 다만 내포 깊이가 깊은 구조에서는 외부 프로퍼티를 참조하는 등의 계층구조의 혼동이 올 수 있음
 - 예제
-```
+``` kotlin
 createHTML().body {
     a {
         img {
@@ -226,12 +226,12 @@ createHTML().body {
 
 - 이 때 @DslMarker로 내포된 람다에서 외부 람다의 수신객체를 참조하는 스코프 충돌을 방지할 수 있음
 
-```
+``` kotlin
 @DslMarker
 annotation class HtmlTagMarker
 ```
 
-```
+``` kotlin
 // HTML 태그의 경우 모두 Tag 클래스의 하위 클래스 이기에 해당 클래스에만 적용한다면 모든 HTML 빌더 람다에서 객체 접근 방지 기능이 적용 됨
 @HtmlTagMarker
 open class Tag
@@ -248,7 +248,7 @@ open class Tag
 - 특히 반복되는 코드를 새로운 함수로 묶어서 이해하기 쉬운 이름을 붙일 수 있음
 
 #### HTML 예시
-```
+``` html
 <body>
  <ul>
    <li><a href="#0">The Three-Body Problem</a></li>
@@ -266,7 +266,7 @@ open class Tag
 
 #### kotlinx.html을 사용하면 위 HTML 구문을 아래와 같이 간결하게 표현 가능
 - 예시:
-```
+``` kotlin
 @HtmlTagMarker
 class LISTWITHTOC {
    val entries = mutableListOf<Pair<String, String>>()
