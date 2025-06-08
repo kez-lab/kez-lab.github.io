@@ -156,7 +156,7 @@ val s = buildString {
     append("World!")
 }
 ```
-(이미지 1)
+![koinaction13-1](https://github.com/user-attachments/assets/c25c1d60-76db-418b-87db-093a75f42f8c)
 
 - 추가로 람다를 변수로 저장해서, 확장 함수처럼 사용할 수 있음
 ```
