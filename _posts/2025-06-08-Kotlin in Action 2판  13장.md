@@ -30,7 +30,7 @@ author: admin
 - 프로그래밍 언어에는 크게 2가지로 분류가 가능함
     - 범용 프로그래밍 언어: 컴퓨터로 모든 문제를 충분히 풀 수 있음
     - 도메인 특화 언어: 특정 영역에 최적화 된 언어
-- 예를 들어 SQL은 클래스나 함수의 선언 필요 없이 수행하려는 연산(SELECT, DELETE)을 지정하면 해당 작업의 처리가 가능
+- 예시로 SQL은 클래스나 함수의 선언 필요 없이 수행하려는 연산(SELECT, DELETE)을 지정하면 해당 작업의 처리가 가능
     - 즉 DSL은 결과를 선언하고 실행 엔진에게 세부 연산을 맡기기에 선언적이라는 특징을 가짐
     - 다만 DSL은 범용언어로 만든 애플리케이션과의 조합이 어려움 -> 문자열이나 별도의 파일로 상호작용해야함
 
@@ -302,4 +302,181 @@ fun buildBookList() = createHTML().body {
 - 계층적 구조와 중첩 로직을 클래스로 구현할 수 있음
 - 복잡한 구조도 함수화/패턴화해 반복적으로 사용할 수 있음 -> 이를 통해 책 초반에 얘기한 깔끔한 API를 개발하는데에 도움을 줌
 
+
+## 13.3 invoke 컨벤션을 활용한 더 유연한 DSL 설계
+
+### 13.3.1 함수처럼 호출되는 객체: invoke 컨벤션
+
+- 코틀린에서는 `operator fun invoke(...)`를 선언하면 객체를 함수처럼 사용할 수 있음.
+- 일반 함수와 동일한 느낌으로 블록 구조나 메서드 호출을 추상화 가능.
+- 중복되는 구조나 복잡한 코드도 간결하게 표현할 수 있음.
+
+```kotlin
+class Greeter(val greeting: String) {
+    operator fun invoke(name: String) {
+        println("$greeting, $name!")
+    }
+}
+val greeter = Greeter("Servus")
+greeter("Dmitry") // Servus, Dmitry!
+```
+
+- 위 예시에서 `Greeter` 인스턴스를 함수 호출처럼 사용할 수 있음.
+- 내부적으로는 `greeter.invoke("Dmitry")`로 컴파일됨.
+
+---
+
+### 13.3.2 invoke와 Kotlin DSL: Gradle dependencies 예시
+
+- DSL에서 중첩된 블록 구조와 평면 메서드 호출을 모두 지원할 때 invoke를 활용함.
+- 대표적인 예시로 Gradle의 dependencies 블록은 실제로 invoke 메서드에 람다를 전달하는 구조임.
+
+```kotlin
+dependencies {
+    implementation("org.jetbrains.exposed:exposed-core:0.40.1")
+}
+dependencies.implementation("org.jetbrains.exposed:exposed-core:0.40.1")
+```
+
+- 위 두 코드는 모두 같은 효과를 냄.
+- dependencies 객체는 DependencyHandler 클래스의 인스턴스.
+- invoke 메서드가 리시버가 있는 람다를 받아, 람다 내부에서 바로 implementation을 호출할 수 있음.
+
+```kotlin
+class DependencyHandler {
+    fun implementation(coordinate: String) { /* ... */ }
+    operator fun invoke(body: DependencyHandler.() -> Unit) {
+        body()
+    }
+}
+```
+
+- 이러한 invoke를 활용해 DSL API의 유연성과 확장성을 높임.
+- 람다의 리시버가 DependencyHandler이기 때문에 내부에서 this 없이 바로 메서드 사용 가능.
+
+---
+
+### 13.3.3 함수 타입, 람다, invoke의 관계
+
+- Kotlin에서 함수 타입(예: `(Int, String) -> Boolean`)은 실제로 FunctionN 인터페이스(Function1, Function2, ...)를 구현한 객체임.
+- 모든 람다와 함수 참조는 자동으로 해당 FunctionN 인터페이스를 구현하는 익명 객체로 변환됨.
+- FunctionN 인터페이스는 항상 `operator fun invoke(...)` 메서드를 갖고 있음.
+
+```kotlin
+interface Function2<in P1, in P2, out R> {
+    operator fun invoke(p1: P1, p2: P2): R
+}
+```
+
+- 즉, `val f: (Int, String) -> Boolean = ...`에서 `f(1, "hello")`는 컴파일러가 `f.invoke(1, "hello")`로 변환함.
+- invoke 연산자는, 함수 타입 객체를 함수처럼 호출할 수 있도록 해주는 핵심 규칙임.
+- 이 구조 덕분에 람다, 함수 참조, 그리고 operator fun invoke를 직접 구현한 클래스 모두를 동일한 방식(괄호 호출)으로 사용할 수 있음.
+
+---
+
+## 13.4 Kotlin DSLs in practice
+
+### 13.4.1 체이닝과 인픽스 호출: 테스트 프레임워크의 should
+
+- Kotlin DSL은 코드 내 구두점을 최소화해 읽기 쉬운 문법을 지향.
+- 인픽스(infix) 함수와 체이닝을 적극적으로 활용해 DSL스러운 구문을 구현.
+- 예를 들어서 Kotest의 `should` DSL은 인픽스 함수를 활용해 아래와 같이 사용할 수 있음.
+
+```kotlin
+import io.kotest.matchers.should
+import io.kotest.matchers.string.startWith
+
+val s = "kotlin".uppercase()
+s should startWith("K")
+```
+
+- `should`는 인픽스 함수로 정의되어, s.should(...) 또는 s should ... 두 가지 형태 모두 지원.
+- 이런 문법은 여러 개의 항목을 구성할 때는 블록 구조, 하나만 쓸 때는 한 줄로 간결하게 구성할 수 있게 해줌.
+
+```kotlin
+infix fun <T> T.should(matcher: Matcher<T>) = matcher.test(this)
+```
+
+- Matcher 인터페이스와 구현 예시:
+
+```kotlin
+interface Matcher<T> {
+    fun test(value: T)
+}
+fun startWith(prefix: String): Matcher<String> = object : Matcher<String> {
+    override fun test(value: String) {
+        if (!value.startsWith(prefix)) throw AssertionError("$value does not start with $prefix")
+    }
+}
+```
+
+---
+
+### 13.4.2 기본 타입 확장과 리터럴 DSL
+
+- Kotlin은 Int, String 등 기본 타입에도 확장 프로퍼티와 확장 함수를 붙일 수 있음.
+- 이런 특성을 활용해, 시간/단위/리터럴 표현도 읽기 쉬운 DSL로 구현 가능.
+
+```kotlin
+val Int.days: Duration
+    get() = this.toDuration(DurationUnit.DAYS)
+
+val Int.hours: Duration
+    get() = this.toDuration(DurationUnit.HOURS)
+
+val now = Clock.System.now()
+val yesterday = now - 1.days
+val later = now + 5.hours
+```
+
+- 2주(fortnight) 같은 단위도 자유롭게 추가 가능.
+
+```kotlin
+val Int.fortnights: Duration
+    get() = (this * 14).toDuration(DurationUnit.DAYS)
+```
+
+---
+
+### 13.4.3 멤버 확장 함수와 내부 SQL DSL
+
+- Kotlin은 클래스 내부에 "멤버 확장 함수"를 정의할 수 있음.
+- 대표적으로, Exposed 프레임워크의 SQL DSL에서 활용됨.
+- 컬럼 설정 함수(autoIncrement 등)는 Table의 멤버이자 Column의 확장 함수로 정의되어,
+  해당 컨텍스트 밖에서는 사용할 수 없음(스코프 제한).
+
+```kotlin
+object Country : Table() {
+    val id = integer("id").autoIncrement()
+    val name = varchar("name", 50)
+    override val primaryKey = PrimaryKey(id)
+}
+```
+
+- Table, Column 등 모든 주요 요소가 타입 안정성을 보장함.
+- 실제 SQL DDL로 변환 예시:
+
+```sql
+CREATE TABLE IF NOT EXISTS Country (
+    id INT AUTO_INCREMENT NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    CONSTRAINT pk_Country PRIMARY KEY (id)
+)
+```
+
+- Exposed에서 조인, 조건, 컬럼 접근 등도 확장 함수와 DSL 문법으로 지원됨.
+
+```kotlin
+val result = (Country innerJoin Customer)
+    .select { Country.name eq "USA" }
+result.forEach { println(it[Customer.name]) }
+```
+
+---
+
+### 13.4 요약
+
+- invoke, infix, 확장 함수 등 Kotlin 고유 기능을 결합해 간결하고 타입 안정적인 DSL을 설계할 수 있음.
+- 중첩 구조, 체이닝, 기본 타입 확장, 멤버 확장 등 다양한 문법 패턴을 통해 DSL의 표현력 극대화.
+- Kotlin DSL은 코드 재사용, 추상화, 가독성 등 많은 이점을 제공함.
 
