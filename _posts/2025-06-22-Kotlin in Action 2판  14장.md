@@ -93,7 +93,7 @@ fun main() {
     }
     ```
 - `suspend` 키워드는 함수가 일시적으로 실행을 멈추고 재개될 수 있음을 나타냄. 이때 스레드를 블록시키지 않음.
-- 실제로 네트워크 라이브러리(Ktor HTTP, Retrofit, OkHttp 등)도 코루틴 친화적 API를 제공함.
+- 실제로 네트워크 라이브러리(Ktor HTTP, Retrofit, OkHttp 등)도 코루틴과 함께 동작하는 API를 제공함.
 
 ---
 
@@ -152,7 +152,7 @@ fun main() {
 
 - **일시 중단 함수**는 실행을 일시적으로 멈출 수 있기 때문에, 임의의 위치에서 호출할 수 없음.
 - 반드시 **코루틴이나 다른 일시 중단 함수** 내에서만 호출 가능함.
-    - 이는 '실행을 일시 중단할 수 있는 함수는, 호출하는 쪽도 일시 중단될 수 있어야 한다'는 논리와 일치함.
+    - 이는 '함수가 실행을 일시 중단할 수 있다면 그 함수를 호출하는 함수의 실행도 잠재적으로 일시중단 될 수 있음' 이라는 논리와 일치함
 
 예시:
 ```
@@ -162,7 +162,6 @@ suspend fun showUserInfo(credentials: Credentials) {
     showData(userData)
 }
 ```
-- IDE(IntelliJ, Android Studio)는 일시 중단 함수 호출 옆에 '일시 중단' 아이콘이나 색상 표시를 제공함.
 
 - **일반 함수에서 일시 중단 함수 호출 시 컴파일 오류**
     ```
@@ -172,7 +171,6 @@ suspend fun showUserInfo(credentials: Credentials) {
         mySuspendingFunction() // Error: Suspend function should be called only from a coroutine or another suspend function
     }
     ```
-    - 오류 메시지는 '일시 중단 함수는 코루틴이나 다른 일시 중단 함수 안에서만 호출해야 한다'는 뜻임.
 
 - **일시 중단 함수 호출 방법**
     1. 가장 단순한 방법: `main` 함수 자체를 `suspend`로 선언
@@ -183,16 +181,6 @@ suspend fun showUserInfo(credentials: Credentials) {
         ```
         - 다만, 안드로이드 등 프레임워크에서는 메인 함수를 `suspend`로 바꿀 수 없으므로 범용적이지 않음.
     2. **코루틴 빌더 함수 사용**
-        - 코루틴 빌더는 새 코루틴을 만들고, 일시 중단 함수 실행 진입점 역할을 함.
-        - 대표적인 코루틴 빌더는 `launch`, `async`, `runBlocking` 등임.
-        - 예제(설명은 14.6, 14.7에서 더 다룸):
-
-        ```
-        import kotlinx.coroutines.*
-
-        fun main() = runBlocking {
-            mySuspendingFunction()
-        }
-        ```
+        - 코루틴 빌더는 새 코루틴을 만들고, 일시 중단 함수 실행 진입점 역할을 함
 
 ---
