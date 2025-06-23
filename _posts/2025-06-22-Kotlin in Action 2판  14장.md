@@ -38,7 +38,7 @@ author: admin
 
 - 자바에서처럼 코틀린에서도 스레드는 서로 독립적으로 동시에 실행되는 코드 블록을 지정할 수 있음.
 - 코틀린 표준 라이브러리의 `thread` 함수를 사용하면 새 스레드를 쉽게 시작할 수 있음.
-```kotlin
+``` kotlin
 import kotlin.concurrent.thread
 
 fun main() {
@@ -68,7 +68,7 @@ fun main() {
 - 코루틴의 가장 큰 특징은 **순차적으로 보이는 코드**에서 넌블로킹 비동기 처리가 가능하다는 점
 
 - 예시: 블로킹 코드
-    ```
+    ``` kotlin
     fun login(credentials: Credentials): UserID
     fun loadUserData(userID: UserID): UserData
     fun showData(data: UserData)
@@ -82,7 +82,7 @@ fun main() {
 - 위 코드는 네트워크 대기 동안 스레드를 블록시켜 자원을 낭비함
 
 - **코루틴 기반 일시중단 함수**는 다음과 같이 순차적 코드를 유지하면서도 넌블로킹 비동기를 구현할 수 있음
-    ```
+    ``` kotlin
     suspend fun login(credentials: Credentials): UserID
     suspend fun loadUserData(userID: UserID): UserData
     fun showData(data: UserData)
@@ -102,7 +102,7 @@ fun main() {
 ## 14.5 코루틴과 다른 동시성 접근 방식 비교
 
 - **콜백 기반**
-    ```
+    ``` kotlin
     fun loginAsync(credentials: Credentials, callback: (UserID) -> Unit)
     fun loadUserDataAsync(userID: UserID, callback: (UserData) -> Unit)
     fun showData(data: UserData)
@@ -118,7 +118,7 @@ fun main() {
     - 콜백 중첩이 발생(콜백 지옥), 가독성과 유지보수성이 떨어짐.
 
 - **퓨처(CompletableFuture) 기반**
-    ```
+    ``` kotlin
     fun loginAsync(credentials: Credentials): CompletableFuture<UserID>
     fun loadUserDataAsync(userID: UserID): CompletableFuture<UserData>
     fun showData(data: UserData)
@@ -132,7 +132,7 @@ fun main() {
     - 콜백 중첩은 줄어들지만, 새로운 연산자를 익혀야 하고 반환 타입 변경 필요.
 
 - **반응형 스트림(RxJava 등) 기반**
-    ```
+    ``` kotlin
     fun login(credentials: Credentials): Single<UserID>
     fun loadUserData(userID: UserID): Single<UserData>
     fun showData(data: UserData)
@@ -156,7 +156,7 @@ fun main() {
     - 이는 '함수가 실행을 일시 중단할 수 있다면 그 함수를 호출하는 함수의 실행도 잠재적으로 일시중단 될 수 있음' 이라는 논리와 일치함
 
 예시:
-```
+``` kotlin
 suspend fun showUserInfo(credentials: Credentials) {
     val userID: UserID = login(credentials)
     val userData: UserData = loadUserData(userID)
@@ -165,7 +165,7 @@ suspend fun showUserInfo(credentials: Credentials) {
 ```
 
 - **일반 함수에서 일시 중단 함수 호출 시 컴파일 오류**
-    ```
+    ``` kotlin
     suspend fun mySuspendingFunction() {}
 
     fun main() {
@@ -175,7 +175,7 @@ suspend fun showUserInfo(credentials: Credentials) {
 
 - **일시 중단 함수 호출 방법**
     1. 가장 단순한 방법: `main` 함수 자체를 `suspend`로 선언
-        ```
+        ``` kotlin
         suspend fun main() {
             // 일시 중단 함수 호출 가능
         }
