@@ -78,6 +78,8 @@ fun main() = runBlocking {
     }
 }
 ```
+![image](https://github.com/user-attachments/assets/0a29b756-345e-4a33-a2d0-e22e99acfd2c)
+
 - 이 코드의 모든 코루틴은 한 스레드(main)에서 실행됨.
 - 코루틴 #2는 delay에서 일시 중단되고, 그동안 main 스레드는 코루틴 #3의 작업을 수행함.
 - launch는 부수효과를 일으키는 작업, 예를 들어 파일이나 데이터베이스에 쓰기 등에 적합함.
@@ -107,12 +109,21 @@ fun main() = runBlocking {
     log("The second result: ${mySecondDeferred.await()}")
 }
 ```
+![image](https://github.com/user-attachments/assets/ce2bbf8c-6033-4252-adbb-6d201207fe4f)
+
 - async 호출마다 새로운 코루틴이 시작됨.
 - await를 호출하면 해당 Deferred 값이 사용 가능해질 때까지 기다림.
 - Deferred는 미래에 결과가 준비될 것이라는 약속임(Future/Promise와 동일 개념).
 - 순차적인 코드에서는 async/await가 필요없고, 여러 작업을 동시에 시작하고 결과를 기다릴 때만 사용함.
 
 - async, await는 코틀린 키워드가 아니라 라이브러리 함수임.
+
+
+| 빌더         | 반환값            | 용도 설명                                |
+|--------------|-------------------|------------------------------------------|
+| runBlocking  | 람다가 계산한 값   | 블로킹 코드와 논블로킹 코드의 연결         |
+| launch       | Job               | 부수 효과가 있는 시작-후-망각 작업         |
+| async        | Deferred<T>       | 비동기로 값을 계산하고 기다릴 수 있는 작업 |
 
 ---
 
@@ -145,6 +156,9 @@ fun main() = runBlocking {
   - 특별한 경우에 사용.  
   - Unconfined는 스레드 제약 없음(즉시 실행).
   - limitedParallelism은 병렬성 수를 사용자가 제한할 때 사용.
+ 
+![image](https://github.com/user-attachments/assets/d687e263-47cd-448e-ac2f-bb8a4f3df41d)
+
 
 | 디스패처              | 스레드 개수                | 쓰임새                                |
 |----------------------|----------------------------|---------------------------------------|
