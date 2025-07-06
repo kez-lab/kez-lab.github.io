@@ -3,7 +3,7 @@ layout: post
 title: "Kotlin in Action 2판 13장 DSL 만들기"
 date: 2025-06-08 12:00:00 +0900
 categories: [Kotlin, Kotlin In Action 2, 코틀린 인 액션 2판]
-tags: Kotlin in Action 2판 13장 DSL 만들기
+tags: [Kotlin, Kotlin in Action, DSL]
 author: admin
 ---
 

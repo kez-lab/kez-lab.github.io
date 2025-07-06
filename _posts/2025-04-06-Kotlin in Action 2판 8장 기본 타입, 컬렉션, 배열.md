@@ -3,7 +3,7 @@ layout: post
 title: "Kotlin in Action 2판 8장 기본 타입, 컬렉션, 배열"
 date: 2025-04-06 12:00:00 +0900
 categories: [Kotlin, Kotlin In Action 2, 코틀린 인 액션 2판]
-tags: Kotlin in Action 2판 8장 기본 타입, 컬렉션, 배열
+tags: [Kotlin, Kotlin in Action, Type, Collection, Array]
 author: admin
 ---
 

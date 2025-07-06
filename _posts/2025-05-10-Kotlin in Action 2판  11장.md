@@ -3,7 +3,7 @@ layout: post
 title: "Kotlin in Action 2판 11장 Generics"
 date: 2025-05-10 12:00:00 +0900
 categories: [Kotlin, Kotlin In Action 2, 코틀린 인 액션 2판]
-tags: Kotlin in Action 2판 11장 Generics
+tags: [Kotlin, Kotlin in Action, Generics]
 author: admin
 ---
 

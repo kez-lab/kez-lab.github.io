@@ -3,7 +3,7 @@ layout: post
 title: "Kotlin in Action 2판 12장 어노테이션과 리플렉션"
 date: 2025-05-17 12:00:00 +0900
 categories: [Kotlin, Kotlin In Action 2, 코틀린 인 액션 2판]
-tags: Kotlin in Action 2판 12장 어노테이션과 리플렉션
+tags: [Kotlin, Kotlin in Action, 어노테이션, 리플렉션]
 author: admin
 ---
 
