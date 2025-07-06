@@ -1,0 +1,58 @@
+<!-- 관련 게시물 -->
+{% assign related_posts = site.posts | where_exp: "post", "post.url != page.url" %}
+{% assign related_by_categories = '' | split: '' %}
+{% assign related_by_tags = '' | split: '' %}
+
+<!-- 카테고리 기반 관련 게시물 찾기 -->
+{% for category in page.categories %}
+  {% assign posts_in_category = related_posts | where: 'categories', category %}
+  {% assign related_by_categories = related_by_categories | concat: posts_in_category %}
+{% endfor %}
+
+<!-- 태그 기반 관련 게시물 찾기 -->
+{% for tag in page.tags %}
+  {% assign posts_with_tag = related_posts | where_exp: "post", "post.tags contains tag" %}
+  {% assign related_by_tags = related_by_tags | concat: posts_with_tag %}
+{% endfor %}
+
+<!-- 중복 제거 및 최신순 정렬 -->
+{% assign all_related = related_by_categories | concat: related_by_tags | uniq | sort: 'date' | reverse %}
+
+{% if all_related.size > 0 %}
+<div class="related-posts">
+  <h3>관련 게시물</h3>
+  <div class="related-posts-grid">
+    {% for related_post in all_related limit: 3 %}
+    <article class="related-post-item">
+      <div class="related-post-content">
+        <h4><a href="{{ related_post.url | relative_url }}">{{ related_post.title }}</a></h4>
+        <div class="related-post-meta">
+          <time datetime="{{ related_post.date | date_to_xmlschema }}">
+            {{ related_post.date | date: "%Y년 %m월 %d일" }}
+          </time>
+          {% if related_post.categories.size > 0 %}
+          <span class="related-post-category">{{ related_post.categories | first }}</span>
+          {% endif %}
+        </div>
+        <p class="related-post-excerpt">
+          {{ related_post.excerpt | strip_html | truncate: 100 }}
+        </p>
+        {% if related_post.tags.size > 0 %}
+        <div class="related-post-tags">
+          {% for tag in related_post.tags limit: 3 %}
+          <span class="tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  
+  {% if all_related.size > 3 %}
+  <div class="related-posts-more">
+    <a href="{{ '/search' | relative_url }}" class="btn-more">더 많은 관련 게시물 보기</a>
+  </div>
+  {% endif %}
+</div>
+{% endif %}

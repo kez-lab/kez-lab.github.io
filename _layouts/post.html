@@ -21,6 +21,12 @@ layout: default
   <div class="post-line"></div>
 
   {{ content }}
+  
+  <!-- 소셜 공유 버튼 -->
+  {% include social_share.html %}
+  
+  <!-- 관련 게시물 -->
+  {% include related_posts.html %}
 </div>
 
 {% if page.comments %}

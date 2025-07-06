@@ -1,0 +1,259 @@
+// 검색 페이지 스타일
+.search-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: $default-shade;
+  }
+}
+
+.search-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  
+  #search-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 2px solid $grey-2;
+    border-radius: 6px;
+    font-size: 1rem;
+    background: $white;
+    color: $default-color;
+    
+    &:focus {
+      outline: none;
+      border-color: $blue;
+      box-shadow: 0 0 0 3px rgba(74, 154, 225, 0.1);
+    }
+    
+    &::placeholder {
+      color: $default-tint;
+    }
+  }
+  
+  #search-button {
+    padding: 0.75rem 1.5rem;
+    background: $blue;
+    color: $white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background: darken($blue, 10%);
+      transform: translateY(-1px);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+// 검색 결과 스타일
+.search-results-info {
+  text-align: center;
+  margin-bottom: 2rem;
+  
+  p {
+    color: $default-tint;
+    margin: 0.5rem 0;
+  }
+}
+
+.search-results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.search-result-item {
+  padding: 1.5rem;
+  border: 1px solid $grey-2;
+  border-radius: 8px;
+  background: $white;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    border-color: $blue;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+  
+  h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+    
+    a {
+      color: $default-shade;
+      text-decoration: none;
+      
+      &:hover {
+        color: $blue;
+      }
+    }
+  }
+  
+  .search-result-meta {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    color: $default-tint;
+    
+    .category {
+      background: $blue;
+      color: $white;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+  }
+  
+  .search-result-excerpt {
+    color: $default-color;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    
+    mark {
+      background: #fff3cd;
+      padding: 0.1rem 0.2rem;
+      border-radius: 2px;
+      font-weight: 500;
+    }
+  }
+  
+  .search-result-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    
+    .tag {
+      background: $grey-3;
+      color: $default-color;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      border: 1px solid $grey-2;
+    }
+  }
+}
+
+// 다크 모드 스타일
+.dark-theme {
+  .search-container {
+    h1 {
+      color: $dark-text;
+    }
+  }
+  
+  .search-form {
+    #search-input {
+      background: $dark-code-background;
+      color: $dark-text;
+      border-color: $dark-border;
+      
+      &:focus {
+        border-color: $dark-link;
+        box-shadow: 0 0 0 3px rgba(109, 168, 255, 0.1);
+      }
+      
+      &::placeholder {
+        color: $dark-secondary-text;
+      }
+    }
+    
+    #search-button {
+      background: $dark-link;
+      
+      &:hover {
+        background: lighten($dark-link, 10%);
+      }
+    }
+  }
+  
+  .search-results-info {
+    p {
+      color: $dark-secondary-text;
+    }
+  }
+  
+  .search-result-item {
+    background: $dark-card-background;
+    border-color: $dark-border;
+    
+    &:hover {
+      border-color: $dark-link;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    h3 a {
+      color: $dark-text;
+      
+      &:hover {
+        color: $dark-link;
+      }
+    }
+    
+    .search-result-meta {
+      color: $dark-secondary-text;
+      
+      .category {
+        background: $dark-link;
+        color: $dark-background;
+      }
+    }
+    
+    .search-result-excerpt {
+      color: $dark-text;
+      
+      mark {
+        background: #664d03;
+        color: #fff3cd;
+      }
+    }
+    
+    .search-result-tags {
+      .tag {
+        background: $dark-code-background;
+        color: $dark-text;
+        border-color: $dark-border;
+      }
+    }
+  }
+}
+
+// 반응형 디자인
+@media (max-width: 768px) {
+  .search-container {
+    padding: 1rem;
+  }
+  
+  .search-form {
+    flex-direction: column;
+    
+    #search-button {
+      padding: 0.75rem;
+    }
+  }
+  
+  .search-result-item {
+    padding: 1rem;
+    
+    .search-result-meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+  }
+}

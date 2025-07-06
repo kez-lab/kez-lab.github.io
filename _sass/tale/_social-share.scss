@@ -1,0 +1,148 @@
+// 소셜 공유 버튼 스타일
+.social-share {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  border: 1px solid $grey-2;
+  border-radius: 8px;
+  background: $white;
+  
+  h4 {
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+    color: $default-shade;
+  }
+  
+  .share-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    
+    svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    &.twitter {
+      background: #1da1f2;
+      color: $white;
+      
+      &:hover {
+        background: darken(#1da1f2, 10%);
+      }
+    }
+    
+    &.facebook {
+      background: #1877f2;
+      color: $white;
+      
+      &:hover {
+        background: darken(#1877f2, 10%);
+      }
+    }
+    
+    &.linkedin {
+      background: #0077b5;
+      color: $white;
+      
+      &:hover {
+        background: darken(#0077b5, 10%);
+      }
+    }
+    
+    &.telegram {
+      background: #0088cc;
+      color: $white;
+      
+      &:hover {
+        background: darken(#0088cc, 10%);
+      }
+    }
+    
+    &.copy-link {
+      background: $grey-3;
+      color: $default-shade;
+      border-color: $grey-2;
+      
+      &:hover {
+        background: darken($grey-3, 5%);
+        border-color: darken($grey-2, 10%);
+      }
+      
+      &.copied {
+        background: #28a745;
+        color: $white;
+        border-color: #28a745;
+      }
+    }
+  }
+}
+
+// 다크 모드 스타일
+.dark-theme {
+  .social-share {
+    background: $dark-card-background;
+    border-color: $dark-border;
+    
+    h4 {
+      color: $dark-text;
+    }
+    
+    .share-btn {
+      &.copy-link {
+        background: $dark-code-background;
+        color: $dark-text;
+        border-color: $dark-border;
+        
+        &:hover {
+          background: lighten($dark-code-background, 5%);
+          border-color: lighten($dark-border, 10%);
+        }
+        
+        &.copied {
+          background: #28a745;
+          color: $white;
+          border-color: #28a745;
+        }
+      }
+    }
+  }
+}
+
+// 반응형 디자인
+@media (max-width: 768px) {
+  .social-share {
+    .share-buttons {
+      justify-content: center;
+    }
+    
+    .share-btn {
+      flex: 1;
+      justify-content: center;
+      min-width: 0;
+      
+      &:nth-child(n+3) {
+        margin-top: 0.5rem;
+      }
+    }
+  }
+}

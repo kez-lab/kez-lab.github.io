@@ -45,11 +45,119 @@ pre code {
   }
 }
 
+// 코드블럭 향상 스타일
+.highlight {
+  overflow-x: auto;
+  
+  .code-copy-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: rgba(255, 255, 255, 0.9);
+    color: $default-shade;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    padding: 0.375rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    z-index: 20;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(4px);
+    
+    // 모바일에서 텍스트 숨기기
+    span {
+      @media (max-width: 480px) {
+        display: none;
+      }
+    }
+    
+    svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+    
+    &:hover {
+      background: rgba(255, 255, 255, 1);
+      border-color: $blue;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    &.copied {
+      background: #28a745;
+      color: white;
+      border-color: #28a745;
+      transform: scale(1.02);
+    }
+  }
+  
+  .code-language-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: $default-color;
+    color: $white;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-radius: 3px 0 6px 0;
+    z-index: 10;
+    
+    // 모바일에서 작게 표시
+    @media (max-width: 480px) {
+      font-size: 0.6rem;
+      padding: 0.2rem 0.4rem;
+    }
+  }
+  
+  pre {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    
+    // 모바일에서 패딩 조정
+    @media (max-width: 600px) {
+      padding: 2rem 0.75rem 1rem 0.75rem;
+    }
+  }
+}
+
 // 다크 테마에서의 추가적인 코드 스타일
 .dark-theme {
   code {
     background-color: $dark-code-background;
     color: $dark-code-text;
+  }
+  
+  .highlight {
+    .code-copy-btn {
+      background: rgba(30, 30, 30, 0.95);
+      color: $dark-text;
+      border-color: rgba(255, 255, 255, 0.1);
+      
+      &:hover {
+        background: rgba(30, 30, 30, 1);
+        border-color: $dark-link;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      }
+      
+      &.copied {
+        background: #28a745;
+        color: white;
+        border-color: #28a745;
+      }
+    }
+    
+    .code-language-label {
+      background: $dark-link;
+      color: $dark-background;
+    }
   }
   
   .highlight {

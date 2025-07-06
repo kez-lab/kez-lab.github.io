@@ -1,0 +1,222 @@
+// 관련 게시물 스타일
+.related-posts {
+  margin: 3rem 0;
+  padding: 2rem;
+  border: 1px solid $grey-2;
+  border-radius: 8px;
+  background: $white;
+  
+  h3 {
+    margin: 0 0 1.5rem 0;
+    color: $default-shade;
+    font-size: 1.25rem;
+    text-align: center;
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 2px;
+      background: $blue;
+    }
+  }
+}
+
+.related-posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.related-post-item {
+  border: 1px solid $grey-2;
+  border-radius: 6px;
+  padding: 1.5rem;
+  background: $white;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    border-color: $blue;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+  
+  h4 {
+    margin: 0 0 0.75rem 0;
+    font-size: 1.1rem;
+    line-height: 1.4;
+    
+    a {
+      color: $default-shade;
+      text-decoration: none;
+      
+      &:hover {
+        color: $blue;
+      }
+    }
+  }
+  
+  .related-post-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.875rem;
+    color: $default-tint;
+    
+    .related-post-category {
+      background: $blue;
+      color: $white;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+  }
+  
+  .related-post-excerpt {
+    color: $default-color;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .related-post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    
+    .tag {
+      background: $grey-3;
+      color: $default-color;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-size: 0.7rem;
+      border: 1px solid $grey-2;
+    }
+  }
+}
+
+.related-posts-more {
+  text-align: center;
+  margin-top: 1.5rem;
+  
+  .btn-more {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: $blue;
+    color: $white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background: darken($blue, 10%);
+      transform: translateY(-1px);
+    }
+  }
+}
+
+// 다크 모드 스타일
+.dark-theme {
+  .related-posts {
+    background: $dark-card-background;
+    border-color: $dark-border;
+    
+    h3 {
+      color: $dark-text;
+      
+      &::after {
+        background: $dark-link;
+      }
+    }
+  }
+  
+  .related-post-item {
+    background: $dark-code-background;
+    border-color: $dark-border;
+    
+    &:hover {
+      border-color: $dark-link;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    h4 a {
+      color: $dark-text;
+      
+      &:hover {
+        color: $dark-link;
+      }
+    }
+    
+    .related-post-meta {
+      color: $dark-secondary-text;
+      
+      .related-post-category {
+        background: $dark-link;
+        color: $dark-background;
+      }
+    }
+    
+    .related-post-excerpt {
+      color: $dark-text;
+    }
+    
+    .related-post-tags {
+      .tag {
+        background: $dark-background;
+        color: $dark-text;
+        border-color: $dark-border;
+      }
+    }
+  }
+  
+  .related-posts-more {
+    .btn-more {
+      background: $dark-link;
+      
+      &:hover {
+        background: lighten($dark-link, 10%);
+      }
+    }
+  }
+}
+
+// 반응형 디자인
+@media (max-width: 768px) {
+  .related-posts {
+    padding: 1.5rem;
+    margin: 2rem 0;
+  }
+  
+  .related-posts-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .related-post-item {
+    padding: 1rem;
+    
+    .related-post-meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .related-posts {
+    padding: 1rem;
+  }
+  
+  .related-post-item {
+    padding: 0.75rem;
+  }
+}

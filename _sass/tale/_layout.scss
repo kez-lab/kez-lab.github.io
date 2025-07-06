@@ -1,7 +1,16 @@
 .container {
   margin: 0 auto;
-  max-width: 800px;
-  width: 80%;
+  max-width: 900px;
+  width: 90%;
+  
+  @media (min-width: 768px) {
+    width: 85%;
+  }
+  
+  @media (min-width: 1200px) {
+    max-width: 1000px;
+    width: 80%;
+  }
 }
 
 main,
@@ -9,8 +18,17 @@ footer,
 .nav-container {
   display: block;
   margin: 0 auto;
-  max-width: 800px;
-  width: 80%;
+  max-width: 900px;
+  width: 90%;
+  
+  @media (min-width: 768px) {
+    width: 85%;
+  }
+  
+  @media (min-width: 1200px) {
+    max-width: 1000px;
+    width: 80%;
+  }
 }
 
 .nav {
@@ -18,9 +36,10 @@ footer,
   overflow: auto;
 
   &-container {
-    margin: 1rem auto;
+    margin: 1.5rem auto;
     position: relative;
     text-align: center;
+    padding: 1rem 0;
   }
 
   &-title {
@@ -29,34 +48,39 @@ footer,
     display: inline-block;
     margin: 0;
     padding-right: .2rem;
+    font-size: 1.8rem;
+    font-weight: 700;
 
     &:hover,
     &:focus {
-      opacity: .6;
+      opacity: .8;
+      color: $blue;
     }
   }
 
   ul {
     list-style-type: none;
-    margin: 1rem 0 0;
+    margin: 1.25rem 0 0;
     padding: 0;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 
   li {
     @include transition(all .2s ease-out);
     color: $default-color;
     display: inline-block;
-    opacity: .6;
-    padding: 0 2rem 0 0;
-
-    &:last-child {
-      padding-right: 0;
-    }
+    opacity: .8;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
 
     &:hover,
     &:focus {
       opacity: 1;
+      background-color: rgba(74, 154, 225, 0.1);
     }
   }
 
@@ -66,30 +90,40 @@ footer,
   }
   
   #theme-toggle {
-    background: none;
-    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     cursor: pointer;
-    font-size: 1.2rem;
-    padding: 0;
+    font-size: 1.1rem;
+    padding: 0.4rem 0.6rem;
     margin: 0;
-    opacity: 0.6;
+    border-radius: 6px;
+    transition: all 0.2s ease;
     
     &:hover {
-      opacity: 1;
+      background: rgba(74, 154, 225, 0.2);
+      border-color: rgba(74, 154, 225, 0.3);
+      transform: scale(1.05);
     }
   }
 }
 
-@media (min-width: 600px) {
+@media (min-width: 768px) {
   .nav {
     &-container {
       text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     ul {
-      bottom: 0;
-      position: absolute;
-      right: 0;
+      position: static;
+      margin: 0;
+      justify-content: flex-end;
+    }
+    
+    li {
+      padding: 0.4rem 0.8rem;
     }
   }
 }

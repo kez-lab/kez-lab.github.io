@@ -15,9 +15,18 @@
   &-title {
     color: $default-shade;
     font-family: $sans-serif;
-    font-size: 4rem;
+    font-size: 2.5rem;
     margin: 1rem 0;
     text-align: center;
+    line-height: 1.2;
+    
+    @media (min-width: 600px) {
+      font-size: 3rem;
+    }
+    
+    @media (min-width: 900px) {
+      font-size: 3.5rem;
+    }
   }
 
   &-line {
@@ -28,8 +37,119 @@
   }
 
   p {
-    margin: 0 0 1rem;
-    text-align: justify;
+    margin: 0 0 1.25rem;
+    text-align: left;
+    line-height: 1.6;
+    font-size: 1rem;
+    
+    @media (min-width: 600px) {
+      margin: 0 0 1.5rem;
+      line-height: 1.7;
+      font-size: 1.05rem;
+    }
+  }
+  
+  // 마크다운 콘텐츠 내 제목들
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    
+    // 첫 번째 제목의 상단 마진 제거
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+  
+  h2 {
+    border-bottom: 2px solid $grey-2;
+    padding-bottom: 0.5rem;
+  }
+  
+  h3 {
+    color: $default-color;
+  }
+  
+  h4 {
+    color: $default-color;
+    font-weight: 600;
+  }
+  
+  // 리스트 스타일 개선
+  ul, ol {
+    margin: 1rem 0 1.5rem 0;
+    padding-left: 2rem;
+    
+    li {
+      margin-bottom: 0.5rem;
+      line-height: 1.6;
+    }
+    
+    ul, ol {
+      margin: 0.5rem 0;
+    }
+  }
+  
+  // 강조 텍스트
+  strong {
+    font-weight: 700;
+    color: $default-shade;
+  }
+  
+  em {
+    font-style: italic;
+    color: $default-color;
+  }
+  
+  // 인라인 코드
+  code {
+    font-size: 0.9rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+  }
+  
+  // 테이블 스타일
+  table {
+    width: 100%;
+    margin: 1.5rem 0;
+    border-collapse: collapse;
+    overflow-x: auto;
+    display: block;
+    white-space: nowrap;
+    
+    @media (min-width: 768px) {
+      display: table;
+      white-space: normal;
+    }
+    
+    th, td {
+      padding: 0.5rem;
+      text-align: left;
+      border-bottom: 1px solid $grey-2;
+      
+      @media (min-width: 600px) {
+        padding: 0.75rem;
+      }
+    }
+    
+    th {
+      font-weight: 600;
+      background-color: $grey-3;
+      border-bottom: 2px solid $grey-2;
+    }
+  }
+  
+  // 인용구 개선
+  blockquote {
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem;
+    border-left: 4px solid $blue;
+    background-color: rgba(74, 154, 225, 0.05);
+    border-radius: 0 4px 4px 0;
+    
+    p {
+      margin-bottom: 0;
+      font-style: italic;
+    }
   }
 
   a:hover {
@@ -75,6 +195,34 @@
     
     &-line {
       border-top-color: $dark-link;
+    }
+    
+    h2 {
+      border-bottom-color: $dark-border;
+    }
+    
+    h3, h4 {
+      color: $dark-text;
+    }
+    
+    strong {
+      color: $dark-text;
+    }
+    
+    table {
+      th {
+        background-color: $dark-card-background;
+        border-bottom-color: $dark-border;
+      }
+      
+      th, td {
+        border-bottom-color: $dark-border;
+      }
+    }
+    
+    blockquote {
+      border-left-color: $dark-link;
+      background-color: rgba(109, 168, 255, 0.05);
     }
     
     img + em {

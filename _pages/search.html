@@ -1,0 +1,204 @@
+---
+layout: default
+title: "검색"
+permalink: /search/
+---
+
+<div class="search-container">
+  <h1>검색</h1>
+  
+  <div class="search-form">
+    <input type="search" id="search-input" placeholder="검색어를 입력하세요..." autocomplete="off">
+    <button type="button" id="search-button">검색</button>
+  </div>
+  
+  <div id="search-results">
+    <div class="search-results-info">
+      <p>검색어를 입력하면 관련 게시물을 찾을 수 있습니다.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// 검색 관련 전역 변수
+let searchData = [];
+let searchIndex = null;
+
+// 페이지 로드 시 검색 데이터 초기화
+document.addEventListener('DOMContentLoaded', function() {
+  loadSearchData();
+  setupSearchListeners();
+});
+
+// 검색 데이터 로드
+async function loadSearchData() {
+  try {
+    const response = await fetch('/search-data.json');
+    searchData = await response.json();
+    buildSearchIndex();
+  } catch (error) {
+    console.error('검색 데이터 로드 실패:', error);
+  }
+}
+
+// 검색 인덱스 생성
+function buildSearchIndex() {
+  searchIndex = searchData.map(item => ({
+    ...item,
+    searchText: `${item.title} ${item.content} ${item.categories.join(' ')} ${item.tags.join(' ')}`.toLowerCase()
+  }));
+}
+
+// 검색 이벤트 리스너 설정
+function setupSearchListeners() {
+  const searchInput = document.getElementById('search-input');
+  const searchButton = document.getElementById('search-button');
+  
+  searchInput.addEventListener('input', debounce(performSearch, 300));
+  searchInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      performSearch();
+    }
+  });
+  
+  searchButton.addEventListener('click', performSearch);
+}
+
+// 검색 수행
+function performSearch() {
+  const query = document.getElementById('search-input').value.trim();
+  const resultsContainer = document.getElementById('search-results');
+  
+  if (!query) {
+    resultsContainer.innerHTML = '<div class="search-results-info"><p>검색어를 입력하세요.</p></div>';
+    return;
+  }
+  
+  if (!searchIndex) {
+    resultsContainer.innerHTML = '<div class="search-results-info"><p>검색 데이터를 로드 중입니다...</p></div>';
+    return;
+  }
+  
+  const results = searchPosts(query);
+  displayResults(results, query);
+}
+
+// 게시물 검색
+function searchPosts(query) {
+  const queryLower = query.toLowerCase();
+  const keywords = queryLower.split(/\s+/).filter(word => word.length > 0);
+  
+  return searchIndex.map(post => {
+    let score = 0;
+    
+    keywords.forEach(keyword => {
+      // 제목에서 검색 (가중치 3)
+      if (post.title.toLowerCase().includes(keyword)) {
+        score += 3;
+      }
+      
+      // 내용에서 검색 (가중치 1)
+      if (post.content.toLowerCase().includes(keyword)) {
+        score += 1;
+      }
+      
+      // 카테고리에서 검색 (가중치 2)
+      if (post.categories.some(cat => cat.toLowerCase().includes(keyword))) {
+        score += 2;
+      }
+      
+      // 태그에서 검색 (가중치 2)
+      if (post.tags.some(tag => tag.toLowerCase().includes(keyword))) {
+        score += 2;
+      }
+    });
+    
+    return { ...post, score };
+  })
+  .filter(post => post.score > 0)
+  .sort((a, b) => b.score - a.score);
+}
+
+// 검색 결과 표시
+function displayResults(results, query) {
+  const resultsContainer = document.getElementById('search-results');
+  
+  if (results.length === 0) {
+    resultsContainer.innerHTML = `
+      <div class="search-results-info">
+        <p>"${query}"에 대한 검색 결과가 없습니다.</p>
+        <p>다른 검색어를 시도해보세요.</p>
+      </div>
+    `;
+    return;
+  }
+  
+  const resultsHTML = `
+    <div class="search-results-info">
+      <p>"${query}"에 대한 검색 결과 ${results.length}개</p>
+    </div>
+    <div class="search-results-list">
+      ${results.map(post => `
+        <article class="search-result-item">
+          <h3><a href="${post.url}">${highlightText(post.title, query)}</a></h3>
+          <div class="search-result-meta">
+            <time datetime="${post.date}">${formatDate(post.date)}</time>
+            ${post.categories.length > 0 ? `<span class="category">${post.categories[0]}</span>` : ''}
+          </div>
+          <p class="search-result-excerpt">${highlightText(post.excerpt, query)}</p>
+          ${post.tags.length > 0 ? `
+            <div class="search-result-tags">
+              ${post.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+            </div>
+          ` : ''}
+        </article>
+      `).join('')}
+    </div>
+  `;
+  
+  resultsContainer.innerHTML = resultsHTML;
+}
+
+// 검색어 하이라이트
+function highlightText(text, query) {
+  if (!query) return text;
+  
+  const keywords = query.split(/\s+/).filter(word => word.length > 0);
+  let highlightedText = text;
+  
+  keywords.forEach(keyword => {
+    const regex = new RegExp(`(${escapeRegExp(keyword)})`, 'gi');
+    highlightedText = highlightedText.replace(regex, '<mark>$1</mark>');
+  });
+  
+  return highlightedText;
+}
+
+// 정규표현식 특수문자 이스케이프
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// 날짜 포맷팅
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('ko-KR', {
+    year: 'numeric',
+    month: 'long', 
+    day: 'numeric'
+  });
+}
+
+// 디바운스 함수
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+</script>
