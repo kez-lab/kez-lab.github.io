@@ -15,7 +15,7 @@ google_analytics: UA—XXXXXXXX-X
 author:
   name:         KEZ
   url:          https://kez-lab.github.io
-  email:        yuijin0909@gmail.com
+  email:        kejprogramer0909@gmail.com
   twitter:      # 트위터 계정이 있다면 추가
   github:       kez-lab
   linkedin:     # 링크드인 계정이 있다면 추가
@@ -43,11 +43,14 @@ plugins:
   - jekyll-feed
   - jekyll-paginate
   - jekyll-seo-tag
-  - jekyll-sitemap # SEO 최적화를 위한 사이트맵 추가
-  # - jemoji #Uncomment this to allow emoji in your post
+  - jekyll-sitemap
 
 # Permalinks
-permalink:      /:year-:month-:day/:title
+# URL 구조 최적화
+permalink:      /:title/
+
+# 또는 카테고리 포함
+# permalink:      /:categories/:title/
 paginate:       10
 
 # Excludes
