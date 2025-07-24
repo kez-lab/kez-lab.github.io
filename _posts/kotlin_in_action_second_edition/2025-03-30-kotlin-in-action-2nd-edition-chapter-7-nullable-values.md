@@ -8,8 +8,6 @@ author: admin
 excerpt: "코틀린의 널 가능성 타입 시스템으로 NullPointerException을 방지하고 안전하게 널 값을 다루는 방법을 학습합니다."
 ---
 
-# 7장 코틀린 인 액션 2판: 7장 - 컬렉션과 시퀀스
-
 # Kotlin in Action 2판 정리 - 7장: 널이 될 수 있는 값
 
 ---
