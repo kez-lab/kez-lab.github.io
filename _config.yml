@@ -9,7 +9,7 @@ author:         "KEZ"
 logo:           "/assets/images/kez-logo.png"
 
 # Google Analytics
-google_analytics: UA—XXXXXXXX-X
+# google_analytics: UA-XXXXXXXX-X  # 실제 GA 추적 ID로 교체 후 활성화
 
 # Author
 author:

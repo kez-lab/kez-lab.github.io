@@ -87,22 +87,12 @@
   {% include analytics.html %}
   {% endif %}
   
-  <!-- 다크 모드 관련 스크립트 -->
-  <script>
-    // 사용자의 색상 테마 환경설정 확인
-    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-    
-    // 로컬 스토리지에서 테마 설정 가져오기
-    const currentTheme = localStorage.getItem("theme");
-    
-    // 사용자가 다크 모드를 선호하거나 이전에 다크 모드를 선택했다면
-    if (currentTheme === "dark" || (currentTheme === null && prefersDarkScheme.matches)) {
-      document.body.classList.add("dark-theme");
-    } else {
-      document.body.classList.remove("dark-theme");
-    }
-  </script>
+  <!-- 다크 모드 테마 초기화 (FOUC 방지를 위해 동기 로드) -->
+  <script src="{{ "/assets/js/theme-toggle.js" | relative_url }}"></script>
   
   <!-- 코드 복사 기능 -->
   <script src="{{ "/assets/js/code-copy.js" | relative_url }}" defer></script>
+  
+  <!-- 이미지 Lazy Loading -->
+  <script src="{{ "/assets/js/lazy-loading.js" | relative_url }}" defer></script>
 </head>

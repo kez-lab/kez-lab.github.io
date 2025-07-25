@@ -1,0 +1,51 @@
+<!-- 시리즈 네비게이션 -->
+{% if page.series %}
+  {% assign series_posts = site.posts | where: "series", page.series | sort: "date" %}
+  {% assign current_index = 0 %}
+  
+  {% for post in series_posts %}
+    {% if post.url == page.url %}
+      {% assign current_index = forloop.index0 %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+  
+  <div class="series-navigation">
+    <div class="series-header">
+      <h3>📚 {{ page.series }} 시리즈</h3>
+      <span class="series-progress">{{ current_index | plus: 1 }} / {{ series_posts.size }}</span>
+    </div>
+    
+    <div class="series-nav-buttons">
+      {% if current_index > 0 %}
+        {% assign prev_post = series_posts[current_index | minus: 1] %}
+        <a href="{{ prev_post.url | relative_url }}" class="series-nav-btn prev">
+          <span class="nav-label">← 이전</span>
+          <span class="nav-title">{{ prev_post.title | truncate: 30 }}</span>
+        </a>
+      {% endif %}
+      
+      {% if current_index < series_posts.size | minus: 1 %}
+        {% assign next_post = series_posts[current_index | plus: 1] %}
+        <a href="{{ next_post.url | relative_url }}" class="series-nav-btn next">
+          <span class="nav-label">다음 →</span>
+          <span class="nav-title">{{ next_post.title | truncate: 30 }}</span>
+        </a>
+      {% endif %}
+    </div>
+    
+    <div class="series-list">
+      <details>
+        <summary>전체 목차 보기</summary>
+        <ol class="series-toc">
+          {% for post in series_posts %}
+          <li class="{% if post.url == page.url %}current{% endif %}">
+            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+            <time>{{ post.date | date: "%m/%d" }}</time>
+          </li>
+          {% endfor %}
+        </ol>
+      </details>
+    </div>
+  </div>
+{% endif %}

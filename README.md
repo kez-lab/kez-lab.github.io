@@ -1,132 +1,72 @@
-# Tale
+# KEZ Lab 기술 블로그
 
-[![Gem Version](https://badge.fury.io/rb/tale.svg)](https://badge.fury.io/rb/tale)
+Android, Kotlin, AI, Web 개발 기술을 공유하는 기술 블로그입니다.
 
-Tale is a minimal Jekyll theme curated for storytellers. Checkout the demo [here](https://chesterhow.github.io/tale/).
+🌐 **사이트**: [https://kez-lab.github.io](https://kez-lab.github.io)
 
-![Tale screenshot](http://i.imgur.com/pXZrtmo.png)
+## 주요 콘텐츠
 
-## Features
-- Easy installation
-- Compatible with GitHub Pages
-- Responsive design (looks just as good on mobile)
-- Syntax highlighting, with the help of Pygments
-- Markdown and HTML text formatting
-- Pagination of posts
-- Sticky posts
-- Tags
-- Excerpt management
-- [Disqus comments (can be enabled if needed)](#enabling-comments)
+- **Kotlin**: Kotlin in Action 2판 정리 시리즈
+- **Android**: 안드로이드 개발 관련 기술 포스팅
+- **AI**: 인공지능 개발 및 활용 방법
+- **Web**: 웹 개발 기술 및 프레임워크
 
-## Installation
-There are 3 ways to install this theme
+## 기술 스택
 
-1. Install it as a Ruby Gem (for self-hosted sites)
-2. Install it with the `jekyll-remote-theme` plugin (for GitHub Pages hosted sites)
-3. Fork the project directly
+- **Jekyll**: 정적 사이트 생성기
+- **GitHub Pages**: 무료 호스팅
+- **Tale Theme**: 미니멀한 Jekyll 테마 기반
+- **Disqus**: 댓글 시스템
+- **Google Analytics**: 방문자 분석
 
-### Ruby Gem method
-1. Add this line to your `Gemfile`:
+## 개발 환경 설정
 
-```ruby
-gem "tale"
-```
-
-2. Install the theme's gems and dependencies:
+### 로컬 실행
 
 ```bash
-$ bundle
+# 의존성 설치
+bundle install
+
+# 로컬 서버 실행
+bundle exec jekyll serve
+
+# 브라우저에서 확인
+# http://127.0.0.1:4000
 ```
 
-3. In `_config.yml` add these lines:
+### 주요 설정
 
-```yaml
-theme:      tale
+- **댓글**: Disqus 활성화됨 (`_config.yml`에서 설정)
+- **SEO**: jekyll-seo-tag 플러그인 사용
+- **사이트맵**: 자동 생성 (jekyll-sitemap)
+- **RSS 피드**: 자동 생성 (jekyll-feed)
 
-permalink:  /:year-:month-:day/:title
-paginate:   5
-```
+## 포스팅 가이드
 
-Remove any other `theme:` lines.
+새 포스트는 `_posts/` 디렉토리에 다음 형식으로 작성:
 
-4. Rename `index.md` to `index.html`. Without this, the `jekyll-paginate` gem will not work.
-
-5. In `about.md`, change the `layout:` field to `post`:
-
-```Markdown
+```markdown
+---
 layout: post
+title: "포스트 제목"
+date: YYYY-MM-DD HH:MM:SS +0900
+categories: [카테고리1, 카테고리2]
+tags: [태그1, 태그2]
+author: admin
+excerpt: "포스트 요약 (SEO용)"
+---
+
+포스트 내용
 ```
 
-### GitHub Pages method
-1. Add these 2 lines in to your `Gemfile`:
+## 기여하기
 
-```ruby
-gem "jekyll-remote-theme"
-gem "jekyll-paginate"
-```
+이슈나 개선 제안이 있으시면 GitHub Issue를 생성해주세요.
 
-2. Install the newly added gems:
+## 라이선스
 
-```bash
-$ bundle
-```
+이 블로그는 [Tale Jekyll Theme](https://github.com/chesterhow/tale)를 기반으로 제작되었습니다.
 
-3. In `_config.yml` add these lines:
+---
 
-```yaml
-remote_theme: chesterhow/tale
-
-permalink:    /:year-:month-:day/:title
-paginate:     5
-
-plugins:
-  - jekyll-paginate
-  - jekyll-remote-theme
-```
-
-Remove any other `theme:` or `remote_theme:` lines.
-
-4. Rename `index.md` to `index.html`. Without this, the `jekyll-paginate` gem will not work.
-
-5. In `about.md`, change the `layout:` field to `post`:
-
-```Markdown
-layout: post
-```
-
-### Fork method
-1. Fork this repository
-
-2. Delete the unnecessary files/folders: `CODE_OF_CONDUCT.md`, `LICENSE`, `README.md`, `tale.gemspec`
-
-3. Delete the `baseurl` line in `_config.yml`:
-
-```yaml
-baseurl:  "/tale"   # delete this line
-```
-
-## Usage
-Once you've installed the theme, you're ready to work on your Jekyll site. To start off, I would recommend updating `_config.yml` with your site's details.
-
-To build and serve your site, run:
-
-```bash
-$ bundle exec jekyll serve
-```
-
-And you're all set! Head over to http://127.0.0.1:4000/ to see your site in action.
-
-### Enabling Comments
-Comments are disabled by default. To enable them, look for the following line in `_config.yml` and change `jekyll-tale` to your site's Disqus id.
-
-```yml
-disqus: jekyll-tale
-```
-
-Next, add `comments: true` to the YAML front matter of the posts which you would like to enable comments for.
-
-## Contributing
-Found a bug or have a suggestion? Feel free to create an issue or make a pull request!
-
-## License
-See [LICENSE](https://github.com/chesterhow/tale/blob/master/LICENSE)
+**Built with ❤️ using Jekyll and Tale Theme**

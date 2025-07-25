@@ -6,6 +6,8 @@ categories: [Kotlin, Kotlin In Action 2, 코틀린 인 액션 2판]
 tags: [Kotlin, Kotlin in Action, Nullable]
 author: admin
 excerpt: "코틀린의 널 가능성 타입 시스템으로 NullPointerException을 방지하고 안전하게 널 값을 다루는 방법을 학습합니다."
+image: "/assets/images/posts/kotlin-nullable-cover.jpg"
+series: "Kotlin in Action 2판"
 ---
 
 # Kotlin in Action 2판 정리 - 7장: 널이 될 수 있는 값
