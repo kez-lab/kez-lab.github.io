@@ -36,7 +36,6 @@
 .related-post-item {
   border: 1px solid $grey-2;
   border-radius: 6px;
-  padding: 1.5rem;
   background: $white;
   transition: all 0.3s ease;
   
@@ -46,18 +45,25 @@
     transform: translateY(-2px);
   }
   
+  .related-post-link {
+    display: block;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: inherit;
+    
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  
   h4 {
     margin: 0 0 0.75rem 0;
     font-size: 1.1rem;
     line-height: 1.4;
+    color: $default-shade;
     
-    a {
-      color: $default-shade;
-      text-decoration: none;
-      
-      &:hover {
-        color: $blue;
-      }
+    .related-post-link:hover & {
+      color: $blue;
     }
   }
   
@@ -147,12 +153,12 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
     
-    h4 a {
+    h4 {
       color: $dark-text;
-      
-      &:hover {
-        color: $dark-link;
-      }
+    }
+    
+    .related-post-link:hover h4 {
+      color: $dark-link;
     }
     
     .related-post-meta {
@@ -201,7 +207,9 @@
   }
   
   .related-post-item {
-    padding: 1rem;
+    .related-post-link {
+      padding: 1rem;
+    }
     
     .related-post-meta {
       flex-direction: column;
@@ -217,6 +225,8 @@
   }
   
   .related-post-item {
-    padding: 0.75rem;
+    .related-post-link {
+      padding: 0.75rem;
+    }
   }
 }

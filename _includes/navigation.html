@@ -19,20 +19,26 @@
 
 <script>
   // 테마 토글 버튼 기능
-  const themeToggle = document.getElementById('theme-toggle');
-  
-  themeToggle.addEventListener('click', () => {
-    // 현재 테마 확인
-    const isDarkTheme = document.body.classList.contains('dark-theme');
+  document.addEventListener('DOMContentLoaded', function() {
+    const themeToggle = document.getElementById('theme-toggle');
     
-    if (isDarkTheme) {
-      // 다크 모드 해제
-      document.body.classList.remove('dark-theme');
-      localStorage.setItem('theme', 'light');
-    } else {
-      // 다크 모드 적용
-      document.body.classList.add('dark-theme');
-      localStorage.setItem('theme', 'dark');
+    if (themeToggle) {
+      themeToggle.addEventListener('click', () => {
+        // 현재 테마 확인
+        const isDarkTheme = document.body.classList.contains('dark-theme');
+        
+        if (isDarkTheme) {
+          // 다크 모드 해제
+          document.documentElement.classList.remove('dark-theme');
+          document.body.classList.remove('dark-theme');
+          localStorage.setItem('theme', 'light');
+        } else {
+          // 다크 모드 적용
+          document.documentElement.classList.add('dark-theme');
+          document.body.classList.add('dark-theme');
+          localStorage.setItem('theme', 'dark');
+        }
+      });
     }
   });
 </script>

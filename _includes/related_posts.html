@@ -24,27 +24,29 @@
   <div class="related-posts-grid">
     {% for related_post in all_related limit: 3 %}
     <article class="related-post-item">
-      <div class="related-post-content">
-        <h4><a href="{{ related_post.url | relative_url }}">{{ related_post.title }}</a></h4>
-        <div class="related-post-meta">
-          <time datetime="{{ related_post.date | date_to_xmlschema }}">
-            {{ related_post.date | date: "%Y년 %m월 %d일" }}
-          </time>
-          {% if related_post.categories.size > 0 %}
-          <span class="related-post-category">{{ related_post.categories | first }}</span>
+      <a href="{{ related_post.url | relative_url }}" class="related-post-link">
+        <div class="related-post-content">
+          <h4>{{ related_post.title }}</h4>
+          <div class="related-post-meta">
+            <time datetime="{{ related_post.date | date_to_xmlschema }}">
+              {{ related_post.date | date: "%Y년 %m월 %d일" }}
+            </time>
+            {% if related_post.categories.size > 0 %}
+            <span class="related-post-category">{{ related_post.categories | first }}</span>
+            {% endif %}
+          </div>
+          <p class="related-post-excerpt">
+            {{ related_post.excerpt | strip_html | truncate: 100 }}
+          </p>
+          {% if related_post.tags.size > 0 %}
+          <div class="related-post-tags">
+            {% for tag in related_post.tags limit: 3 %}
+            <span class="tag">{{ tag }}</span>
+            {% endfor %}
+          </div>
           {% endif %}
         </div>
-        <p class="related-post-excerpt">
-          {{ related_post.excerpt | strip_html | truncate: 100 }}
-        </p>
-        {% if related_post.tags.size > 0 %}
-        <div class="related-post-tags">
-          {% for tag in related_post.tags limit: 3 %}
-          <span class="tag">{{ tag }}</span>
-          {% endfor %}
-        </div>
-        {% endif %}
-      </div>
+      </a>
     </article>
     {% endfor %}
   </div>
