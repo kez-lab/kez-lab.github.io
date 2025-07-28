@@ -329,9 +329,9 @@ fun main() = runBlocking {
 ### 18.4.1 catch 연산자로 업스트림 예외 처리
 
 - catch는 플로우에서 발생한 예외를 처리할 수 있는 중간 연산자임  
-- catch에 연결된 람다의 파라미터(it)로 예외가 전달됨  
-- catch는 취소 예외(CancellationException)는 자동으로 인식해 호출되지 않음  
-- catch는 예외 발생 시 값을 emit해 에러를 다운스트림으로 전달할 수도 있음  
+- 연결된 람다의 파라미터(it)로 예외가 전달됨  
+- 취소 예외(CancellationException)는 자동으로 인식해 호출되지 않음  
+- 예외 발생 시 값을 emit해 에러를 다운스트림으로 전달할 수도 있음  
 - catch 연산자는 오직 업스트림에서 발생한 예외만 잡을 수 있음  
 - catch 호출 다음(onEach 등)에서 발생한 예외는 catch에서 잡히지 않음
 
@@ -382,9 +382,6 @@ fun main() = runBlocking {
 
 예제 코드  
 ```kotlin
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
-import kotlin.random.Random
 class CommunicationException : Exception("Communication failed!")
 val unreliableFlow = flow {
     println("Starting the flow!")
@@ -421,10 +418,6 @@ fun main() = runBlocking {
 
 예제 코드 (가상 시간 활용)
 ```kotlin
-import kotlinx.coroutines.*
-import kotlinx.coroutines.test.*
-import kotlin.test.*
-import kotlin.time.Duration.Companion.seconds
 
 class PlaygroundTest {
     @Test
