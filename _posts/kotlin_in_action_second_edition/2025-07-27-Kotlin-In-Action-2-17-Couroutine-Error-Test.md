@@ -219,6 +219,8 @@ fun main() = runBlocking {
 // [ERROR] Ouch!
 ```
 #### 코루틴 계층의 최상위에 있는 예외 핸들러만 호출된다.
+<img width="542" height="313" alt="image" src="https://github.com/user-attachments/assets/29793495-f264-4a71-914e-ead388129086" />
+
 - 또한 중요하게 짚고 넘어가야할 점은 코루틴 계층의 최상위 launch에 정의된 코루틴 컨텍스의 핸들러만이 호출된다는 점임
 
 예제 코드 (최상위 예외 핸들러 동작 확인)
