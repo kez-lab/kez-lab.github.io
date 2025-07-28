@@ -218,8 +218,8 @@ fun main() = runBlocking {
 }
 // [ERROR] Ouch!
 ```
-- 코루틴 계층의 최상위 launch에서만 핸들러가 호출됨  
-- async의 예외는 await에서 소비자가 처리해야 함
+#### 코루틴 계층의 최상위에 있는 예외 핸들러만 호출된다.
+- 또한 중요하게 짚고 넘어가야할 점은 코루틴 계층의 최상위 launch에 정의된 코루틴 컨텍스의 핸들러만이 호출된다는 점임
 
 예제 코드 (최상위 예외 핸들러 동작 확인)
 ```kotlin
@@ -241,19 +241,14 @@ fun main() {
 }
 // [TOP] Ouch!
 ```
-- launch로 시작된 최상위 코루틴만 예외 핸들러가 호출됨  
-- 중간 계층의 핸들러는 사용되지 않음
 
 ### 18.3.1 CoroutineExceptionHandler를 launch와 async에 적용할 때의 차이점
 
-- launch 빌더로 생성된 최상위 코루틴만 예외 핸들러가 호출됨  
-- async로 시작된 최상위 코루틴의 예외는 await에서 소비자가 직접 처리해야 함  
+- launch 빌더로 생성된 최상위 코루틴만 예외 핸들러가 호출되는데 async로 시작된 최상위 코루틴의 예외는 await에서 소비자가 직접 처리해야 한다는 차이점이 있음
 - SupervisorJob이 없는 경우, 처리되지 않은 예외는 스코프 내의 다른 자식 코루틴도 모두 취소시킴
 
 예제 코드 (launch-async 비교)
 ```kotlin
-import kotlinx.coroutines.*
-import kotlin.time.Duration.Companion.seconds
 class ComponentWithScope(dispatcher: CoroutineDispatcher = Dispatchers.Default) {
     private val exceptionHandler = CoroutineExceptionHandler { _, e ->
         println("[ERROR] ${e.message}")
@@ -271,10 +266,10 @@ fun main() = runBlocking {
     delay(1.seconds)
 }
 // [ERROR] Ouch!
+```
 
+```
 // async 최상위 예시
-import kotlinx.coroutines.*
-import kotlin.time.Duration.Companion.seconds
 class ComponentWithScope(dispatcher: CoroutineDispatcher = Dispatchers.Default) {
     private val exceptionHandler = CoroutineExceptionHandler { _, e ->
         println("[ERROR] ${e.message}")
