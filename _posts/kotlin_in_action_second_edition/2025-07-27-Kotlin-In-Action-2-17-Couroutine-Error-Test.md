@@ -486,51 +486,7 @@ fun testDelay() = runTest {
     advanceUntilIdle()
     assertEquals(3, x)
 }
-
----
-
-### 18.5.2 Turbine으로 플로우 테스트
-
-- 플로우 기반 코드의 테스트에서는 runTest + toList 등을 통해 원소를 모아 검증할 수 있음
-- 복잡한 플로우, 무한/비동기 스트림, 불변성 검증에는 Turbine 라이브러리를 활용하는 것이 효과적임
-- Turbine의 test 확장 함수를 사용하면 awaitItem, awaitComplete, awaitError 등으로 배출 순서/완료/에러를 세밀하게 검증할 수 있음
-
-예제 코드 (Turbine 기본 사용)
-```kotlin
-val myFlow = flow {
-    emit(1)
-    emit(2)
-    emit(3)
-}
-
-@Test
-fun doTest() = runTest {
-    myFlow.test {
-        assertEquals(1, awaitItem())
-        assertEquals(2, awaitItem())
-        assertEquals(3, awaitItem())
-        awaitComplete()
-    }
-}
 ```
 
-- Turbine은 여러 플로우의 결합, 시스템 일부를 대체하는 객체 생성 등 고급 테스트 기능도 제공함  
-- 공식 문서(https://github.com/cashapp/turbine)에서 추가 활용법을 확인할 수 있음
-
 ---
 
-요약
-
-- 한 코루틴에만 국한된 예외는 일반 코드처럼 처리 가능함  
-- 코루틴 경계를 넘는 예외는 구조적 동시성에 따라 부모/형제에게 전파됨  
-- 기본적으로 처리되지 않은 예외가 발생하면 부모/형제 모두 취소되어 구조적 동시성이 강제됨  
-- supervisorScope/SupervisorJob을 사용하면 자식 코루틴의 실패가 부모/형제에 전파되지 않음  
-- async에서 발생한 예외는 await에서 다시 던져짐  
-- 처리되지 않은 예외는 supervisor 또는 계층의 최상단까지 전파되며, CoroutineExceptionHandler에서 최종 처리  
-- JVM/Android에서 시스템 예외 핸들러 동작 방식이 다름  
-- CoroutineExceptionHandler는 최상단 launch로 생성된 코루틴만 핸들링함  
-- 플로우의 예외 처리는 collect의 try-catch 또는 catch 연산자 사용  
-- catch는 업스트림 예외만 처리, 다운스트림 예외는 무시됨  
-- retry 연산자로 플로우를 재시도할 수 있음  
-- runTest를 활용하면 코루틴/플로우 테스트를 빠르게 실행할 수 있음  
-- Turbine은 플로우 테스트를 간편하고 세밀하게 해줌
