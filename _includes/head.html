@@ -112,4 +112,19 @@
   
   <!-- 이미지 Lazy Loading -->
   <script src="{{ "/assets/js/lazy-loading.js" | relative_url }}" defer></script>
+  
+  <!-- Service Worker 등록 -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js')
+          .then(function(registration) {
+            console.log('SW registered: ', registration);
+          })
+          .catch(function(registrationError) {
+            console.log('SW registration failed: ', registrationError);
+          });
+      });
+    }
+  </script>
 </head>
