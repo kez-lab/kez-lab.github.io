@@ -394,15 +394,34 @@ fun main() = runBlocking {
 }
 // 여러 번 시도한 뒤 최종적으로 0~9까지 출력
 ```
-## 18.5 코루틴과 플로우 테스트
-
 ### 18.5.1 코루틴을 사용하는 테스트를 빠르게 만들기: 가상 시간과 테스트 디스패처
 
-- 코루틴 테스트에서 runTest 빌더를 사용하면 실제 시간 경과 없이 delay 등 지연 코드를 빠르게 테스트할 수 있음
-- runBlocking만 사용할 경우 delay가 명시된 만큼 실제로 기다려야 해 테스트가 느려짐
-- runTest는 테스트 전용 디스패처와 스케줄러를 사용해 delay 등이 즉시 처리됨
+- runBlocking으로 코루틴 코드를 테스트할 수 있지만, 실시간(delay 등)을 모두 기다려야 해서 전체 테스트가 매우 느려짐
+- Kotlin 코루틴은 이런 문제의 해결책으로 **가상 시간(virtual time) 기반의 테스트 실행(runTest)** 을 제공함
 
-예제 코드 (가상 시간 활용)
+- **runTest** 코루틴 빌더를 사용하면, 테스트에서 delay 등 시간 지연이 **실제로는 거의 즉시 처리**됨
+    - 예: 20초 delay를 선언해도 실제 테스트는 즉시 끝남 (몇 ms만에 완료)
+    - 내부적으로 **특수한 테스트 디스패처와 스케줄러(TestCoroutineScheduler)** 를 사용함
+    - 기본 timeout은 60초 (실제 시간 기준, 조정 가능)
+
+- **runTest는 단일 스레드 디스패처**로 모든 자식 코루틴이 동작
+    - 테스트 코드와 launch 등 병렬 코드는 실제로 병렬이 아님  
+    - launch로 시작한 자식 코루틴이 단언문(assert) 전에 실행될 수 있도록  
+      delay, yield 등 **일시 중단 지점**을 명확히 넣어야 함
+    - 그렇지 않으면 다음과 같은 테스트가 실패할 수 있음
+
+```kotlin
+@Test
+fun testDelay() = runTest {
+    var x = 0
+    launch { x++ }
+    launch { x++ }
+    assertEquals(2, x) // 실패 가능
+}
+```
+
+#### 예제1: 가상 시간을 사용해 테스트 실행하기
+
 ```kotlin
 
 class PlaygroundTest {
@@ -410,15 +429,13 @@ class PlaygroundTest {
     fun testDelay() = runTest {
         val startTime = System.currentTimeMillis()
         delay(20.seconds)
-        println(System.currentTimeMillis() - startTime) // 수 ms 내로 실행됨
+        println(System.currentTimeMillis() - startTime) // 거의 0에 가까움
     }
 }
 ```
 
-- runTest는 단일 스레드에서 동기 실행됨. 자식 코루틴의 실행 순서를 보장하려면 delay, yield 등 일시중단 포인트를 명확히 지정해야 함  
-- 가상 시계(TestCoroutineScheduler)의 runCurrent(), advanceUntilIdle() 등으로 예약된 코루틴 실행을 제어할 수 있음
+#### 예제2: delay와 currentTime 활용
 
-예제 코드 (가상 시계 활용)
 ```kotlin
 @OptIn(ExperimentalCoroutinesApi::class)
 @Test
@@ -427,22 +444,28 @@ fun testDelay() = runTest {
     launch {
         delay(500.milliseconds)
         x++
-        launch {
-            x++
-            delay(1.seconds)
-        }
-        println(currentTime) // 0
-        delay(600.milliseconds)
-        assertEquals(1, x)
-        println(currentTime) // 600
-        delay(506.milliseconds)
-        assertEquals(2, x)
-        println(currentTime) // 1100
     }
+    launch {
+        delay(1.second)
+        x++
+    }
+    println(currentTime) // 0
+    delay(600.milliseconds)
+    assertEquals(1, x)
+    println(currentTime) // 600
+    delay(500.milliseconds)
+    assertEquals(2, x)
+    println(currentTime) // 1100
 }
 ```
 
-예제 코드 (advanceUntilIdle 활용)
+#### TestCoroutineScheduler 주요 함수
+
+- `runCurrent()`  
+    - 현재 실행 예약된 모든 코루틴을 즉시 실행
+- `advanceUntilIdle()`  
+    - 예약된 모든 코루틴을 실행 (미래에 예약된 작업까지 모두 소진)
+
 ```kotlin
 @OptIn(ExperimentalCoroutinesApi::class)
 @Test
@@ -453,17 +476,14 @@ fun testDelay() = runTest {
         launch { x++ }
     }
     launch {
-        x++
         delay(200.milliseconds)
+        x++
     }
     runCurrent()
     assertEquals(2, x)
     advanceUntilIdle()
     assertEquals(3, x)
 }
-```
-
-- 테스트 가능한 코드로 만들려면 디스패처를 파라미터로 받을 수 있게 설계하는 것이 바람직함
 
 ---
 
