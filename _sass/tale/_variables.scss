@@ -1,14 +1,26 @@
-// Colors
-$default-color: #555 !default;
-$default-shade: #353535 !default;
-$default-tint: #aaa !default;
-$grey-1: #979797 !default;
-$grey-2: #e5e5e5 !default;
-$grey-3: #f9f9f9 !default;
+// Modern Color Palette
+$default-color: #374151 !default;        // Warm gray-700
+$default-shade: #1f2937 !default;        // Gray-800
+$default-tint: #6b7280 !default;         // Gray-500
+$grey-1: #9ca3af !default;               // Gray-400
+$grey-2: #e5e7eb !default;               // Gray-200
+$grey-3: #f6f8fa !default;               // Light background
 $white: #fff !default;
-$blue: #4a9ae1 !default;
-$shadow-color: rgba(0, 0, 0, .2) !default;
-$code-color: #bf616a !default;
+$blue: #2563eb !default;                 // Blue-600
+$accent: #3b82f6 !default;               // Blue-500
+$success: #10b981 !default;              // Emerald-500
+$warning: #f59e0b !default;              // Amber-500
+$shadow-color: rgba(0, 0, 0, .06) !default;
+$code-color: #dc2626 !default;           // Red-600
+
+// GitHub 스타일 코드 블록 색상
+$github-bg: #f6f8fa !default;
+$github-border: #d1d9e0 !default;
+$github-text: #24292f !default;
+$github-copy-btn: #f6f8fa !default;
+$github-copy-btn-border: #d1d9e0 !default;
+$github-copy-btn-hover: #f3f4f6 !default;
+$github-lang-label: #656d76 !default;
 
 // 다크 모드 색상
 $dark-background: #121212 !default;

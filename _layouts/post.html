@@ -3,27 +3,28 @@ layout: default
 ---
 
 <div class="post">
-  <div class="post-info">
-    <span>Written by</span>
-    {% if page.author %}
-        {{ page.author }}
-    {% else %}
-        {{ site.author.name }}
-    {% endif %}
-
-    {% if page.date %}
-      <br>
-      <span>on&nbsp;</span><time datetime="{{ page.date }}">{{ page.date | date: "%B %d, %Y" }}</time>
-    {% endif %}
+  <div class="post-header">
+    <div class="post-info">
+      <span>Written by</span>
+      {% if page.author %}
+          {{ page.author }}
+      {% else %}
+          {{ site.author.name }}
+      {% endif %}
+      {% if page.date %}
+        <span>•</span>
+        <time datetime="{{ page.date }}">{{ page.date | date: "%B %d, %Y" }}</time>
+      {% endif %}
+    </div>
+    <h1 class="post-title">{{ page.title }}</h1>
   </div>
-
-  <h1 class="post-title">{{ page.title }}</h1>
-  <div class="post-line"></div>
 
   <!-- 시리즈 네비게이션 -->
   {% include series_navigation.html %}
 
-  {{ content }}
+  <div class="post-content">
+    {{ content }}
+  </div>
   
   <!-- 소셜 공유 버튼 -->
   {% include social_share.html %}
