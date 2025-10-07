@@ -31,7 +31,7 @@ println("path = ${u.path}")     // path = null
 ## 2) 스펙과 구현의 간극 정리함
 <img width="911" height="530" alt="스크린샷 2025-09-12 오전 1 46 41" src="https://github.com/user-attachments/assets/71b5282c-a964-4d1f-b317-7020ea21af93" />
 
-[Android Uri](https://developer.android.com/reference/android/net/Uri) 클래스 각주를 보면 [RFC2396](http://www.faqs.org/rfcs/rfc2396.html) 문서를 준수한다고 쓰여있음
+[Android Uri](https://developer.android.com/reference/android/net/Uri) 클래스 각주를 보면 [RFC2396](https://www.rfc-editor.org/rfc/rfc2396.html) 문서를 준수한다고 쓰여있음
 
 - **RFC 3986** 기준: *상대 경로 참조*에서만 **첫 번째 경로 세그먼트에 `:` 금지**(스킴 오인 방지)임. **중간 세그먼트의 `:` 자체는 금지 아님**. 즉, `user:point` 세그먼트는 맥락에 따라 허용될 수 있음.
 - **Android `Uri` 구현**: 문서상 **RFC 2396**을 기준으로 하며, 입력 유효성 검증을 거의 하지 않는다고 명시되어 있음. 이로 인해 **첫 `:`가 등장하면 스킴으로 인식**되어 쉽게 opaque로 떨어질 수 있음.
