@@ -66,6 +66,9 @@ jobs:
             # Remove problematic namespace attributes
             sed -i 's/ xmlns:xsi="[^"]*" xsi:schemaLocation="[^"]*"//g' ./_site/sitemap.xml
 
+            # Remove script tags (should not be in sitemap)
+            sed -i '/<script[^>]*>/d' ./_site/sitemap.xml
+
             # Ensure XML declaration is present at the beginning
             if ! head -n 1 ./_site/sitemap.xml | grep -q '<?xml'; then
               sed -i '1i<?xml version="1.0" encoding="UTF-8"?>' ./_site/sitemap.xml
