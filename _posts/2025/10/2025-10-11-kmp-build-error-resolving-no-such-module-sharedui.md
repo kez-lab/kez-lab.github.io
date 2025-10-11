@@ -1,6 +1,7 @@
 ---
-layout: ""
+layout: post
 title: "KMP Build Error: Resolving 'No such module SharedUI'"
+description: ""
 date: 2025-10-11T18:00:04.066Z
 categories:
     - CMP
@@ -12,7 +13,6 @@ tags:
     - Compose Multiplatform
     - KMP iOS
     - No such module SharedUI
-excerpt: ""
 ---
 
 # KMP 빌드 실패 해결기: **No such module 'SharedUI'** / **assembleDebugXCFramework 없음** (XCFramework 설정 가이드)
