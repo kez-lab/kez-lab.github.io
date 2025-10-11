@@ -38,7 +38,7 @@ SharedUI 모듈이란 Android, iOS 가 공통적으로 공유해야하는 Screen
 
 ---
 
-### 2) 원인 개요
+## 2) 원인 개요
 
 **증상:** `iosApp.swift`에서 `import SharedUI` 시점에 `No such module 'SharedUI'`가 발생했습니다.  
 이 에러는 **런타임 링크 문제**가 아니라, **컴파일 타임에 모듈(프레임워크)을 아예 찾지 못했다**는 뜻입니다. 다시 말해, Xcode가 **SharedUI.xcframework를 프로젝트/타깃에 제대로 연결하지 못한 상태**일 가능성이 가장 큽니다.
@@ -65,7 +65,8 @@ KMP에서 공유되는 Kotlin 코드(공유 모듈)를 iOS용 모듈로 쓰려�
   
 > 정리하면,
 > 1) XCFramework packaging 미선언 → Gradle task registration 부재(assemble*XCFramework 생성 안 됨) → artifact(.xcframework) 미생성.
-> 2) Xcode 링크/임베드 미구성(Link Binary With Libraries, Embed & Sign 누락) → 컴파일 타임 모듈 디스커버리 실패 → No such module 'SharedUI' 발생.
+> 2) Xcode 링크/임베드 미구성(Link Binary With Libraries, Embed & Sign 누락) → 컴파일 타임 모듈 디스커버리 실패 → No such module 'SharedUI' 발생.  
+  
   
 즉 slice(각 타깃 framework) → XCFramework로의 packaging이 선언·빌드되지 않았기에 Xcode에서도 모듈 탐색에 실패했다는 것을 알 수 있습니다.
 ---
