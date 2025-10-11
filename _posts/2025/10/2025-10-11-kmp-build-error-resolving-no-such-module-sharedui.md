@@ -59,23 +59,23 @@ SharedUI 모듈이란 Android, iOS 가 공통적으로 공유해야하는 Screen
   
 이 메시지는 **Gradle에 XCFramework packaging(멀티 아키 번들 생성) 태스크가 등록되어 있지 않다**는 뜻인데요  
 
-KMP에서 공유되는 Kotlin 코드(공유 모듈)를 iOS용 모듈로 쓰려면 각 타깃 프레임워크(slices (예: iosArm64, iosSimulatorArm64))를 XCFramework로 패키징하고, 이를 Xcode에 Link + Embed & Sign 해야합니다 [(Apple Developer)](https://developer.apple.com/documentation/xcode/creating-a-multi-platform-binary-framework-bundle)
+KMP에서 공유되는 Kotlin 코드(공유 모듈)를 iOS용 모듈로 쓰려면 각 타깃 프레임워크(slices (예: iosArm64, iosSimulatorArm64))를 XCFramework로 패키징하고, 이를 Xcode에 Link + Embed & Sign 해야합니다 [(Apple Developer)](https://developer.apple.com/documentation/xcode/creating-a-multi-platform-binary-framework-bundle)  
   
-그렇게 해야만 Xcode가 상황(시뮬레이터/디바이스, Debug/Release)에 맞는 아키텍처를 자동으로 선택해 쓸 수 있기 때문인데요,
-이때 Gradle에 XCFramework 패키징을 명시적으로 선언하지 않으면 assemble*XCFramework 류 태스크가 애초에 생성되지 않으며, 결과적으로 Xcode에 연결할 .xcframework 산출물이 존재하지 않게 됩니다. 따라서 iosApp 모듈(예: iosApp.swift)에서 import SharedUI와 같은 모듈 참조가 컴파일 타임에 실패하게 됩니다.
-
+이때 Gradle에 XCFramework 패키징을 명시적으로 선언하지 않으면 assemble*XCFramework 류 태스크가 애초에 생성되지 않으며, 결과적으로 Xcode에 연결할 `.xcframework` 산출물이 존재하지 않게 됩니다. 따라서 iosApp 모듈(예: iosApp.swift)에서 import SharedUI와 같은 모듈 참조가 컴파일 타임에 실패하게 됩니다.
+  
 > 정리하면,
 > 1) XCFramework packaging 미선언 → Gradle task registration 부재(assemble*XCFramework 생성 안 됨) → artifact(.xcframework) 미생성.
 > 2) Xcode 링크/임베드 미구성(Link Binary With Libraries, Embed & Sign 누락) → 컴파일 타임 모듈 디스커버리 실패 → No such module 'SharedUI' 발생.
-
-즉 slice(각 타깃 framework) → XCFramework로의 packaging이 선언·빌드되지 않았고, Xcode 측 링크/임베드도 불완전하여 모듈 탐색이 실패했다는 것이죠
+  
+즉 slice(각 타깃 framework) → XCFramework로의 packaging이 선언·빌드되지 않았기에 Xcode에서도 모듈 탐색에 실패했다는 것을 알 수 있습니다.
 ---
 
 ## 3) 해결 방법 **Xcode에 SharedUI.xcframework 셋팅**
-해결 방법은 매우 간단합니다. `sharedUI/build.gradle.kts`에 **XCFramework packaging**을 명시적으로 선언해 실제 태스크를 생성하고, packaging 된 `SharedUI.xcframework`를 Xcode에 **Link + Embed & Sign**으로 정확히 연결하면 끝납니다.
+해결 방법은 매우 간단한데요!  
+  
+`sharedUI/build.gradle.kts`에 **XCFramework packaging**을 명시적으로 선언해 실제 태스크를 생성하고, packaging 된 `SharedUI.xcframework`를 Xcode에 **Link + Embed & Sign**으로 정확히 연결하면 끝납니다.
 
 패키징 선언 예시는 아래와 같습니다.
-
 ```kotlin
 # build.gradle(sharedUI)
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
@@ -120,7 +120,10 @@ kotlin {
 링크(Link), 임베드(Embed & Sign), 검색 경로 설정 등이 자동으로 잡혀 Swift에서 import SharedUI가 바로 동작
 
 이번에는 CocoaPods를 쓰지 않고 수동으로 .xcframework를 연결하려다 보니, 이러한 차이 때문에 이번에 처음으로 `No such module 'SharedUI'` 에러가 발생한 것이였습니다.
-
+  
+  
+  
+---
 
 오늘은 간단하지만 처음보았던 KMP, CMP Build Error 에 대해서 포스팅해보았는데요.
 Velog에서 Github로 블로그를 옮기고 나니 아무런 셋팅도 아직 안되어 있어서 가독성이 좋을지는 잘 모르겠습니다 ㅠㅠ
