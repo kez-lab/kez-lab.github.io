@@ -68,7 +68,7 @@ KMP에서 공유되는 Kotlin 코드(공유 모듈)를 iOS용 모듈로 쓰려�
 > 2) Xcode 링크/임베드 미구성(Link Binary With Libraries, Embed & Sign 누락) → 컴파일 타임 모듈 디스커버리 실패 → No such module 'SharedUI' 발생.  
   
   
-즉 slice(각 타깃 framework) → XCFramework로의 packaging이 선언·빌드되지 않았기에 Xcode에서도 모듈 탐색에 실패했다는 것을 알 수 있습니다.
+**즉 slice(각 타깃 framework) → XCFramework로의 packaging이 선언·빌드되지 않았기에 Xcode에서도 모듈 탐색에 실패했다는 것을 알 수 있습니다.**
 ---
 
 ## 3) 해결 방법 **Xcode에 SharedUI.xcframework 셋팅**
@@ -111,7 +111,7 @@ kotlin {
 
 이제 실제 빌드를 위해 Xcode를 재부팅해서 프로젝트를 새로 open 한다면 `import SharedUI`  에럴가 해결되어 iOS 빌드가 정상 진행되고 시뮬레이터가 띄워지면서 에러가 해결된 것을 확인하실 수 있습니다!
 
-### 4) 이런 에러를 처음 본 이유?
+## 4) 이런 에러를 처음 본 이유?
 음 그동안 iOS 빌드를 여러번 진행했었는데 이런 에러가 처음 발생한 이유가 궁금해서 슬쩍 살펴보았는데요.
 그동안은 **CocoaPods로 Kotlin Code 로 공유되는 모듈들을 통합**하고 있었기 때문에, 다음 작업들이 Pods에 의해 자동으로 처리되었던 것이였습니다. [(관련 링크)](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-cocoapods-overview.html#configure-the-project)
 
