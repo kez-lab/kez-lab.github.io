@@ -17,6 +17,11 @@
           "type": "string"
         },
         {
+          "title": "description",
+          "name": "description",
+          "type": "string"
+        },
+        {
           "title": "date",
           "name": "date",
           "type": "datetime"
@@ -30,11 +35,6 @@
           "title": "tags",
           "name": "tags",
           "type": "tags"
-        },
-        {
-          "title": "excerpt",
-          "name": "excerpt",
-          "type": "string"
         }
       ]
     }
