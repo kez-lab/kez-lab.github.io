@@ -96,6 +96,35 @@ If you are using LazyColumn/Row please make sure you provide a unique key for ea
 
 동일한 key를 사용하면 위와 같이 크래시가 발생합니다. LazyColumn/Row에서 중복 key가 문제가 되는 이유를 더 자세히 알고 싶다면 [pluu님의 블로그](https://pluu.github.io/blog/android/2024/11/30/LazyList/)를 참고해보세요.
 
+#### hashCode()를 key로 사용하는 실수
+고유성 측면에서 많은 분들이 실수하시는 부분이 바로 hashCode()를 key로 사용하는 것입니다.
+
+아래 예시를 같이 보시죠
+
+```kotlin
+data class Person(
+    val name: String,
+    val age: Int
+)
+
+// data class는 데이터가 같으면 equals()가 true이고 hashCode()도 동일
+val p1 = Person(name = "Alice", age = 20)
+val p2 = Person(name = "Alice", age = 20)
+
+println(p1 == p2)          // true
+println(p1.hashCode())     // 예: 123456
+println(p2.hashCode())     // 예: 123456 (동일)
+
+// ⚠️ 하지만 equals()가 false여도 hashCode()가 같을 수 있음 (해시 충돌)
+val p3 = Person(name = "Bob", age = 23)
+println(p1 == p3)          // false
+println(p3.hashCode())     // 예: 123456 (충돌 발생!)
+```
+위 예시처럼 p1 과 p3 는 서로 다른 이름과 나이를 가진 객체이지만 hashCode() 는 동일할 가능성이 있습니다.
+
+즉 equals() 가 true 일 때 hashCode() 가 동일해야하지만, 반대로 equals()가 false일 때 hashCode()가 무조건 다르다는 논리는 성립되지 않습니다. 
+그렇기에 hashCode()를 key로 사용하면 고유성 요구사항을 만족하지 못해 크래시가 발생할 수 있습니다.
+
 ### 2. 불변성 (Stability)
 
 key는 **데이터가 업데이트되어도 동일한 항목에 대해서는 절대 바뀌지 않아야** 합니다.
@@ -162,6 +191,7 @@ private fun LazyNameScreen(innerPadding: PaddingValues) {
 1. **중복 가능한 값을 key로 사용**
 ```kotlin
    key = { name -> name }  // 이름이 중복될 수 있음
+   key = { item -> item.hashCode() }  // 해시 충돌 가능성
 ```
 
 2. **Index를 key에 포함**
