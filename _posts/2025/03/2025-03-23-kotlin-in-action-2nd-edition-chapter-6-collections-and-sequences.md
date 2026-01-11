@@ -1,9 +1,16 @@
 ---
 layout: post
 title: "코틀린 인 액션 2판: 6장 - 컬렉션과 시퀀스"
+description: "Kotlin 컬렉션 API와 시퀀스의 지연 연산: filter, map, flatMap, 시퀀스 성능 최적화"
 date: 2025-03-23 12:00:00 +0900
-categories: [Kotlin]
-tags: [Kotlin, Kotlin in Action, Collection, Sequence]
+categories:
+    - Kotlin
+tags:
+    - Kotlin
+    - Kotlin in Action
+    - Collection
+    - Sequence
+    - Functional Programming
 ---
 
 # 6장 코틀린 인 액션 2판: 6장 - 컬렉션과 시퀀스

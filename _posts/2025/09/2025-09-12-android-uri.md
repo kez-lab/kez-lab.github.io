@@ -1,9 +1,15 @@
 ---
 layout: post
 title: "Android Uri에서 colon의 Encoding & Escape 처리 (Custom Method)"
+description: "Android Uri 파싱 이슈 해결: colon(:) 문자 처리, 스킴 구분자 충돌, 커스텀 메소드 URI 인코딩"
 date: 2025-09-12 12:00:00 +0900
-categories: [Android]
-tags: [Android, Android Uri, android.net.uri, Encode, Colon]
+categories:
+    - Android
+tags:
+    - Android
+    - Uri
+    - URL Encoding
+    - Troubleshooting
 ---
 
 # Android `Uri` colon(":") Encoding & Escape 처리

@@ -1,9 +1,16 @@
 ---
 layout: post
 title: "Manifest Android 정리 Q 11~15"
+description: "안드로이드 프레임워크 심화: 프로세스 관리, 서비스, 브로드캐스트 리시버 (Manifest Android 책 정리)"
 date: 2025-09-23 12:00:00 +0900
-categories: [Android]
-tags: [Android, Android Intent]
+categories:
+    - Android
+tags:
+    - Android
+    - Android Framework
+    - Intent
+    - Service
+    - BroadcastReceiver
 ---
 
 Manifest Android 책을 읽으면서 안드로이드 프레임워크에 대한 전반적인 이해를 높이기 위해 책을 읽고 기록하는 글입니다.

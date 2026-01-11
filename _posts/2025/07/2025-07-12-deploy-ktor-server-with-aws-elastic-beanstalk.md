@@ -1,9 +1,16 @@
 ---
 layout: post
 title: "Ktor 서버를 AWS Elastic Beanstalk을 활용하여 배포하는 방법"
-date: 2025-03-30 12:00:00 +0900
-categories: [Ktor, Aws, ELB, Elastic Beanstalk, Kotlin Multiplatform, Ktor 배포]
-tags: [Ktor, AWS, Elastic Beanstalk, Deploy]
+description: "Ktor 서버 AWS 배포 가이드: Elastic Beanstalk 설정, Fat JAR 빌드, Procfile 구성, 배포 자동화"
+date: 2025-07-12 12:00:00 +0900
+categories:
+    - Backend
+tags:
+    - Ktor
+    - AWS
+    - Elastic Beanstalk
+    - Deployment
+    - Kotlin
 ---
 
 # Ktor 서버를 AWS Elastic Beanstalk을 활용하여 배포하는 방법

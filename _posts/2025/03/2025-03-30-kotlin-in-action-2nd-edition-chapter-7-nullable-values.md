@@ -1,12 +1,15 @@
 ---
 layout: post
 title: "Kotlin in Action 2판 7장 널이 될 수 있는 값"
+description: "Kotlin의 null 안전성: nullable 타입, 안전한 호출, 엘비스 연산자, let 함수로 NullPointerException 방지"
 date: 2025-03-30 12:00:00 +0900
-categories: [Kotlin, Kotlin In Action 2, 코틀린 인 액션 2판]
-tags: [Kotlin, Kotlin in Action, Nullable]
-excerpt: "코틀린의 널 가능성 타입 시스템으로 NullPointerException을 방지하고 안전하게 널 값을 다루는 방법을 학습합니다."
-image: "/assets/images/posts/kotlin-nullable-cover.jpg"
-series: "Kotlin in Action 2판"
+categories:
+    - Kotlin
+tags:
+    - Kotlin
+    - Kotlin in Action
+    - Nullable
+    - Null Safety
 ---
 
 # Kotlin in Action 2판 정리 - 7장: 널이 될 수 있는 값

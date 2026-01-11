@@ -1,18 +1,16 @@
 ---
 layout: post
 title: "KMP Build Error: Resolving 'No such module SharedUI'"
-description: ""
+description: "Kotlin Multiplatform iOS 빌드 에러 해결: XCFramework 설정, assembleDebugXCFramework, Gradle 태스크 구성"
 date: 2025-10-11T18:00:04.066Z
 categories:
-    - CMP
     - KMP
-    - iOS
 tags:
-    - Kotlin
     - Kotlin Multiplatform
     - Compose Multiplatform
-    - KMP iOS
-    - No such module SharedUI
+    - iOS
+    - XCFramework
+    - Troubleshooting
 ---
 
 # KMP 빌드 실패 해결기: **No such module 'SharedUI'** / **assembleDebugXCFramework 없음** (XCFramework 설정 가이드)

@@ -1,9 +1,16 @@
 ---
 layout: post
 title: "Kotlin in Action 2판 13장 DSL 만들기"
+description: "Kotlin DSL 구축: 수신 객체 지정 람다, invoke 관례, 타입 안전 빌더 패턴"
 date: 2025-06-08 12:00:00 +0900
-categories: [Kotlin, Kotlin In Action 2, 코틀린 인 액션 2판]
-tags: [Kotlin, Kotlin in Action, DSL]
+categories:
+    - Kotlin
+tags:
+    - Kotlin
+    - Kotlin in Action
+    - DSL
+    - Type-Safe Builders
+    - Lambda with Receiver
 ---
 
 # 13장 DSL 구축

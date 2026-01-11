@@ -1,9 +1,16 @@
 ---
 layout: post
 title: "Kotlin in Action 2판 11장 Generics"
+description: "Kotlin 제네릭의 모든 것: 타입 파라미터, 변성(공변성/반공변성), 타입 소거, 실체화된 타입 파라미터"
 date: 2025-05-10 12:00:00 +0900
-categories: [Kotlin, Kotlin In Action 2, 코틀린 인 액션 2판]
-tags: [Kotlin, Kotlin in Action, Generics]
+categories:
+    - Kotlin
+tags:
+    - Kotlin
+    - Kotlin in Action
+    - Generics
+    - Variance
+    - Reified
 ---
 
 # Kotlin In Action 2판 정리 - 11장 Generics

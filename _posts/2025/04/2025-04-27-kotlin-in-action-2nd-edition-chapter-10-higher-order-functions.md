@@ -1,9 +1,16 @@
 ---
 layout: post
 title: "Kotlin in Action 2판 10장 고차 함수 람다를 파라미터와 반환값으로 사용"
+description: "Kotlin의 고차 함수: 함수 타입, 인라인 함수, 논로컬 반환, 람다를 파라미터와 반환값으로 활용"
 date: 2025-04-27 12:00:00 +0900
-categories: [Kotlin, Kotlin In Action 2, 코틀린 인 액션 2판]
-tags: [Kotlin, Kotlin in Action, 고차 함수, 람다]
+categories:
+    - Kotlin
+tags:
+    - Kotlin
+    - Kotlin in Action
+    - Higher-Order Functions
+    - Lambda
+    - Inline Functions
 ---
 
 # Kotlin In Action 2판 정리 - 10장 고차 함수

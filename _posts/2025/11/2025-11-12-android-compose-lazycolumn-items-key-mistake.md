@@ -1,16 +1,16 @@
 ---
 layout: post
 title: "[Android/Compose] LazyColumn의 items 에 key 설정 실수"
-description: Jetpack Compose 에서 LazyColumn의 items 에 key 를 설정하는 경우 자주 하는 실수들을 모아봅니다
+description: "Jetpack Compose LazyColumn key 설정 실수: hashCode() 사용 문제, 상태 보존, Recomposition 최적화"
 date: 2025-11-12T15:12:15.509Z
 categories:
-    - Android
     - Compose
-    - Kotlin
 tags:
     - Android
-    - Compose
+    - Jetpack Compose
     - LazyColumn
+    - Performance
+    - Recomposition
 ---
 
 ## 개요

@@ -1,10 +1,16 @@
 ---
 layout: post
 title: "Kotlin in Action 2판 17장 Flow Operator"
-description: "Kotlin Coroutines Flow Operator 에 대하여"
+description: "Kotlin Flow 연산자: map, filter, flatMap, combine, zip, conflate, buffer 등 Flow 변환과 조합"
 date: 2025-07-20 12:00:00 +0900
-categories: [Kotlin, Kotlin In Action 2, 코틀린 인 액션 2판]
-tags: [Kotlin in Action 2판 17장, Coroutine, Flow, Flow Operator]
+categories:
+    - Kotlin
+tags:
+    - Kotlin
+    - Kotlin in Action
+    - Flow
+    - Flow Operators
+    - Functional Programming
 ---
 
 # 17장 Flow 연산자

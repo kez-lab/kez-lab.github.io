@@ -1,13 +1,15 @@
 ---
 layout: post
 title: "[Kotlin] Data Class의 구조와 핵심 기능 완벽 정리"
-description: "data class 의 핵심 기능들을 정리"
-date: 2026-01-11T18:00:04.066Z
+description: "Kotlin Data Class 완벽 가이드: equals, hashCode, toString, copy, 구조 분해, 불변성과 생성 규칙"
+date: 2026-01-11T09:00:00+09:00
 categories:
     - Kotlin
 tags:
     - Kotlin
     - Data Class
+    - Immutability
+    - Value Objects
 ---
 
 

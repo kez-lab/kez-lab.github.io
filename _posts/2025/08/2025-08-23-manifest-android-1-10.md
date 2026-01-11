@@ -1,9 +1,15 @@
 ---
 layout: post
 title: "Manifest Android 정리 Q 1~10"
+description: "안드로이드 프레임워크 핵심 개념: Intent, Activity 생명주기, 컴포넌트 통신 (Manifest Android 책 정리)"
 date: 2025-08-23 12:00:00 +0900
-categories: [Android]
-tags: [Android, Android Intent]
+categories:
+    - Android
+tags:
+    - Android
+    - Android Framework
+    - Intent
+    - Activity Lifecycle
 ---
 
 Manifest Android 책을 읽으면서 안드로이드 프레임워크에 대한 전반적인 이해를 높이기 위해 책을 읽고 기록하는 글입니다.
