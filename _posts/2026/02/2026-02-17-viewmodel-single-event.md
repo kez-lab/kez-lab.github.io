@@ -103,14 +103,14 @@ ViewModel에서 발생하는 일회성 UI 동작은 상태(state)와 성격이 �
 
 ```mermaid
 flowchart LR
-  VM[ViewModel] -- effect(value) --> CE[ComposeEffect<T>\n(StateFlow slot)]
-  CE -- current(Emission<T>?) --> UI1[Composable\nhandle { ... }]
+  VM[ViewModel] -- effect(value) --> CE[ComposeEffect<T><br/>(StateFlow slot)]
+  CE -- current(Emission<T>?) --> UI1[Composable<br/>handle { ... }]
   UI1 -- side-effect --> SIDE1[Snackbar / Toast / Haptic / ...]
-  UI1 -- clear(id)\n(자동) --> CE
+  UI1 -- clear(id)<br/>(자동) --> CE
 
-  VM -- nav(value) --> NE[NavigationEffect<T>\n(StateFlow slot)]
-  NE -- current(Emission<T>?) --> UI2[Composable\nhandleNavigation { ... }]
-  UI2 -- take(id)\n(원자 소비) --> NE
+  VM -- nav(value) --> NE[NavigationEffect<T><br/>(StateFlow slot)]
+  NE -- current(Emission<T>?) --> UI2[Composable<br/>handleNavigation { ... }]
+  UI2 -- take(id)<br/>(원자 소비) --> NE
   UI2 -- navigate --> SIDE2[NavController.navigate]
 ```
 
@@ -122,10 +122,10 @@ sequenceDiagram
   participant CE as ComposeEffect<T>
   participant UI as UI(handle)
 
-  VM->>CE: effect(value)\n(current = Emission(id,value))
+  VM->>CE: effect(value)<br/>(current = Emission(id,value))
   UI->>CE: collect current
-  UI->>UI: block(value)\n(suspend 가능)
-  UI->>CE: clear(id)\n(자동)
+  UI->>UI: block(value)<br/>(suspend 가능)
+  UI->>CE: clear(id)<br/>(자동)
   CE-->>UI: current = null
 ```
 
@@ -137,11 +137,11 @@ sequenceDiagram
   participant NE as NavigationEffect<T>
   participant UI as UI(handleNavigation)
 
-  VM->>NE: nav(value)\n(current = Emission(id,value))
+  VM->>NE: nav(value)<br/>(current = Emission(id,value))
   UI->>NE: collect current
-  UI->>NE: take(id)\n(원자 소비, current=null)
+  UI->>NE: take(id)<br/>(원자 소비, current=null)
   alt take 성공
-    UI->>UI: navigate(value)\n(non-suspend 권장)
+    UI->>UI: navigate(value)<br/>(non-suspend 권장)
   else take 실패(다른 collector가 소비)
     UI-->>UI: no-op
   end
