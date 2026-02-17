@@ -102,22 +102,22 @@ ViewModel에서 발생하는 일회성 UI 동작은 상태(state)와 성격이 �
 ### 4.1 구조 흐름
 
 ```mermaid
-flowchart TD
+graph TD
   VM[ViewModel]
-  CE["ComposeEffect slot"]
-  UI1["Composable handler"]
-  SIDE1["Snackbar / Toast / Haptic"]
-  VM -->|effect(value)| CE
-  CE -->|current(...)| UI1
-  UI1 -->|side effect| SIDE1
-  UI1 -->|"clear(id) 자동"| CE
-  NE["NavigationEffect slot"]
-  UI2["Composable handleNavigation"]
+  CE[ComposeEffect slot]
+  UI1[Composable handler]
+  SIDE1[Snackbar Toast Haptic]
+  VM --> CE
+  CE --> UI1
+  UI1 --> SIDE1
+  UI1 --> CE
+  NE[NavigationEffect slot]
+  UI2[Composable handleNavigation]
   SIDE2[NavController.navigate]
-  VM -->|nav(value)| NE
-  NE -->|current(...)| UI2
-  UI2 -->|"take(id) 원자 소비"| NE
-  UI2 -->|navigate| SIDE2
+  VM --> NE
+  NE --> UI2
+  UI2 --> NE
+  UI2 --> SIDE2
 ```
 
 ### 4.2 시퀀스: ComposeEffect(처리 후 clear)
