@@ -102,16 +102,22 @@ ViewModel에서 발생하는 일회성 UI 동작은 상태(state)와 성격이 �
 ### 4.1 구조 흐름
 
 ```mermaid
-flowchart LR
-  VM[ViewModel] -- "effect(value)" --> CE["ComposeEffect<T>\nStateFlow slot"]
-  CE -- "current(Emission<T>?)" --> UI1["Composable\nhandle { ... }"]
-  UI1 -- "side-effect" --> SIDE1["Snackbar / Toast / Haptic / ..."]
-  UI1 -- "clear(id)\n(자동)" --> CE
-
-  VM -- "nav(value)" --> NE["NavigationEffect<T>\nStateFlow slot"]
-  NE -- "current(Emission<T>?)" --> UI2["Composable\nhandleNavigation { ... }"]
-  UI2 -- "take(id)\n(원자 소비)" --> NE
-  UI2 -- navigate --> SIDE2[NavController.navigate]
+flowchart TD
+  VM[ViewModel]
+  CE["ComposeEffect<T><br/>StateFlow slot"]
+  UI1["Composable<br/>handle { ... }"]
+  SIDE1["Snackbar<br/>Toast<br/>Haptic"]
+  VM -->|effect(value)| CE
+  CE -->|current(...)| UI1
+  UI1 -->|side effect| SIDE1
+  UI1 -->|"clear(id)<br/>자동"| CE
+  NE["NavigationEffect<T><br/>StateFlow slot"]
+  UI2["Composable<br/>handleNavigation"]
+  SIDE2[NavController.navigate]
+  VM -->|nav(value)| NE
+  NE -->|current(...)| UI2
+  UI2 -->|"take(id)<br/>원자 소비"| NE
+  UI2 -->|navigate| SIDE2
 ```
 
 ### 4.2 시퀀스: ComposeEffect(처리 후 clear)
@@ -122,10 +128,11 @@ sequenceDiagram
   participant CE as ComposeEffect<T>
   participant UI as UI(handle)
 
-  VM->>CE: effect(value)\n(current = Emission(id,value))
+  VM->>CE: effect(value)
+  Note over CE: current=Emission(id,value)
   UI->>CE: collect current
-  UI->>UI: block(value)\n(suspend 가능)
-  UI->>CE: clear(id)\n(자동)
+  UI->>UI: block(value) (suspend)
+  UI->>CE: clear(id)
   CE-->>UI: current = null
 ```
 
@@ -137,11 +144,12 @@ sequenceDiagram
   participant NE as NavigationEffect<T>
   participant UI as UI(handleNavigation)
 
-  VM->>NE: nav(value)\n(current = Emission(id,value))
+  VM->>NE: nav(value)
+  Note over NE: current=Emission(id,value)
   UI->>NE: collect current
-  UI->>NE: take(id)\n(원자 소비, current=null)
+  UI->>NE: take(id) (원자 소비)
   alt take 성공
-    UI->>UI: navigate(value)\n(non-suspend 권장)
+    UI->>UI: navigate(value) (non-suspend)
   else take 실패(다른 collector가 소비)
     UI-->>UI: no-op
   end
