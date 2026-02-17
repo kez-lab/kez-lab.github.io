@@ -102,21 +102,21 @@ ViewModel에서 발생하는 일회성 UI 동작은 상태(state)와 성격이 �
 ### 4.1 구조 흐름
 
 ```mermaid
-graph TD
+flowchart TD
   VM[ViewModel]
   CE[ComposeEffect slot]
   UI1[Composable handler]
-  SIDE1[Snackbar Toast Haptic]
-  VM --> CE
-  CE --> UI1
-  UI1 --> SIDE1
-  UI1 --> CE
+  SIDE1[Snackbar / Toast / Haptic]
+  VM -->|effect value| CE
+  CE -->|current emission| UI1
+  UI1 -->|side effect| SIDE1
+  UI1 -->|clear then reset| CE
   NE[NavigationEffect slot]
   UI2[Composable handleNavigation]
   SIDE2[NavController.navigate]
-  VM --> NE
-  NE --> UI2
-  UI2 --> NE
+  VM -->|navigation value| NE
+  NE -->|current emission| UI2
+  UI2 -->|take and consume| NE
   UI2 --> SIDE2
 ```
 
