@@ -10,6 +10,7 @@ tags:
     - MVI
     - Effect
     - StateFlow
+mermaid: true
 ---
 
 
