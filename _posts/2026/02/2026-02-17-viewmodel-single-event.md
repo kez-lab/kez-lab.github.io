@@ -104,19 +104,19 @@ ViewModel에서 발생하는 일회성 UI 동작은 상태(state)와 성격이 �
 ```mermaid
 flowchart TD
   VM[ViewModel]
-  CE["ComposeEffect<T><br/>StateFlow slot"]
-  UI1["Composable<br/>handle { ... }"]
-  SIDE1["Snackbar<br/>Toast<br/>Haptic"]
+  CE["ComposeEffect slot"]
+  UI1["Composable handler"]
+  SIDE1["Snackbar / Toast / Haptic"]
   VM -->|effect(value)| CE
   CE -->|current(...)| UI1
   UI1 -->|side effect| SIDE1
-  UI1 -->|"clear(id)<br/>자동"| CE
-  NE["NavigationEffect<T><br/>StateFlow slot"]
-  UI2["Composable<br/>handleNavigation"]
+  UI1 -->|"clear(id) 자동"| CE
+  NE["NavigationEffect slot"]
+  UI2["Composable handleNavigation"]
   SIDE2[NavController.navigate]
   VM -->|nav(value)| NE
   NE -->|current(...)| UI2
-  UI2 -->|"take(id)<br/>원자 소비"| NE
+  UI2 -->|"take(id) 원자 소비"| NE
   UI2 -->|navigate| SIDE2
 ```
 
@@ -125,7 +125,7 @@ flowchart TD
 ```mermaid
 sequenceDiagram
   participant VM as ViewModel
-  participant CE as ComposeEffect<T>
+  participant CE as ComposeEffect
   participant UI as UI(handle)
 
   VM->>CE: effect(value)
@@ -141,7 +141,7 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
   participant VM as ViewModel
-  participant NE as NavigationEffect<T>
+  participant NE as NavigationEffect
   participant UI as UI(handleNavigation)
 
   VM->>NE: nav(value)
