@@ -13,7 +13,6 @@ tags:
     - Reified
 ---
 
-# Kotlin In Action 2판 정리 - 11장 Generics
 
 Kotlin 제네릭은 “타입을 파라미터화”해 코드 중복을 줄이고 컴파일 시점에 타입 안전을 보장하는 기능
 

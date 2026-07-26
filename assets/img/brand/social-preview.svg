@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <clipPath id="avatar-clip">
+      <circle cx="974" cy="300" r="168"/>
+    </clipPath>
+  </defs>
+
+  <rect width="1200" height="630" fill="#f5f7fa"/>
+  <rect width="22" height="630" fill="#3ddc84"/>
+
+  <text
+    x="88"
+    y="105"
+    fill="#1f2937"
+    font-family="Noto Sans KR, Apple SD Gothic Neo, sans-serif"
+    font-size="34"
+    font-weight="800"
+    letter-spacing="1"
+  >KEZ LAB</text>
+
+  <text
+    x="88"
+    y="224"
+    fill="#111827"
+    font-family="Noto Sans KR, Apple SD Gothic Neo, sans-serif"
+    font-size="66"
+    font-weight="800"
+  >Android와 Kotlin,</text>
+
+  <text
+    x="88"
+    y="316"
+    fill="#111827"
+    font-family="Noto Sans KR, Apple SD Gothic Neo, sans-serif"
+    font-size="66"
+    font-weight="800"
+  >시행착오를 기록합니다.</text>
+
+  <text
+    x="90"
+    y="407"
+    fill="#5b6472"
+    font-family="Noto Sans KR, Apple SD Gothic Neo, sans-serif"
+    font-size="27"
+    font-weight="500"
+  >문제 해결 · 설계 판단 · 실험 결과</text>
+
+  <line x1="90" y1="478" x2="660" y2="478" stroke="#d9dee7" stroke-width="2"/>
+
+  <text
+    x="90"
+    y="538"
+    fill="#374151"
+    font-family="Noto Sans KR, Apple SD Gothic Neo, sans-serif"
+    font-size="23"
+    font-weight="700"
+    letter-spacing="2"
+  >ANDROID · KOTLIN · COMPOSE · ARCHITECTURE</text>
+
+  <circle cx="974" cy="300" r="195" fill="#e7edf5"/>
+  <circle cx="974" cy="300" r="177" fill="#ffffff"/>
+  <image
+    href="avatar.png"
+    x="806"
+    y="132"
+    width="336"
+    height="336"
+    preserveAspectRatio="xMidYMid slice"
+    clip-path="url(#avatar-clip)"
+  />
+
+  <circle cx="1115" cy="466" r="22" fill="#3ddc84"/>
+  <text
+    x="1080"
+    y="548"
+    fill="#5b6472"
+    font-family="Noto Sans KR, Apple SD Gothic Neo, sans-serif"
+    font-size="22"
+    font-weight="600"
+    text-anchor="end"
+  >kez-lab.org</text>
+</svg>

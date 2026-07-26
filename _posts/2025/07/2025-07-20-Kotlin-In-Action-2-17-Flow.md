@@ -13,7 +13,6 @@ tags:
     - Functional Programming
 ---
 
-# 17장 Flow 연산자
 
 ## 17.1 Flow 연산자로 Flow 조작
 

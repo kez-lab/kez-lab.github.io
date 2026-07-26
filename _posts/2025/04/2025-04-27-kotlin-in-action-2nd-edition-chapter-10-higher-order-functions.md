@@ -13,7 +13,6 @@ tags:
     - Inline Functions
 ---
 
-# Kotlin In Action 2판 정리 - 10장 고차 함수
 
 ## 10 고차 함수: 람다를 파라미터와 반환값으로 사용
 

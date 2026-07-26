@@ -13,7 +13,6 @@ tags:
     - Kotlin
 ---
 
-# Ktor 서버를 AWS Elastic Beanstalk을 활용하여 배포하는 방법
 
 안녕하세요. 오늘은 Kotlin 기반의 웹 프레임워크인 Ktor 서버 애플리케이션을 AWS의 Elastic Beanstalk을 활용해 배포하는 방법을 기록해보고자 블로그를 작성하게 되었습니다.
 

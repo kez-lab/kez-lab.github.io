@@ -6,7 +6,7 @@ theme: jekyll-theme-chirpy
 # The language of the webpage › http://www.lingoes.net/en/translator/langcode.htm
 # If it has the same name as one of the files in folder `_data/locales`, the layout language will also be changed,
 # otherwise, the layout language will use the default value of 'en'.
-lang: ko
+lang: ko-KR
 
 # Change to your timezone › https://zones.arilyn.cc
 timezone: Asia/Seoul
@@ -14,27 +14,24 @@ timezone: Asia/Seoul
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Kez 의 블로그 # the main title
+title: Kez Lab # the main title
 
-tagline: 개발과 배움을 기록하는 공간 # it will display as the subtitle
+tagline: Android와 Kotlin 개발 기록 # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
-  개발 경험과 기술 학습 내용을 공유하는 개발 블로그입니다.
+  Android와 Kotlin 개발 과정에서 마주친 문제, 설계 판단, 실험 결과를 기록하는 기술 블로그입니다.
 
 # Fill in the protocol & hostname for your site.
 # E.g. 'https://username.github.io', note that it does not end with a '/'.
-url: "https://kez-lab.github.io"
+url: "https://kez-lab.org"
 
 github:
   username: kez-lab # change to your GitHub username
 
-twitter:
-  username: # change to your Twitter username
-
 social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
-  name: Kez
+  name: KEZ
   email: # change to your email address
   links:
     # The first element serves as the copyright owner's link
@@ -97,11 +94,11 @@ theme_mode: # [light | dark]
 cdn: ""
 
 # the avatar on sidebar, support local or CORS resources
-avatar: ""
+avatar: "/assets/img/brand/avatar.png"
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.
-social_preview_image: "" # 빈 문자열로 설정하여 기본 이미지 비활성화
+social_preview_image: "/assets/img/brand/social-preview.png"
 
 # boolean type, the global switch for TOC in posts.
 toc: true
@@ -223,4 +220,3 @@ jekyll-archives:
   permalinks:
     tag: /tags/:name/
     category: /categories/:name/
-url: "https://kez-lab.org"

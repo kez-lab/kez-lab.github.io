@@ -13,7 +13,6 @@ tags:
 ---
 
 
-# [Kotlin] Data Class의 구조와 핵심 기능 완벽 정리
 
 안드로이드 개발에서 API 응답을 받거나 화면 간 데이터를 전달할 때 DTO 구조의 클래스를 활용합니다. Java에서는 `equals()`, `hashCode()`, `toString()` 같은 메서드를 직접 오버라이드하거나 Lombok에 의존했지만, Kotlin에서는 `data class`로 이 모든 것을 해결할 수 있습니다.
 

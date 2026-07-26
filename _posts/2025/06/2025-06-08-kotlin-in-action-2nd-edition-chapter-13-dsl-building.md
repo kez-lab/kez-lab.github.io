@@ -13,7 +13,6 @@ tags:
     - Lambda with Receiver
 ---
 
-# 13장 DSL 구축
 
 ## 이 장에서 다루는 내용
 - 도메인 특화 언어(DSL) 만들기

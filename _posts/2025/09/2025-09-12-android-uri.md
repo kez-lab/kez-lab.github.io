@@ -1,8 +1,9 @@
 ---
 layout: post
-title: "Android Uri에서 colon의 Encoding & Escape 처리 (Custom Method)"
+title: "Android Uri에서 colon(:) 인코딩 문제 해결하기"
 description: "Android Uri 파싱 이슈 해결: colon(:) 문자 처리, 스킴 구분자 충돌, 커스텀 메소드 URI 인코딩"
 date: 2025-09-12 12:00:00 +0900
+pin: true
 categories:
     - Android
 tags:
@@ -12,7 +13,6 @@ tags:
     - Troubleshooting
 ---
 
-# Android `Uri` colon(":") Encoding & Escape 처리
 
 ##### `"book/user:point"` 문자열을 `android.net.Uri`로 파싱하다가 `path`가 `null`이 되는 현상을 만났음
 디버깅 및 로그 확인, 그리고 스펙/문서 재검토 끝에 **원인은 Android `Uri` 파서가 문자열의 첫 `:`를 스킴 구분자로 인식**한 것임을 확인하여 해당 과정과 해결법을 정리함

@@ -56,6 +56,9 @@ main() {
 
   read_baseurl
 
+  # validate post metadata and heading structure
+  ruby tools/check-posts.rb
+
   # build
   JEKYLL_ENV=production bundle exec jekyll b \
     -d "$SITE_DIR$_baseurl" -c "$_config"

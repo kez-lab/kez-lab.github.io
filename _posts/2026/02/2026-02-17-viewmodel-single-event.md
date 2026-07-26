@@ -1,8 +1,9 @@
 ---
 layout: post
-title: "ComposeEffect 및 NavigationEffect 기반 One-off UI Effect 처리 표준화 제안서"
+title: "ComposeEffect와 NavigationEffect로 One-off UI Effect 다루기"
 description: "StateFlow 기반 “상태로서의 단일 이벤트” 패턴을 유지하면서, 화면/VM에서 반복되는 초기화(clear/consume) 보일러플레이트를 공통화(자동화) 한다"
 date: 2026-02-17T09:00:00+09:00
+pin: true
 categories:
     - Android
 tags:
@@ -14,7 +15,6 @@ mermaid: true
 ---
 
 
-# ComposeEffect 및 NavigationEffect 기반 One-off UI Effect 처리 표준화 제안서
 
 - 작성일: 2026-02-17  
 - 대상: Android(Compose) 프로젝트 / ViewModel의 일회성 UI 동작(One-off UI Effect) 처리 표준화
