@@ -25,33 +25,54 @@ function verifyUrl(url) {
   return true;
 }
 
-self.addEventListener('install', (event) => {
-  if (purge) {
-    return;
+function isNavigationRequest(request) {
+  return request.mode === 'navigate' || request.headers.get('accept')?.includes('text/html');
+}
+
+function cacheResponse(request, response) {
+  const url = request.url;
+
+  if (purge || request.method !== 'GET' || !verifyUrl(url)) {
+    return response;
   }
 
-  event.waitUntil(
+  // Keep the latest successful page available for offline use.
+  if (response.ok) {
     caches.open(swconf.cacheName).then((cache) => {
-      return cache.addAll(swconf.resources);
-    })
+      cache.put(request, response.clone());
+    });
+  }
+
+  return response;
+}
+
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    (purge
+      ? Promise.resolve()
+      : caches.open(swconf.cacheName).then((cache) => cache.addAll(swconf.resources))
+    ).then(() => self.skipWaiting())
   );
 });
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keyList) => {
-      return Promise.all(
-        keyList.map((key) => {
-          if (purge) {
-            return caches.delete(key);
-          } else {
-            if (key !== swconf.cacheName) {
+    caches
+      .keys()
+      .then((keyList) => {
+        return Promise.all(
+          keyList.map((key) => {
+            if (purge) {
               return caches.delete(key);
+            } else {
+              if (key !== swconf.cacheName) {
+                return caches.delete(key);
+              }
             }
-          }
-        })
-      );
-    })
+          })
+        );
+      })
+      .then(() => self.clients.claim())
   );
 });
 
@@ -66,27 +87,22 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  if (isNavigationRequest(event.request)) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => cacheResponse(event.request, response))
+        .catch(() => caches.match(event.request).then((response) => response || caches.match('/')))
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then((response) => {
       if (response) {
         return response;
       }
 
-      return fetch(event.request).then((response) => {
-        const url = event.request.url;
-
-        if (purge || event.request.method !== 'GET' || !verifyUrl(url)) {
-          return response;
-        }
-
-        // See: <https://developers.google.com/web/fundamentals/primers/service-workers#cache_and_return_requests>
-        let responseToCache = response.clone();
-
-        caches.open(swconf.cacheName).then((cache) => {
-          cache.put(event.request, responseToCache);
-        });
-        return response;
-      });
+      return fetch(event.request).then((response) => cacheResponse(event.request, response));
     })
   );
 });
