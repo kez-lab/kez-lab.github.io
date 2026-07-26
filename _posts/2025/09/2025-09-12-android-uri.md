@@ -3,7 +3,6 @@ layout: post
 title: "Android Uri에서 colon(:) 인코딩 문제 해결하기"
 description: "Android Uri 파싱 이슈 해결: colon(:) 문자 처리, 스킴 구분자 충돌, 커스텀 메소드 URI 인코딩"
 date: 2025-09-12 12:00:00 +0900
-pin: true
 categories:
     - Android
 tags:
