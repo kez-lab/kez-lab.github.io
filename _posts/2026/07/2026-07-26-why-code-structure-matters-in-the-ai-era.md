@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "AI 시대에 Android 코드 구조화가 더 중요해진 이유"
-description: "확률적으로 코드를 제안하는 AI와 결정적으로 오류를 거부하는 컴파일러의 차이에서 출발해, Android 코드 구조가 검증 비용과 AI 토큰 사용량을 어떻게 줄이는지 살펴본다."
+description: "컴파일러가 규칙과 변환을 구조에 위임해 생산성을 높인 방식에서 출발해, AI가 생성한 Android 코드를 안전하게 받아들이기 위한 상태·계약·테스트·모듈 구조를 살펴본다."
 date: 2026-07-26T21:09:30+09:00
 categories:
     - Software Engineering
