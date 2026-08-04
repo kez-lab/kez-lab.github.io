@@ -28,3 +28,6 @@ assets/js/dist
 
 # Local Codex metadata
 .codex/
+
+# Local Claude Code settings and skills
+.claude/
