@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Kotlin in Action 2판 7장 널이 될 수 있는 값"
+title: "[Kotlin] Kotlin in Action 2판 7장 널이 될 수 있는 값"
 description: "Kotlin의 null 안전성: nullable 타입, 안전한 호출, 엘비스 연산자, let 함수로 NullPointerException 방지"
 date: 2025-03-30 12:00:00 +0900
 categories:

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Kotlin in Action 2판 14장 코루틴과 플로우를 활용한 동시성 프로그래밍 Part 2"
+title: "[Kotlin] Kotlin in Action 2판 14장 코루틴과 플로우를 활용한 동시성 프로그래밍 Part 2"
 description: "Kotlin Coroutines 심화: 코루틴 빌더(launch, async), Dispatcher, 코루틴 스코프와 컨텍스트"
 date: 2025-06-29 12:00:00 +0900
 categories:

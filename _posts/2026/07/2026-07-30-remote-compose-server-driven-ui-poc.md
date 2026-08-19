@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Remote Compose로 Android SDUI 만들기: Ktor부터 Player까지"
+title: "[Android/Compose] Remote Compose로 Android SDUI 만들기: Ktor부터 Player까지"
 description: "Remote Compose가 서버에서 만든 UI 문서를 Android 앱에 전달하는 과정과 상태 관리, host action, Native UI의 역할을 Ktor 기반 POC로 쉽게 살펴본다."
 date: 2026-07-30T21:15:52+09:00
 categories:

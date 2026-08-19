@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "WebView 브릿지: addJavascriptInterface 대신 WebMessageListener 사용하기"
+title: "[Android/WebView] WebView 브릿지: addJavascriptInterface 대신 WebMessageListener 사용하기"
 description: "Android WebView와 앱 사이 메시지 브릿지를 WebMessageListener와 origin 규칙으로 안전하게 구성하는 방법"
 date: 2026-02-01T09:00:00+09:00
 categories:

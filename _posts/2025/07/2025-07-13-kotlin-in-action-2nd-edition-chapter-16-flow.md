@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Kotlin in Action 2판 16장 Flow"
+title: "[Kotlin] Kotlin in Action 2판 16장 Flow"
 description: "Kotlin Flow 기초: 비동기 스트림, Flow 빌더, 콜드/핫 Flow, 구조화된 동시성"
 date: 2025-07-13 12:00:00 +0900
 categories:

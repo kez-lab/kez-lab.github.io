@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Kotlin In Action 2판 5장 람다를 사용한 프로그래밍"
+title: "[Kotlin] Kotlin In Action 2판 5장 람다를 사용한 프로그래밍"
 description: "Kotlin의 람다 표현식과 함수형 프로그래밍 기초: 람다 문법, 컬렉션 API, 멤버 참조, SAM 변환"
 date: 2025-03-16 15:58:04 +0900
 categories:

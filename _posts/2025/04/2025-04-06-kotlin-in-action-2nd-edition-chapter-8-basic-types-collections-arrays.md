@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Kotlin in Action 2판 8장 기본 타입, 컬렉션, 배열"
+title: "[Kotlin] Kotlin in Action 2판 8장 기본 타입, 컬렉션, 배열"
 description: "Kotlin의 기본 타입 시스템: 원시 타입, 컬렉션의 가변성과 불변성, 배열 처리"
 date: 2025-04-06 12:00:00 +0900
 categories:

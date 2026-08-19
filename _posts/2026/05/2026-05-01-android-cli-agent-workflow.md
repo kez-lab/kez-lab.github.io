@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Android CLI: 에이전트 시대의 Android 개발 도구"
+title: "[Android] Android CLI: 에이전트 시대의 Android 개발 도구"
 description: "Android CLI가 기존 Android 개발 도구와 다른 점, 에이전트 친화 기능, 설치와 주요 명령어 흐름 정리"
 date: 2026-05-01T19:28:52+09:00
 categories:

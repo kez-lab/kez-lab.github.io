@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Kotlin in Action 2판 18장 오류 처리와 테스트"
+title: "[Kotlin] Kotlin in Action 2판 18장 오류 처리와 테스트"
 description: "Kotlin Coroutines 오류 처리와 테스트: CoroutineExceptionHandler, 예외 전파, 코루틴 테스트 전략"
 date: 2025-07-27 12:00:00 +0900
 categories:

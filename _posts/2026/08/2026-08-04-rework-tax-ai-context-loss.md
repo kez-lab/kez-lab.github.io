@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "AI 개발의 rework tax: 컨텍스트를 잃을 때마다 다시 내는 비용"
+title: "[AI/Software Engineering] AI 개발의 rework tax: 컨텍스트를 잃을 때마다 다시 내는 비용"
 description: "AI가 컨텍스트를 잃었을 때 같은 작업을 다시 시키는 비용을 rework tax로 정의하고, 규격화·관계 기반 탐색·영속 저장소로 이 비용을 줄이는 방법과 그 끝에서 개발자가 남게 될 자리를 정리한다."
 date: 2026-08-04T22:55:04+09:00
 categories:

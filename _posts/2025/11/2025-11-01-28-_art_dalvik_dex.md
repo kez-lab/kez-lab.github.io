@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 안드로이드 런타임(ART), Dalvik, Dex 컴파일러란?
+title: "[Android] 안드로이드 런타임(ART), Dalvik, Dex 컴파일러란?"
 description: "Android Runtime(ART)과 Dalvik: AOT/JIT 컴파일, DEX 바이트코드, 가비지 컬렉션, 성능 최적화"
 date: 2025-11-01T12:08:31.612Z
 categories:

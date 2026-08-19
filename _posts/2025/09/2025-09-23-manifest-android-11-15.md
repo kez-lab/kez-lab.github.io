@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Manifest Android 정리 Q 11~15"
+title: "[Android] Manifest Android 정리 Q 11~15"
 description: "안드로이드 프레임워크 심화: 프로세스 관리, 서비스, 브로드캐스트 리시버 (Manifest Android 책 정리)"
 date: 2025-09-23 12:00:00 +0900
 categories:

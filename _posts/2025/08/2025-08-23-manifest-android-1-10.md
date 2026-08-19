@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Manifest Android 정리 Q 1~10"
+title: "[Android] Manifest Android 정리 Q 1~10"
 description: "안드로이드 프레임워크 핵심 개념: Intent, Activity 생명주기, 컴포넌트 통신 (Manifest Android 책 정리)"
 date: 2025-08-23 12:00:00 +0900
 categories:

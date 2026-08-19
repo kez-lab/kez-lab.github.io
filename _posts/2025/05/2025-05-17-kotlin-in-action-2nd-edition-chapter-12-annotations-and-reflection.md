@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Kotlin in Action 2판 12장 어노테이션과 리플렉션"
+title: "[Kotlin] Kotlin in Action 2판 12장 어노테이션과 리플렉션"
 description: "Kotlin 어노테이션과 리플렉션: 커스텀 어노테이션 선언, 메타어노테이션, 런타임 리플렉션 API"
 date: 2025-05-17 12:00:00 +0900
 categories:

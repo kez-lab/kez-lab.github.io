@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Kotlin in Action 2판 9장 연산자 오버로딩과 다른 관례"
+title: "[Kotlin] Kotlin in Action 2판 9장 연산자 오버로딩과 다른 관례"
 description: "Kotlin의 관례(Convention): 연산자 오버로딩, 구조 분해 선언, 위임 프로퍼티"
 date: 2025-04-13 12:00:00 +0900
 categories:

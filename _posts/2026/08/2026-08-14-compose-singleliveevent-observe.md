@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Compose에서 SingleLiveEvent를 사용하며 겪은 두 가지 문제"
+title: "[Android/Compose] Compose에서 SingleLiveEvent를 사용하며 겪은 두 가지 문제"
 description: "LaunchedEffect 안에서 LiveData를 observe할 때 완료된 CoroutineScope를 참조하는 문제와 조건부 composition에서 observer가 중복 등록되는 문제를 살펴본다"
 date: 2026-08-14T10:00:00+09:00
 categories:

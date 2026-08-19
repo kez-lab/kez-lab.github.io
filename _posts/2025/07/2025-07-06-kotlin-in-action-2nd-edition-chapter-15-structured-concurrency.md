@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Kotlin in Action 2판 15장 구조화된 동시성"
+title: "[Kotlin] Kotlin in Action 2판 15장 구조화된 동시성"
 description: "Kotlin 구조화된 동시성: 코루틴 스코프, 부모-자식 계층, CoroutineContext, 리소스 누수 방지"
 date: 2025-07-06 12:00:00 +0900
 categories:
