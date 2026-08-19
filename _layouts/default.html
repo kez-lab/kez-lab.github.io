@@ -8,6 +8,8 @@ layout: compress
 
 {% include lang.html %}
 
+{% include toc-status.html %}
+
 {% if site.theme_mode %}
   {% capture prefer_mode %}data-mode="{{ site.theme_mode }}"{% endcapture %}
 {% endif %}
@@ -16,7 +18,7 @@ layout: compress
 <html lang="{{ page.lang | default: site.alt_lang | default: site.lang }}" {{ prefer_mode }}>
   {% include head.html %}
 
-  <body>
+  <body class="layout-{{ page.layout | default: 'default' }}">
     {% include sidebar.html lang=lang %}
 
     <div id="main-wrapper" class="d-flex justify-content-center">
@@ -34,10 +36,12 @@ layout: compress
 
           <!-- panel -->
           <aside aria-label="Panel" id="panel-wrapper" class="col-xl-3 ps-2 text-muted">
-            <div class="access">
-              {% include_cached update-list.html lang=lang %}
-              {% include_cached trending-tags.html lang=lang %}
-            </div>
+            {% unless page.layout == 'post' and enable_toc %}
+              <div class="access">
+                {% include_cached update-list.html lang=lang %}
+                {% include_cached trending-tags.html lang=lang %}
+              </div>
+            {% endunless %}
 
             {% for _include in layout.panel_includes %}
               {% assign _include_path = _include | append: '.html' %}
